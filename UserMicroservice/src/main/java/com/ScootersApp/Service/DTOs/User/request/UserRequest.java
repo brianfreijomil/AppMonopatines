@@ -1,24 +1,19 @@
-package com.ScootersApp.domain;
+package com.ScootersApp.Service.DTOs.User.request;
 
-import com.ScootersApp.Service.DTOs.User.request.UserRequest;
-import jakarta.persistence.Entity;
+import com.ScootersApp.domain.Role;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
+
+@Data
 @Getter
-@Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class User {
-    @Id
+public class UserRequest {
+
     private Long ID;
     private String name;
     private String surname;
@@ -27,6 +22,5 @@ public class User {
     private Long phoneNumber;
     //private GPS Ubication;
     //private List<Account> accounts;
-    @ManyToMany
     private List<Role> roles;
 }

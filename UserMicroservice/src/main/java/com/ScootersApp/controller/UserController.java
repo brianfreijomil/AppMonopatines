@@ -1,6 +1,7 @@
 package com.ScootersApp.controller;
 
 import com.ScootersApp.Service.DTOs.User.request.UserLoginRequest;
+import com.ScootersApp.Service.DTOs.User.request.UserRequest;
 import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
 import com.ScootersApp.Service.UserService;
@@ -30,7 +31,7 @@ public class UserController {
 
     @PostMapping("/")
     @ResponseStatus(HttpStatus.OK)
-    public void createUser(@RequestBody User user){
+    public void createUser(@RequestBody UserRequest user){
         this.service.save(user);
     }
 
@@ -41,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/{mail}")
-    public UserLoginResponseDTO getByMail(String mail){
+    public UserLoginResponseDTO getByMail(@PathVariable String mail){
         return this.service.findMyMail(mail);
     }
 }

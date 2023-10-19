@@ -1,6 +1,7 @@
 package com.ScootersApp.Service;
 
 
+import com.ScootersApp.Service.DTOs.User.request.UserRequest;
 import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
 import com.ScootersApp.domain.User;
@@ -24,7 +25,12 @@ public class UserService {
         return users.stream().map(s1-> new UserResponseDTO(s1)).collect(Collectors.toList());
     }
 
-    public void save(User user) {
+    public void save(UserRequest user) {
+        if(!repository.existsById(user.getID())){
+            this.repository.save(new User(user.getID(), user.getName(), user.getSurname(),
+                                    user.getMail(), user.getPassword(), user.getPhoneNumber(), user.getRoles()));
+        }
+
     }
 
     public UserLoginResponseDTO findByMailAndPassword(String mail, String pass) {
