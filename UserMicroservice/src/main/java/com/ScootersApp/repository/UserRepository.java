@@ -1,8 +1,8 @@
-package repository;
+package com.ScootersApp.repository;
 
-import domain.User;
+import com.ScootersApp.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    public User findByE_mailAndPassword(String e, String p);
+    public User findByMail(String e);
 }
