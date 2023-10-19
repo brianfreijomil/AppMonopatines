@@ -5,13 +5,19 @@ import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
 import com.ScootersApp.domain.User;
 import com.ScootersApp.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class UserService {
 
     UserRepository repository;
+
+    public UserService(UserRepository repository) {
+        this.repository = repository;
+    }
 
     public List<UserResponseDTO> findAll() {
         List<User> users = this.repository.findAll();
@@ -21,8 +27,8 @@ public class UserService {
     public void save(User user) {
     }
 
-    public UserLoginResponseDTO findByMail(String mail) {
-        User u = this.repository.findByMail(mail);
+    public UserLoginResponseDTO findByMail(String mail, String pass) {
+        User u = this.repository.findByMailAndPassword(mail, pass);
         return new UserLoginResponseDTO(u);
     }
 }

@@ -26,6 +26,6 @@ public class User {
     private Long phoneNumber;
     //private GPS Ubication;
     //private List<Account> accounts;
-    @ManyToMany(mappedBy = "role")
+    @ManyToMany
     private List<Role> roles;
 }
