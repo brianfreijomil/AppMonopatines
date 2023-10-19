@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
+
 @Service
 public class UserService {
 
@@ -19,7 +21,7 @@ public class UserService {
 
     public ResponseEntity login(String email, String password){
         WebClient webClient = WebClient.create("urlusuario");
-        User user = new User(email, password);
+        User user = new User(email, password, new ArrayList<>());
         Mono entityMono = webClient.post()
                 .bodyValue(user)
                 .accept(MediaType.APPLICATION_JSON)
@@ -33,5 +35,9 @@ public class UserService {
         String token = this.jwt.createJWT(email, password);
         //devolver el token con el usuario ? o solo
         return new ResponseEntity(entityMono, HttpStatus.OK);
+    }
+
+    public boolean valid(String token){
+
     }
 }
