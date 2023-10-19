@@ -1,12 +1,15 @@
-package domain;
+package com.ScootersApp.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 @Getter
 @Setter
@@ -18,10 +21,11 @@ public class User {
     private Long ID;
     private String name;
     private String surname;
-    private String e_mail;
+    private String mail;
     private String password;
     private Long phoneNumber;
     //private GPS Ubication;
     //private List<Account> accounts;
-    private String role;
+    @ManyToMany(mappedBy = "role")
+    private List<Role> roles;
 }

@@ -1,4 +1,4 @@
-package com.appScooters.UserMicroservice;
+package com.ScootersApp.UserMicroservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,11 +1,13 @@
-package controller;
+package com.ScootersApp.controller;
 
-import domain.User;
+import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
+import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
+import com.ScootersApp.Service.UserService;
+import com.ScootersApp.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import repository.UserRepository;
 
 import java.util.List;
 
@@ -13,24 +15,23 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserRepository repository;
+    private UserService service;
 
     @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
-    public List<User> getAllUsers(){
-        return this.repository.findAll();
+    public List<UserResponseDTO> getAllUsers(){
+        return this.service.findAll();
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.OK)
     public void createUser(@RequestBody User user){
-        this.repository.save(user);
+        this.service.save(user);
     }
 
     @PostMapping("/")
-    public ResponseEntity login(@RequestBody User user){
-        User userRequest = this.repository.findByE_mailAndPassword(user.getE_mail(), user.getPassword());
+    public ResponseEntity<UserLoginResponseDTO> login(@RequestBody User user){
+        UserLoginResponseDTO userRequest = this.service.findByMail(user.getMail());
         return new ResponseEntity(userRequest, HttpStatus.OK);
     }
 }
