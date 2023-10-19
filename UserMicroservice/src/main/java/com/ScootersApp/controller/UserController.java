@@ -28,15 +28,20 @@ public class UserController {
         return this.service.findAll();
     }
 
-    @PostMapping()
+    @PostMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public void createUser(@RequestBody User user){
         this.service.save(user);
     }
 
-    @PostMapping("/")
+    @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDTO> login(@RequestBody UserLoginRequest user){
-        UserLoginResponseDTO userRequest = this.service.findByMail(user.getMail(), user.getPassword());
+        UserLoginResponseDTO userRequest = this.service.findByMailAndPassword(user.getMail(), user.getPassword());
         return new ResponseEntity(userRequest, HttpStatus.OK);
+    }
+
+    @GetMapping("/{mail}")
+    public UserLoginResponseDTO getByMail(String mail){
+        return this.service.findMyMail(mail);
     }
 }
