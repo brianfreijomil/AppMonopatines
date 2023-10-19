@@ -1,6 +1,7 @@
 package com.ScootersApp.controller;
 
 import com.ScootersApp.Service.DTOs.User.request.UserLoginRequest;
+import com.ScootersApp.Service.DTOs.User.request.UserRequest;
 import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
 import com.ScootersApp.Service.UserService;
@@ -28,15 +29,20 @@ public class UserController {
         return this.service.findAll();
     }
 
-    @PostMapping()
+    @PostMapping("/")
     @ResponseStatus(HttpStatus.OK)
-    public void createUser(@RequestBody User user){
+    public void createUser(@RequestBody UserRequest user){
         this.service.save(user);
     }
 
-    @PostMapping("/")
+    @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDTO> login(@RequestBody UserLoginRequest user){
-        UserLoginResponseDTO userRequest = this.service.findByMail(user.getMail(), user.getPassword());
+        UserLoginResponseDTO userRequest = this.service.findByMailAndPassword(user.getMail(), user.getPassword());
         return new ResponseEntity(userRequest, HttpStatus.OK);
+    }
+
+    @GetMapping("/{mail}")
+    public UserLoginResponseDTO getByMail(@PathVariable String mail){
+        return this.service.findMyMail(mail);
     }
 }
