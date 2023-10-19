@@ -27,8 +27,13 @@ public class UserService {
     public void save(User user) {
     }
 
-    public UserLoginResponseDTO findByMail(String mail, String pass) {
+    public UserLoginResponseDTO findByMailAndPassword(String mail, String pass) {
         User u = this.repository.findByMailAndPassword(mail, pass);
+        return new UserLoginResponseDTO(u);
+    }
+
+    public UserLoginResponseDTO findMyMail(String mail) {
+        User u = this.repository.findByMail(mail);
         return new UserLoginResponseDTO(u);
     }
 }
