@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.scooter.apiGateway.service.User;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -23,14 +24,15 @@ public AuthJWT(){
     this.verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
 }
 
-    public String createJWT(String userEmail, String password){
+    public String createJWT(String userEmail, String password) {
         //me llega un usuario y contraseña
         //---- voy a buscar al usuario, hago fetch a mi micro
-        Object user = new Object();
+        User user = new User();
         if(user != null){
             String token = JWT.create()
                     .withIssuer(ISSUER)
                     .withSubject(userEmail)
+                    .withClaim("roles", user.getRoles())
                     .withIssuedAt(new Date(System.currentTimeMillis()))
                     .withExpiresAt(new Date(System.currentTimeMillis()+ TIMER_OF_EXPIRATION))
                     .sign(algorithm);
