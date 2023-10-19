@@ -1,5 +1,6 @@
 package com.ScootersApp.controller;
 
+import com.ScootersApp.Service.DTOs.User.request.UserLoginRequest;
 import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
 import com.ScootersApp.Service.UserService;
@@ -17,6 +18,10 @@ public class UserController {
 
     private UserService service;
 
+    public UserController(UserService service) {
+        this.service = service;
+    }
+
     @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public List<UserResponseDTO> getAllUsers(){
@@ -30,8 +35,8 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<UserLoginResponseDTO> login(@RequestBody User user){
-        UserLoginResponseDTO userRequest = this.service.findByMail(user.getMail());
+    public ResponseEntity<UserLoginResponseDTO> login(@RequestBody UserLoginRequest user){
+        UserLoginResponseDTO userRequest = this.service.findByMail(user.getMail(), user.getPassword());
         return new ResponseEntity(userRequest, HttpStatus.OK);
     }
 }
