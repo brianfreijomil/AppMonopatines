@@ -3,7 +3,6 @@ package com.ScootersApp.Service.DTOs.User.response;
 import com.ScootersApp.domain.Role;
 import com.ScootersApp.domain.User;
 import lombok.Data;
-
 import java.util.List;
 
 @Data
