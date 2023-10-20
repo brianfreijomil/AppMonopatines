@@ -31,8 +31,8 @@ public class UserController {
 
     @PostMapping("/")
     @ResponseStatus(HttpStatus.OK)
-    public void createUser(@RequestBody UserRequest user){
-        this.service.save(user);
+    public UserResponseDTO createUser(@RequestBody UserRequest user) throws Exception {
+        return  this.service.save(user);
     }
 
     @PostMapping("/login")
