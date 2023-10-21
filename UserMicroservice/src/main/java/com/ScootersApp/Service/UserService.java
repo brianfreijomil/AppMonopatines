@@ -34,12 +34,21 @@ public class UserService {
     }
 
     public UserLoginResponseDTO findByMailAndPassword(String mail, String pass) {
-        User u = this.repository.findByMailAndPassword(mail, pass);
+        System.out.println(pass);
+        System.out.println(mail);
+        User u = this.repository.findByMail(mail);
+        System.out.println(u);
         return new UserLoginResponseDTO(u);
     }
 
     public UserLoginResponseDTO findMyMail(String mail) {
         User u = this.repository.findByMail(mail);
+        return new UserLoginResponseDTO(u);
+    }
+
+    public UserLoginResponseDTO findByMail(String mail) {
+        User u = this.repository.findByMail(mail);
+        System.out.println(u);
         return new UserLoginResponseDTO(u);
     }
 }
