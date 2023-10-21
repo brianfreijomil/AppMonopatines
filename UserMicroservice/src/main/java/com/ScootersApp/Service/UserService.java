@@ -27,8 +27,8 @@ public class UserService {
         return users.stream().map(s1-> new UserResponseDTO(s1)).collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public UserResponseDTO save(UserRequest user) throws Exception {
+    @Transactional()
+    public UserResponseDTO register(UserRequest user) throws Exception {
         if(!repository.existsById(user.getID())){
             User newUser= this.repository.save(new User(user.getID(), user.getName(), user.getSurname(),
                                     user.getMail(), user.getPassword(), user.getPhoneNumber(), user.getRoles()));

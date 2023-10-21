@@ -32,7 +32,7 @@ public class UserController {
     @PostMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public UserResponseDTO createUser(@RequestBody UserRequest user) throws Exception {
-        return  this.service.save(user);
+        return  this.service.register(user);
     }
 
     @GetMapping("/login/{email}")
