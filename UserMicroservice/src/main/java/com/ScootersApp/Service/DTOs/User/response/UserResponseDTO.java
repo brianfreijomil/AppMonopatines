@@ -2,10 +2,8 @@ package com.ScootersApp.Service.DTOs.User.response;
 
 import com.ScootersApp.domain.Role;
 import com.ScootersApp.domain.User;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+
 
 import java.util.List;
 @Data

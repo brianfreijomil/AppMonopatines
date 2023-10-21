@@ -5,7 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c86b65f-897e-4f8f-ae6a-36e028eecd8c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/microservices.user/src/main/java/com/scooter/microservices/user/domain/Account.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/AccountService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/DTOs/account/request/AccountRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/DTOs/account/response/AccountResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/DTOs/userAccount/request/UserAccountRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/DTOs/userAccount/response/UserAccountIDResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/DTOs/userAccount/response/UserAccountResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/exception/ConflictExistException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/exception/ErrorDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/exception/NotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/exception/ReferencedRowException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/controller/AccountController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/domain/Account.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/domain/UserAccount.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/domain/UserAccountID.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/notes.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/repository/AccountRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/repository/UserAccountRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,9 +48,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2WwrrpWbIClPGugfnWIN2nNX67g" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -43,8 +61,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "lucasDev",
-    "last_opened_file_path": "C:/Users/s7/Desktop/appMonopatines/AppMonopatines",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/brian/Desktop/AppMonopatines/UserMicroservice",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -52,6 +70,15 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\brian\Desktop\AppMonopatines\UserMicroservice\src\main\java\com\ScootersApp" />
+      <recent name="C:\Users\brian\Desktop\AppMonopatines\UserMicroservice\src\main\java\com\ScootersApp\controller" />
+      <recent name="C:\Users\brian\Desktop\AppMonopatines\UserMicroservice\src\main\java\com\ScootersApp\Service" />
+      <recent name="C:\Users\brian\Desktop\AppMonopatines\UserMicroservice\src\main\java\com\ScootersApp\domain" />
+      <recent name="C:\Users\brian\Desktop\AppMonopatines\UserMicroservice\src\main\java\com\ScootersApp\repository" />
+    </key>
+  </component>
   <component name="RunManager" selected="Spring Boot.ApiGatewayApplication">
     <configuration name="ApiGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="apiGateway" />
@@ -77,6 +104,7 @@
       <option name="presentableId" value="Default" />
       <updated>1697654686245</updated>
       <workItem from="1697654686842" duration="2875000" />
+      <workItem from="1697901873905" duration="538000" />
     </task>
     <servers />
   </component>
