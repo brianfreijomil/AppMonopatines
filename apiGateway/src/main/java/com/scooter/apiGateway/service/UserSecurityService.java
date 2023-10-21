@@ -1,7 +1,10 @@
-package com.scooter.apiGateway;
+package com.scooter.apiGateway.service;
 
 import com.scooter.apiGateway.DTO.UserDTO;
+import com.scooter.apiGateway.DTO.UserRequestDTO;
 import com.scooter.apiGateway.DTO.UserResponseDTO;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -10,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +24,16 @@ public class UserSecurityService implements UserDetailsService {
 
     private WebClient webClient;
 
-    public UserSecurityService(WebClient webClient) {
-        this.webClient = webClient;
+    public UserSecurityService() {
+        this.webClient = WebClient.create("http://localhost:8081");;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         UserResponseDTO userDTO = this.webClient
-                .post()
-                .uri("http://localhost:8081/api/users")
+                .get()
+                .uri("/api/users/login/" + username)
                 .retrieve()
                 .bodyToMono(UserResponseDTO.class)
                 .block();
@@ -40,9 +45,11 @@ public class UserSecurityService implements UserDetailsService {
         }
 
         return User.builder()
-                .username(userDTO.getEmail())
+                .username(userDTO.getMail())
                 .password(userDTO.getPassword())
                 .authorities(this.grantedAuthorities(rolesUser))
+                .accountLocked(false)
+                .disabled(false)
                 .build();
     }
 
