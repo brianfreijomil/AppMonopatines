@@ -4,8 +4,8 @@ package com.ScootersApp.Service;
 import com.ScootersApp.Service.DTOs.User.request.UserRequest;
 import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
-import com.ScootersApp.Service.exceptions.ConflictExistException;
-import com.ScootersApp.Service.exceptions.NotFoundException;
+import com.ScootersApp.Service.exception.ConflictExistException;
+import com.ScootersApp.Service.exception.NotFoundException;
 import com.ScootersApp.domain.User;
 import com.ScootersApp.repository.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service("UserService")
