@@ -49,6 +49,13 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDTO> login(@RequestBody UserLoginRequest user){
         UserLoginResponseDTO userRequest = this.service.findByMailAndPassword(user.getMail(), user.getPassword());
+
+    @GetMapping("/login/{email}")
+    public ResponseEntity<UserLoginResponseDTO> login(@PathVariable String email){
+        System.out.println(email);
+        UserLoginResponseDTO userRequest = this.service.findByMail(email);
+        System.out.println(userRequest);
+
         return new ResponseEntity(userRequest, HttpStatus.OK);
     }
 

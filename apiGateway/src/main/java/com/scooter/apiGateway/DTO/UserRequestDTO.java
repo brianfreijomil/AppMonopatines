@@ -7,7 +7,7 @@ import jakarta.validation.constraints.*;
 @AllArgsConstructor
 public class UserRequestDTO {
     @NotNull
-    private String email;
+    private String mail;
     @NotNull
     private String password;
 }

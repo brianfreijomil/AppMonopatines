@@ -44,13 +44,10 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserLoginResponseDTO findByMailAndPassword(String mail, String pass) {
-        User u = this.repository.findByMailAndPassword(mail, pass);
-        return new UserLoginResponseDTO(u);
-    }
-
-    @Transactional(readOnly = true)
-    public UserLoginResponseDTO findMyMail(String mail) {
+        System.out.println(pass);
+        System.out.println(mail);
         User u = this.repository.findByMail(mail);
+        System.out.println(u);
         return new UserLoginResponseDTO(u);
     }
 
@@ -75,5 +72,12 @@ public class UserService {
         }
         else
             throw new NotFoundException("User","ID",id);
+     }
+  
+    public UserLoginResponseDTO findByMail(String mail) {
+        User u = this.repository.findByMail(mail);
+        System.out.println(u);
+        return new UserLoginResponseDTO(u);
+
     }
 }
