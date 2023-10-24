@@ -46,10 +46,10 @@ public class UserController {
         return this.service.updateUser(userRequest, id);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<UserLoginResponseDTO> login(@RequestBody UserLoginRequest user){
-        UserLoginResponseDTO userRequest = this.service.findByMailAndPassword(user.getMail(), user.getPassword());
-
+   // @PostMapping("/login")
+   //public ResponseEntity<UserLoginResponseDTO> login(@RequestBody UserLoginRequest user){
+        //UserLoginResponseDTO userRequest = this.service.findByMailAndPassword(user.getMail(), user.getPassword());
+    //}
     @GetMapping("/login/{email}")
     public ResponseEntity<UserLoginResponseDTO> login(@PathVariable String email){
         System.out.println(email);
@@ -61,6 +61,6 @@ public class UserController {
 
     @GetMapping("/{mail}")
     public UserLoginResponseDTO getByMail(@PathVariable String mail){
-        return this.service.findMyMail(mail);
+        return this.service.findByMail(mail);
     }
 }
