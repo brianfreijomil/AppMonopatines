@@ -6,6 +6,7 @@ import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
 import com.ScootersApp.Service.UserService;
 import com.ScootersApp.domain.User;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +32,18 @@ public class UserController {
 
     @PostMapping("/")
     @ResponseStatus(HttpStatus.OK)
-    public UserResponseDTO createUser(@RequestBody UserRequest user) throws Exception {
+    public ResponseEntity createUser(@RequestBody UserRequest user) throws Exception {
         return  this.service.save(user);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id){
+        this.service.deleteUser(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity updateUser(@RequestBody @Valid UserRequest userRequest, @PathVariable Long id){
+        return this.service.updateUser(userRequest, id);
     }
 
     @PostMapping("/login")
