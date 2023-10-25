@@ -96,15 +96,19 @@ public class UserService {
             if(this.accountRepository.existsById(uar.getAccountId())){
                 Account a = this.accountRepository.findById(uar.getAccountId()).get();
                 UserAccountID userAccountID = new UserAccountID(u, a);
-                UserAccount userAccount = new UserAccount(userAccountID);
-
-                this.userAccountRepository.save(userAccount);
-                return new ResponseEntity(userAccount.getId(), HttpStatus.CREATED);
+                if(!this.accountRepository.existsById(userAccountID)){
+                    UserAccount userAccount = new UserAccount(userAccountID);
+                    this.userAccountRepository.save(userAccount);
+                    return new ResponseEntity(userAccount.getId(), HttpStatus.CREATED);
+                }
+                else {
+                    throw new ConflictExistException("UserAccount", "ID", userAccountID);
+                }
             }
             else
                 throw new NotFoundException("Account", "ID", uar.getAccountId());
         }
         else
-            throw new ConflictExistException("User", "ID", idUser);
+            throw new NotFoundException("User", "ID", idUser);
     }
 }
