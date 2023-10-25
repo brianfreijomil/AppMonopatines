@@ -1,5 +1,7 @@
 package com.ScootersApp.Service.exception;
 
+import com.ScootersApp.domain.UserAccountID;
+
 public class ConflictExistException extends RuntimeException {
 
     private String message;
@@ -13,6 +15,10 @@ public class ConflictExistException extends RuntimeException {
 
     public ConflictExistException(String entity, String attribute, String mail) {
         this.message = String.format("There is already a %s entity with %s %s.", entity, attribute, mail);
+    }
+
+    public ConflictExistException(String entity, String attribute, UserAccountID userAccountID) {
+        this.message = String.format("There is already a %s entity with %s %s.", entity, attribute, userAccountID);
     }
 
     public String getMessage() {
