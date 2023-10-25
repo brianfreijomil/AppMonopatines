@@ -4,6 +4,7 @@ import com.ScootersApp.Service.DTOs.User.request.UserLoginRequest;
 import com.ScootersApp.Service.DTOs.User.request.UserRequest;
 import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
+import com.ScootersApp.Service.DTOs.userAccount.request.UserAccountRequestDTO;
 import com.ScootersApp.Service.UserService;
 import com.ScootersApp.domain.User;
 import jakarta.validation.Valid;
@@ -63,4 +64,10 @@ public class UserController {
     public UserLoginResponseDTO getByMail(@PathVariable String mail){
         return this.service.findByMail(mail);
     }
+
+    @PostMapping("/{id}/account")
+    public ResponseEntity saveNewUserAccount(@RequestBody @Valid UserAccountRequestDTO uar, @PathVariable Long id){
+        return this.service.saveNewUserAccount(uar, id);
+    }
+
 }
