@@ -25,8 +25,9 @@ public class JWTUtill {
 
     public boolean isValid(String token) {
         try {
-
-
+            JWT.require(ALGORITHM)
+                    .build()
+                    .verify(token);
             return true;
         }catch (JWTVerificationException e){
             return false;
