@@ -6,6 +6,7 @@ import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
 import com.ScootersApp.Service.UserService;
 import com.ScootersApp.domain.User;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,20 +32,35 @@ public class UserController {
 
     @PostMapping("/")
     @ResponseStatus(HttpStatus.OK)
-    public UserResponseDTO createUser(@RequestBody UserRequest user) throws Exception {
-        return this.service.register(user);
+    public ResponseEntity createUser(@RequestBody UserRequest user) throws Exception {
+        return  this.service.save(user);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id){
+        this.service.deleteUser(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity updateUser(@RequestBody @Valid UserRequest userRequest, @PathVariable Long id){
+        return this.service.updateUser(userRequest, id);
+    }
+
+   // @PostMapping("/login")
+   //public ResponseEntity<UserLoginResponseDTO> login(@RequestBody UserLoginRequest user){
+        //UserLoginResponseDTO userRequest = this.service.findByMailAndPassword(user.getMail(), user.getPassword());
+    //}
     @GetMapping("/login/{email}")
     public ResponseEntity<UserLoginResponseDTO> login(@PathVariable String email){
         System.out.println(email);
         UserLoginResponseDTO userRequest = this.service.findByMail(email);
         System.out.println(userRequest);
+
         return new ResponseEntity(userRequest, HttpStatus.OK);
     }
 
     @GetMapping("/{mail}")
     public UserLoginResponseDTO getByMail(@PathVariable String mail){
-        return this.service.findMyMail(mail);
+        return this.service.findByMail(mail);
     }
 }

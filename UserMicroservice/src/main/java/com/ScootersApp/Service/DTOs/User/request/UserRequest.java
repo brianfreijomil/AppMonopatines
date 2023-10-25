@@ -13,9 +13,6 @@ import jakarta.validation.constraints.NotNull;
 @Getter
 @AllArgsConstructor
 public class UserRequest {
-    @Min(value = 1, message ="DNI should not be less than 1")
-    @NotNull(message = "DNI cannot be null")
-    private Long ID;
     @NotNull(message = "name cannot be null")
     @NotEmpty(message = "name cannot be empty")
     private String name;
