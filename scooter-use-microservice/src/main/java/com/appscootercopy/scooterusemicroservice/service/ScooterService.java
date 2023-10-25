@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,8 +32,13 @@ public class ScooterService {
     }
 
     @Transactional(readOnly = true)
-    public ScooterResponseDTO findScooterById(Long id) {
-        return scooterRepository.findById(id).map(ScooterResponseDTO::new).orElseThrow(() -> new NotFoundException("Scooter", "ID", id));
+    public ScooterResponseDTO findScooterByLicensePlate(Long licensePlate) {
+        Scooter scooterFound = scooterRepository.findByLicensePLate(licensePlate);
+        if(scooterFound!=null) {
+            return new ScooterResponseDTO(scooterFound);
+        }
+
+        throw new NotFoundException("Scooter", "licencePlate (Long)", licensePlate);
     }
 
     @Transactional(readOnly = true)
@@ -41,39 +47,55 @@ public class ScooterService {
         return scooters.stream().map(s1-> new ScooterResponseDTO(s1)).collect(Collectors.toList());
     }
 
-    @Transactional
-    public ResponseEntity saveScooter(ScooterRequestDTO request) {
-        if(!this.scooterRepository.existsById(request.getId())){
-            this.scooterRepository.save(new Scooter(request));
-            return new ResponseEntity(request.getId(), HttpStatus.CREATED);
-        }
-        throw new ConflictExistException("Scooter", "ID", request.getId());
+    @Transactional(readOnly = true)
+    public List<ScooterResponseDTO> findAllScooterWithUbication() {
+        List<Scooter> scooters = scooterRepository.findAllfetchingUbication();
+
+        return scooters
+                .stream()
+                .map(s1-> new ScooterResponseDTO(s1)).collect(Collectors.toList());
     }
 
+    @Transactional
+    public ResponseEntity saveScooter(ScooterRequestDTO request) {
+        if(!this.scooterRepository.existsByLicensePLate(request.getLicensePlate())) {
+            this.scooterRepository.save(new Scooter(request));
+            return new ResponseEntity(request.getLicensePlate(), HttpStatus.CREATED);
+        }
+
+        throw new ConflictExistException("Scooter", "licensePlate (Long)", request.getLicensePlate());
+    }
+
+    @Transactional
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteScooter(Long id){
         if(!this.scooterRepository.existsById(id)) {
             this.scooterRepository.deleteById(id);
         }
-       else {
+        else {
             throw new NotFoundException("Scooter", "Id", id);
         }
     }
 
-    public ResponseEntity updateScooter(ScooterRequestDTO scooter, Long idScooter) {
-        Scooter sc = this.scooterRepository.getById(idScooter);
-        if(sc != null){
-            sc.setAvailable(scooter.getAvailable());
-            sc.setUbication(scooter.getUbication());
-            return new ResponseEntity(idScooter, HttpStatus.OK);
+    @Transactional
+    public ResponseEntity updateScooter(ScooterRequestDTO request, Long idScooter) {
+        Scooter scooterExisting = this.scooterRepository.getById(idScooter);
+        if(scooterExisting != null){
+            scooterExisting.setLicensePLate(request.getLicensePlate());
+            scooterExisting.setAvailable(request.getAvailable());
+            scooterExisting.setUbication(request.getUbication());
+            return new ResponseEntity(idScooter, HttpStatus.ACCEPTED);
         }
-        throw new NotFoundException("Account", "Long", idScooter);
+        throw new NotFoundException("Scooter", "Long", idScooter);
     }
 
-    public ResponseEntity createScooterStop(ScooterStopRequestDTO stop) {
-        if(!this.scooterRepository.findScooterByUbication(stop.getUbication())){
+    /*
+    public ResponseEntity saveScooterStop(ScooterStopRequestDTO stop) {
+        ScooterStop sameScooterStop = this.scooterStopRepository.findByUbication();
+        if(){
             this.scooterStopRepository.save(new ScooterStop(stop));
             return new ResponseEntity(stop, HttpStatus.CREATED);
         }
-        throw new ConflictExistException("Scooter", "ID",);
-    }
+        throw new ConflictExistException("ScooterStop", "Long", );
+    }*/
 }
