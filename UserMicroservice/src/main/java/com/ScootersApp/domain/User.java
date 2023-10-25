@@ -12,7 +12,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @Entity
-@ToString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,8 +21,7 @@ public class User {
     private String mail;
     private String password;
     private Long phoneNumber;
-    //private GPS Ubication;
-    //private List<Account> accounts;
+
     @ManyToMany
     private List<Role> roles;
 
