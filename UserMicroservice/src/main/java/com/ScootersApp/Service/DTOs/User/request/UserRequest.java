@@ -1,11 +1,8 @@
 package com.ScootersApp.Service.DTOs.User.request;
 
-import com.ScootersApp.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
-import java.util.List;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -27,8 +24,8 @@ public class UserRequest {
     private String password;
     @NotNull(message = "phoneNumber cannot be null")
     @NotEmpty(message = "phoneNumber cannot be empty")
-    private Long phoneNumber;
-    //private GPS Ubication;
-    //private List<Account> accounts;
-    private List<Role> roles;
+    private String phoneNumber;
+    @NotNull(message = "Role cannot be null")
+    @NotEmpty(message = "Role cannot be empty")
+    private String role;
 }

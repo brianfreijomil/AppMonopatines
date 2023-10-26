@@ -4,12 +4,10 @@ import com.ScootersApp.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository("UserRepository")
 public interface UserRepository extends JpaRepository<User, Long> {
 
-
-    public User findByMail(String mail);
-
-    public User findByID(Long id);
+     User findByMail(String mail);
+     Boolean existsByMail(String mail);
 
 }

@@ -36,16 +36,15 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<UserResponseDTO> findAll() {
+    public List<UserResponseDTO>findAll() {
         List<User> users = this.repository.findAll();
         return users.stream().map(s1-> new UserResponseDTO(s1)).collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public ResponseEntity save(UserRequest user) throws Exception {
-        if(this.repository.findByMail(user.getMail())==null){
-            User newUser= this.repository.save(new User(user.getName(), user.getSurname(),
-                                    user.getMail(), user.getPassword(), user.getPhoneNumber(), user.getRoles()));
+    @Transactional
+    public ResponseEntity save(UserRequest user){
+        if(!this.repository.existsByMail(user.getMail())){
+            User newUser= this.repository.save(new User(user));
             return new ResponseEntity(newUser.getID(), HttpStatus.CREATED);
         }
         throw new ConflictExistException("User", "mail", user.getMail());
@@ -59,7 +58,7 @@ public class UserService {
         System.out.println(u);
         return new UserLoginResponseDTO(u);
     }
-
+    @Transactional
     public void deleteUser(Long id) {
         if(this.repository.existsById(id)){
             this.repository.deleteById(id);
@@ -67,36 +66,36 @@ public class UserService {
         else
             throw new NotFoundException("User","ID",id);
     }
-
+    @Transactional
     public ResponseEntity updateUser(UserRequest userRequest, Long id) {
         if(this.repository.existsById(id)){
-            User user = this.repository.findByID(id);
+            User user = this.repository.findById(id).get();
             user.setName(userRequest.getName());
             user.setSurname(userRequest.getSurname());
             user.setMail(userRequest.getMail());
             user.setPassword(userRequest.getPassword());
-            user.setRoles(userRequest.getRoles());
+            user.setRole(userRequest.getRole());
 
             return new ResponseEntity(user.getID(), HttpStatus.ACCEPTED);
         }
         else
-            throw new NotFoundException("User","ID",id);
+            throw new NotFoundException("User","ID_User(Long)",id);
      }
-  
+    @Transactional(readOnly = true)
     public UserLoginResponseDTO findByMail(String mail) {
         User u = this.repository.findByMail(mail);
         System.out.println(u);
         return new UserLoginResponseDTO(u);
 
     }
-
-    public ResponseEntity saveNewUserAccount(UserAccountRequestDTO uar, Long idUser) {
+    @Transactional
+    public ResponseEntity saveNewUserAccount(Long idUser, Long idAccount) {
         if(this.repository.existsById(idUser)){
-            User u = this.repository.findByID(idUser);
-            if(this.accountRepository.existsById(uar.getAccountId())){
-                Account a = this.accountRepository.findById(uar.getAccountId()).get();
+            User u = this.repository.findById(idUser).get();
+            if(this.accountRepository.existsById(idAccount)){
+                Account a = this.accountRepository.findById(idAccount).get();
                 UserAccountID userAccountID = new UserAccountID(u, a);
-                if(!this.accountRepository.existsById(userAccountID)){
+                if(!this.userAccountRepository.existsById(userAccountID)){
                     UserAccount userAccount = new UserAccount(userAccountID);
                     this.userAccountRepository.save(userAccount);
                     return new ResponseEntity(userAccount.getId(), HttpStatus.CREATED);
@@ -106,9 +105,19 @@ public class UserService {
                 }
             }
             else
-                throw new NotFoundException("Account", "ID", uar.getAccountId());
+                throw new NotFoundException("Account", "ID_Account(Long)", idAccount);
         }
         else
-            throw new NotFoundException("User", "ID", idUser);
+            throw new NotFoundException("User", "ID_User(Long)", idUser);
+    }
+
+    @Transactional(readOnly = true)
+    public UserResponseDTO findByID(Long id){
+        if(this.repository.existsById(id)){
+            User u = this.repository.findById(id).get();
+            return new UserResponseDTO(u);
+        }
+        else
+            throw new NotFoundException("User", "ID_User(Long)", id);
     }
 }
