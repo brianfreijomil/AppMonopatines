@@ -69,7 +69,7 @@ public class ScooterService {
     @Transactional
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteScooter(Long id){
-        if(!this.scooterRepository.existsById(id)) {
+        if(this.scooterRepository.existsById(id)) {
             this.scooterRepository.deleteById(id);
         }
         else {
