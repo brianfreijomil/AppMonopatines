@@ -22,13 +22,12 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping("/")
-    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("")
     public List<UserResponseDTO> getAllUsers(){
         return this.service.findAll();
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity createUser(@RequestBody UserRequest user) throws Exception {
         return  this.service.save(user);
@@ -57,14 +56,19 @@ public class UserController {
         return new ResponseEntity(userRequest, HttpStatus.OK);
     }
 
-    @GetMapping("/{mail}")
+    /*@GetMapping("/{mail}")
     public UserLoginResponseDTO getByMail(@PathVariable String mail){
         return this.service.findByMail(mail);
+    }*/
+
+    @GetMapping("/{id}")
+    public UserResponseDTO getByID(@PathVariable Long id){
+        return this.service.findByID(id);
     }
 
-    @PostMapping("/{id}/account")
-    public ResponseEntity saveNewUserAccount(@RequestBody @Valid UserAccountRequestDTO uar, @PathVariable Long id){
-        return this.service.saveNewUserAccount(uar, id);
+    @PostMapping("/{id}/account/{idAccount}")
+    public ResponseEntity saveNewUserAccount(@PathVariable Long id, @PathVariable Long idAccount){
+        return this.service.saveNewUserAccount(id, idAccount);
     }
 
 }

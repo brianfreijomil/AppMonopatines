@@ -7,16 +7,16 @@
 - ask for update (all updates)
 
 #Already Tested functionalities:
-- save User
+- save User (done and passed)
 - save Account
-- save UserAccount
+- save UserAccount (done and passed)
 - 
-- get User by Id
+- get User by Id (done and passed)
 - get Account by Id
 - get UserAccounts by Id user
 - get UsersAccount by Id account
 - 
-- get Users
+- get Users (done and passed)
 - get Accounts
 - get UserAccounts***** (review)
 - 

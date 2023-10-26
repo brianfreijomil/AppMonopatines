@@ -26,4 +26,10 @@ public class Account {
         this.wallet = requestDTO.getWallet();
         this.dateUp = Timestamp.valueOf(LocalDateTime.now()); //put the inmediat date time
     }
+
+    public Account(Long id, Double wallet, Timestamp dateUp) {
+        this.id = id;
+        this.dateUp = dateUp;
+        this.wallet = wallet;
+    }
 }

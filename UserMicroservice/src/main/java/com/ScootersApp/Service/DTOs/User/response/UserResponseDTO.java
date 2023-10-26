@@ -1,21 +1,18 @@
 package com.ScootersApp.Service.DTOs.User.response;
 
-import com.ScootersApp.domain.Role;
+
 import com.ScootersApp.domain.User;
 import lombok.Data;
 
 
-import java.util.List;
 @Data
 public class UserResponseDTO {
     private final Long ID;
     private final String name;
     private final String surname;
     private final String mail;
-    private final Long phoneNumber;
-    //private GPS Ubication;
-    //private List<Account> accounts;
-    private final List<Role> roles;
+    private final String phoneNumber;
+    private final String role;
 
     public UserResponseDTO(User s1) {
         this.ID = s1.getID();
@@ -23,6 +20,6 @@ public class UserResponseDTO {
         this.surname = s1.getSurname();
         this.mail = s1.getMail();
         this.phoneNumber = s1.getPhoneNumber();
-        this.roles = s1.getRoles();
+        this.role = s1.getRole();
     }
 }
