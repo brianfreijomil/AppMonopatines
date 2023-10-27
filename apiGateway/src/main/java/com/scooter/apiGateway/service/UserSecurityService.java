@@ -25,7 +25,7 @@ public class UserSecurityService implements UserDetailsService {
     private WebClient webClient;
 
     public UserSecurityService() {
-        this.webClient = WebClient.create("http://localhost:8081");;
+        this.webClient = WebClient.create("http://192.168.121.66:8081");;
     }
 
     @Override
