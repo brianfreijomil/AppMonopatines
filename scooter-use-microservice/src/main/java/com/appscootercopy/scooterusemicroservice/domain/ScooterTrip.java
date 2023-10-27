@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode
 @NoArgsConstructor
-//@Embeddable
 public class ScooterTrip {
 
     @EmbeddedId

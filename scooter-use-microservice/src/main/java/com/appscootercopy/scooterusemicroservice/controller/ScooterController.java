@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("api/scooters")
 public class ScooterController {
 
@@ -21,13 +21,23 @@ public class ScooterController {
         this.scooterService = scooterService;
     }
 
+    @GetMapping("/{licensePlate}")
+    public ScooterResponseDTO getScooterByLicensePlate(@PathVariable String licensePlate){
+        return scooterService.findScooterByLicensePlate(licensePlate);
+    }
+
+    @GetMapping("/")
+    public List<ScooterResponseDTO> getAllScooter(){
+        return this.scooterService.findAllScooter();
+    }
+
     @PostMapping("")
     public ResponseEntity saveScooter(@RequestBody @Valid ScooterRequestDTO request){
         return scooterService.saveScooter(request);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteScooter(@RequestBody @Valid Long id){
+    public void deleteScooter(@PathVariable Long id){
         this.scooterService.deleteScooter(id);
     }
 
@@ -36,18 +46,9 @@ public class ScooterController {
         return this.scooterService.updateScooter(scooter, idScooter);
     }
 
-    @GetMapping("/{id}")
-    public ScooterResponseDTO getScooterById(@PathVariable Long id){
-        return scooterService.findScooterById(id);
-    }
-
-    @GetMapping("/")
-    public List<ScooterResponseDTO> getAllScooter(){
-        return this.scooterService.findAllScooter();
-    }
-
+    /*
     @PostMapping("/stops")
-    public ResponseEntity createScooterStop(@RequestBody @Valid ScooterStopRequestDTO stop){
-        return this.scooterService.createScooterStop(stop);
-    }
+    public ResponseEntity createScooterStop(@RequestBody @Valid ScooterStopRequestDTO stopRequestDTO){
+        return this.scooterService.saveScooterStop(stopRequestDTO);
+    }*/
 }

@@ -30,6 +30,7 @@ public class UserController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity createUser(@RequestBody UserRequest user) throws Exception {
+        System.out.println(user);
         return  this.service.save(user);
     }
 
@@ -50,10 +51,7 @@ public class UserController {
     @GetMapping("/login/{email}")
     public ResponseEntity<UserLoginResponseDTO> login(@PathVariable String email){
         System.out.println(email);
-        UserLoginResponseDTO userRequest = this.service.findByMail(email);
-        System.out.println(userRequest);
-
-        return new ResponseEntity(userRequest, HttpStatus.OK);
+        return this.service.findByMail(email);
     }
 
     /*@GetMapping("/{mail}")
@@ -71,4 +69,9 @@ public class UserController {
         return this.service.saveNewUserAccount(id, idAccount);
     }
 
+    @PutMapping("/{mail}/disable")
+    public ResponseEntity disableUser(@PathVariable String mail, @RequestBody Boolean status){
+        System.out.println(status);
+        return this.service.disableUser(mail, status);
+    }
 }

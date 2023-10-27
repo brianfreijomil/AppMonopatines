@@ -15,15 +15,22 @@ public class Scooter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "license_plate", unique = true, nullable = false)
+    private String licensePLate;
     @Column(nullable = false)
     private Boolean available;
-    @Column(nullable = false)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Ubication ubication;
 
     public Scooter(ScooterRequestDTO requestDTO) {
-        this.id = requestDTO.getId();
+        this.licensePLate = requestDTO.getLicensePlate();
         this.available = requestDTO.getAvailable();
         this.ubication = requestDTO.getUbication();
+    }
+
+    public Scooter(String licensePLate, Boolean available, Ubication ubication) {
+        this.licensePLate = licensePLate;
+        this.available = available;
+        this.ubication = ubication;
     }
 }

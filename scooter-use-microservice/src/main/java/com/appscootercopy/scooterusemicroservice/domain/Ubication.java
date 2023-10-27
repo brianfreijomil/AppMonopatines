@@ -22,4 +22,9 @@ public class Ubication {
         this.x = requestDTO.getX();
         this.y = requestDTO.getY();
     }
+
+    public Ubication(Double x, Double y) {
+        this.x = x;
+        this.y = y;
+    }
 }

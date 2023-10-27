@@ -12,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 public class ScooterRequestDTO {
     @NotNull(message = "Available cannot be null")
     private Boolean available;
+    @NotNull(message = "the licensePlate cannot be NUll")
+    @NotEmpty(message = "licensePlate cannot be empty")
+    private String licensePlate;
     @NotNull(message = "the ubication cannot be NUll")
     private Ubication ubication;
 

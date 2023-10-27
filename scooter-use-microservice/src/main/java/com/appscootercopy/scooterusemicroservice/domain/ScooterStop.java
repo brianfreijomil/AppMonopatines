@@ -14,11 +14,15 @@ public class ScooterStop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Ubication ubication;
 
     public ScooterStop(ScooterStopRequestDTO requestDTO) {
         this.ubication = requestDTO.getUbication();
+    }
+
+    public ScooterStop(Ubication ubication) {
+        this.ubication = ubication;
     }
 
 }

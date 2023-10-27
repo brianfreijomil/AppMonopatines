@@ -7,11 +7,9 @@ import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
 import com.ScootersApp.Service.DTOs.userAccount.request.UserAccountRequestDTO;
 import com.ScootersApp.Service.exception.ConflictExistException;
 import com.ScootersApp.Service.exception.NotFoundException;
-import com.ScootersApp.domain.Account;
-import com.ScootersApp.domain.User;
-import com.ScootersApp.domain.UserAccount;
-import com.ScootersApp.domain.UserAccountID;
+import com.ScootersApp.domain.*;
 import com.ScootersApp.repository.AccountRepository;
+import com.ScootersApp.repository.RoleRepository;
 import com.ScootersApp.repository.UserAccountRepository;
 import com.ScootersApp.repository.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -19,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,11 +27,13 @@ public class UserService {
     UserRepository repository;
     AccountRepository accountRepository;
     UserAccountRepository userAccountRepository;
+    RoleRepository roleRepository;
 
-    public UserService(UserAccountRepository userAccountRepository, UserRepository repository, AccountRepository accountRepository) {
+    public UserService(UserAccountRepository userAccountRepository, UserRepository repository, AccountRepository accountRepository, RoleRepository roleRepository) {
         this.repository = repository;
         this.userAccountRepository = userAccountRepository;
         this.accountRepository = accountRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Transactional(readOnly = true)
@@ -44,7 +45,16 @@ public class UserService {
     @Transactional
     public ResponseEntity save(UserRequest user){
         if(!this.repository.existsByMail(user.getMail())){
-            User newUser= this.repository.save(new User(user));
+            User newUser= new User(user);
+            List<Role> roles = new ArrayList<>();
+            for(String s: user.getRoles()){
+                Role r = this.roleRepository.findById(s).get();
+                if(r != null){
+                    roles.add(r);
+                }
+            }
+            newUser.setRoles(roles);
+            this.repository.save(newUser);
             return new ResponseEntity(newUser.getID(), HttpStatus.CREATED);
         }
         throw new ConflictExistException("User", "mail", user.getMail());
@@ -74,7 +84,14 @@ public class UserService {
             user.setSurname(userRequest.getSurname());
             user.setMail(userRequest.getMail());
             user.setPassword(userRequest.getPassword());
-            user.setRole(userRequest.getRole());
+            List<Role> roles = new ArrayList<>();
+            for(String s: userRequest.getRoles()){
+                Role r = this.roleRepository.findById(s).get();
+                if(r != null){
+                    roles.add(r);
+                }
+            }
+            user.setRoles(roles);
 
             return new ResponseEntity(user.getID(), HttpStatus.ACCEPTED);
         }
@@ -82,11 +99,9 @@ public class UserService {
             throw new NotFoundException("User","ID_User(Long)",id);
      }
     @Transactional(readOnly = true)
-    public UserLoginResponseDTO findByMail(String mail) {
+    public ResponseEntity<UserLoginResponseDTO> findByMail(String mail) {
         User u = this.repository.findByMail(mail);
-        System.out.println(u);
-        return new UserLoginResponseDTO(u);
-
+        return new ResponseEntity(new UserLoginResponseDTO(u), HttpStatus.CREATED);
     }
     @Transactional
     public ResponseEntity saveNewUserAccount(Long idUser, Long idAccount) {
@@ -119,5 +134,16 @@ public class UserService {
         }
         else
             throw new NotFoundException("User", "ID_User(Long)", id);
+    }
+
+    @Transactional
+    public ResponseEntity disableUser(String mail, Boolean status) {
+        User u = this.repository.findByMail(mail);
+        if(u!=null){
+            u.setAvailable(status);
+            return new ResponseEntity(u.getMail(), HttpStatus.OK);
+        }
+        else
+            throw new NotFoundException("User", "User_mail(String)", u.getMail());
     }
 }

@@ -12,7 +12,6 @@ import java.sql.Timestamp;
 public class Trip {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private Timestamp initTime;
@@ -23,12 +22,21 @@ public class Trip {
     @Column(nullable = false)
     private Boolean ended;
     //@Column
-    //private Timer pause; REVIEW WITH TEACHER
+    //private Timer pause;
 
     public Trip(TripRequestDTO requestDTO) {
+        this.id = requestDTO.getId();
         this.initTime = requestDTO.getInitTime();
         this.endTime = requestDTO.getEndTime();
         this.kms = requestDTO.getKms();
         this.ended = requestDTO.getEnded();
+    }
+
+    public Trip(Long id, Timestamp initTime, Timestamp endTime, Double kms, Boolean ended) {
+        this.id = id;
+        this.initTime = initTime;
+        this.endTime = endTime;
+        this.kms = kms;
+        this.ended = ended;
     }
 }

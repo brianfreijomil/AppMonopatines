@@ -1,10 +1,13 @@
 package com.ScootersApp.Service.DTOs.User.request;
 
+import com.ScootersApp.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
 
 @Data
 @Getter
@@ -25,7 +28,5 @@ public class UserRequest {
     @NotNull(message = "phoneNumber cannot be null")
     @NotEmpty(message = "phoneNumber cannot be empty")
     private String phoneNumber;
-    @NotNull(message = "Role cannot be null")
-    @NotEmpty(message = "Role cannot be empty")
-    private String role;
+    private List<String> roles;
 }
