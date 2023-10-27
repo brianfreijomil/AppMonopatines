@@ -16,7 +16,7 @@ public class UsersService {
     private PasswordEncoder passwordEncoder;
 
     public UsersService() {
-        this.webClient = WebClient.create("http://192.168.208.66:8081");
+        this.webClient = WebClient.create("http://localhost:8081");
         this.passwordEncoder = new BCryptPasswordEncoder(16);
     }
 
@@ -33,7 +33,7 @@ public class UsersService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         System.out.println(user);
         return webClient.post()
-                .uri("/api/users")
+                .uri("/api/users/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(user)
                 .retrieve()

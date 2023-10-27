@@ -31,7 +31,7 @@ public class UserService {
         return users.stream().map(s1-> new UserResponseDTO(s1)).collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public ResponseEntity save(UserRequest user) throws Exception {
         if(this.repository.findByMail(user.getMail())==null){
             User newUser= this.repository.save(new User(user.getName(), user.getSurname(),
