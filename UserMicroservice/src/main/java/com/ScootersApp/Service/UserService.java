@@ -1,10 +1,9 @@
 package com.ScootersApp.Service;
 
-
 import com.ScootersApp.Service.DTOs.User.request.UserRequest;
 import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
-import com.ScootersApp.Service.DTOs.userAccount.request.UserAccountRequestDTO;
+import com.ScootersApp.Service.DTOs.userAccount.response.UserAccountResponseDTO;
 import com.ScootersApp.Service.exception.ConflictExistException;
 import com.ScootersApp.Service.exception.NotFoundException;
 import com.ScootersApp.domain.*;
@@ -43,7 +42,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity save(UserRequest user){
+    public ResponseEntity<Long> save(UserRequest user){
         if(!this.repository.existsByMail(user.getMail())){
             User newUser= new User(user);
             List<Role> roles = new ArrayList<>();
@@ -77,7 +76,7 @@ public class UserService {
             throw new NotFoundException("User","ID",id);
     }
     @Transactional
-    public ResponseEntity updateUser(UserRequest userRequest, Long id) {
+    public ResponseEntity<Long> updateUser(UserRequest userRequest, Long id) {
         if(this.repository.existsById(id)){
             User user = this.repository.findById(id).get();
             user.setName(userRequest.getName());
@@ -95,8 +94,9 @@ public class UserService {
 
             return new ResponseEntity(user.getID(), HttpStatus.ACCEPTED);
         }
-        else
+        else{
             throw new NotFoundException("User","ID_User(Long)",id);
+        }
      }
     @Transactional(readOnly = true)
     public ResponseEntity<UserLoginResponseDTO> findByMail(String mail) {
@@ -104,7 +104,7 @@ public class UserService {
         return new ResponseEntity(new UserLoginResponseDTO(u), HttpStatus.CREATED);
     }
     @Transactional
-    public ResponseEntity saveNewUserAccount(Long idUser, Long idAccount) {
+    public ResponseEntity<UserAccountResponseDTO> saveNewUserAccount(Long idUser, Long idAccount) {
         if(this.repository.existsById(idUser)){
             User u = this.repository.findById(idUser).get();
             if(this.accountRepository.existsById(idAccount)){
@@ -119,31 +119,35 @@ public class UserService {
                     throw new ConflictExistException("UserAccount", "ID", userAccountID);
                 }
             }
-            else
+            else{
                 throw new NotFoundException("Account", "ID_Account(Long)", idAccount);
+            }
         }
-        else
+        else{
             throw new NotFoundException("User", "ID_User(Long)", idUser);
+        }
     }
 
     @Transactional(readOnly = true)
-    public UserResponseDTO findByID(Long id){
+    public ResponseEntity<UserResponseDTO> findByID(Long id){
         if(this.repository.existsById(id)){
             User u = this.repository.findById(id).get();
-            return new UserResponseDTO(u);
+            return new ResponseEntity(new UserResponseDTO(u), HttpStatus.OK);
         }
-        else
+        else{
             throw new NotFoundException("User", "ID_User(Long)", id);
+        }
     }
 
     @Transactional
-    public ResponseEntity disableUser(String mail, Boolean status) {
+    public ResponseEntity<String> disableUser(String mail, Boolean status) {
         User u = this.repository.findByMail(mail);
         if(u!=null){
             u.setAvailable(status);
             return new ResponseEntity(u.getMail(), HttpStatus.OK);
         }
-        else
+        else{
             throw new NotFoundException("User", "User_mail(String)", u.getMail());
+        }
     }
 }
