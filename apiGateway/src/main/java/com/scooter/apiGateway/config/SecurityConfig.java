@@ -32,6 +32,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> {
                     authorize
                             .requestMatchers(HttpMethod.POST, "api/auth/**").permitAll() //le digo q todos los post a auth no requieran la authenticion
+                            .requestMatchers(HttpMethod.POST, "api/users/").permitAll()
                             .requestMatchers(HttpMethod.GET, "api/admin/hola").hasRole("admin")
                             .anyRequest()
                             .authenticated();

@@ -5,25 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c86b65f-897e-4f8f-ae6a-36e028eecd8c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/AccountService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/DTOs/account/request/AccountRequestDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/DTOs/account/response/AccountResponseDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/DTOs/userAccount/request/UserAccountRequestDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/DTOs/userAccount/response/UserAccountIDResponseDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/DTOs/userAccount/response/UserAccountResponseDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/exception/ConflictExistException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/exception/ErrorDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/exception/NotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/Service/exception/ReferencedRowException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/controller/AccountController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/domain/Account.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/domain/UserAccount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/domain/UserAccountID.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/notes.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/repository/AccountRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserMicroservice/src/main/java/com/ScootersApp/repository/UserAccountRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices.user/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices.user/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices.user/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices.user/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices.user/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices.user/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices.user/HELP.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices.user/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scooter-management-microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/scooter-management-microservice/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,11 +53,12 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/brian/Desktop/AppMonopatines/UserMicroservice",
+    "last_opened_file_path": "C:/Users/monte/OneDrive/Escritorio/AppMonopatines/scooter-management-microservice",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -105,6 +97,7 @@
       <updated>1697654686245</updated>
       <workItem from="1697654686842" duration="2875000" />
       <workItem from="1697901873905" duration="538000" />
+      <workItem from="1698242732246" duration="911000" />
     </task>
     <servers />
   </component>

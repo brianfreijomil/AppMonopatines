@@ -28,7 +28,7 @@ public class AuthController {
     public AuthController(AuthenticationManager authenticationManager, JWTUtill jwtUtill) {
         this.authenticationManager = authenticationManager;
         this.jwtUtill = jwtUtill;
-        this.webClient = WebClient.create("http://localhost:8081");
+        this.webClient = WebClient.create("http://192.168.208.66:8081");
         this.passwordEncoder = new BCryptPasswordEncoder(16);
     }
 
@@ -40,6 +40,7 @@ public class AuthController {
                 .retrieve()
                 .bodyToMono(UserResponseDTO.class)
                 .block();
+
         if(userDTO != null && passwordEncoder.matches(user.getPassword(), userDTO.getPassword())){
             String jwt = this.jwtUtill.createToken(user.getMail());
             return ResponseEntity.ok().header("Authorization", jwt).build();
