@@ -34,10 +34,18 @@ public class UsersController {
 
     @PostMapping("/")
     public Mono<ResponseEntity<?>> createUser(@RequestBody UserRequestCreateDTO user){
+<<<<<<< HEAD
         return this.usersService.createUsers(user)
                 .map(voidResponseEntity -> {
                     if(voidResponseEntity.getStatusCode().is2xxSuccessful()){
                         return new ResponseEntity("User created ", voidResponseEntity.getStatusCode());
+=======
+
+        return this.usersService.createUsers(user)
+                .map(voidResponseEntity -> {
+                    if(voidResponseEntity.getStatusCode().is2xxSuccessful()){
+                        return new ResponseEntity("User created id +" + voidResponseEntity.getBody(), voidResponseEntity.getStatusCode());
+>>>>>>> benja
                     }
 
                     return new ResponseEntity("Error", voidResponseEntity.getStatusCode());
