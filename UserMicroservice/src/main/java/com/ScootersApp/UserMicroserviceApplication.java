@@ -17,8 +17,8 @@ public class UserMicroserviceApplication {
     public static void main(String[] args) {
         SpringApplication.run(UserMicroserviceApplication.class, args);
     }
-    @PostConstruct
+    /*@PostConstruct
     public void init() throws SQLException, IOException {
         this.loadDb.load();
-    }
+    }*/
 }

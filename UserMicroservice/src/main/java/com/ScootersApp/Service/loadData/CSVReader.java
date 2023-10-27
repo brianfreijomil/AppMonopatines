@@ -31,7 +31,7 @@ public class CSVReader {
         this.accountRepository = accountRepository;
     }
 
-    public void load() throws SQLException, IOException {
+    /*public void load() throws SQLException, IOException {
         this.loadUser();
         this.loadAccount();
         this.loadUserAccount();
@@ -80,5 +80,5 @@ public class CSVReader {
             UserAccount UserAccount = new UserAccount(userAccountID);
             userAccountRepository.save(UserAccount);
         }
-    }
+    }*/
 }

@@ -22,7 +22,7 @@ public class ScooterController {
     }
 
     @GetMapping("/{licensePlate}")
-    public ScooterResponseDTO getScooterByLicensePlate(@PathVariable Long licensePlate){
+    public ScooterResponseDTO getScooterByLicensePlate(@PathVariable String licensePlate){
         return scooterService.findScooterByLicensePlate(licensePlate);
     }
 

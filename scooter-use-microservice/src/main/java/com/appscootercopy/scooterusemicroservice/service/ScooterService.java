@@ -9,6 +9,7 @@ import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.Sc
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.request.ScooterStopRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.exception.ConflictExistException;
 import com.appscootercopy.scooterusemicroservice.service.exception.NotFoundException;
+import com.appscootercopy.scooterusemicroservice.service.exception.ReferencedRowException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -32,13 +33,13 @@ public class ScooterService {
     }
 
     @Transactional(readOnly = true)
-    public ScooterResponseDTO findScooterByLicensePlate(Long licensePlate) {
+    public ScooterResponseDTO findScooterByLicensePlate(String licensePlate) {
         Scooter scooterFound = scooterRepository.findByLicensePLate(licensePlate);
         if(scooterFound!=null) {
             return new ScooterResponseDTO(scooterFound);
         }
 
-        throw new NotFoundException("Scooter", "licencePlate (Long)", licensePlate);
+        throw new NotFoundException("Scooter", "licencePlate (String)", licensePlate);
     }
 
     @Transactional(readOnly = true)
@@ -63,14 +64,14 @@ public class ScooterService {
             return new ResponseEntity(request.getLicensePlate(), HttpStatus.CREATED);
         }
 
-        throw new ConflictExistException("Scooter", "licensePlate (Long)", request.getLicensePlate());
+        throw new ConflictExistException("Scooter", "licensePlate (String)", request.getLicensePlate());
     }
 
     @Transactional
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteScooter(Long id){
         if(this.scooterRepository.existsById(id)) {
-            this.scooterRepository.deleteById(id);
+            this.scooterTripRepository.deleteAllByIdScooter();
         }
         else {
             throw new NotFoundException("Scooter", "Id", id);

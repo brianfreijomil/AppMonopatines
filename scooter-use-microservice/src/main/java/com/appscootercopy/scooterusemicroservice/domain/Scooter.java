@@ -15,8 +15,8 @@ public class Scooter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "license_plate", unique = true)
-    private Long licensePLate;
+    @Column(name = "license_plate", unique = true, nullable = false)
+    private String licensePLate;
     @Column(nullable = false)
     private Boolean available;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,7 +28,7 @@ public class Scooter {
         this.ubication = requestDTO.getUbication();
     }
 
-    public Scooter(Long licensePLate, Boolean available, Ubication ubication) {
+    public Scooter(String licensePLate, Boolean available, Ubication ubication) {
         this.licensePLate = licensePLate;
         this.available = available;
         this.ubication = ubication;

@@ -70,10 +70,9 @@ public class CsvReader {
         CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new
                 FileReader(userDir + "scooter.csv"));
         for (CSVRecord row : parser) {
-            Long licensePlate = Long.valueOf(row.get("license_plate"));
+            String licensePlate = String.valueOf(row.get("license_plate"));
             Boolean available = Boolean.valueOf(row.get("available"));
             Long ubicationId = Long.valueOf(row.get("ubication_id"));
-            //isn't correct...
             Ubication ubicationExisting = ubicationRepository.findById(ubicationId).get();
             Scooter scooter = new Scooter(licensePlate, available, ubicationExisting);
             scooterRepository.save(scooter);

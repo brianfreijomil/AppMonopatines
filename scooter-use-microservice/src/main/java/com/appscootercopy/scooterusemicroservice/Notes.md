@@ -1,5 +1,3 @@
-- cambiar licensePlate a String
-
 - cambiar restriccion de FK (no puedo modificar una scooter si esta referida)
 
 - manejar exception de row referenciada
