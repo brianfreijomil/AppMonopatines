@@ -18,7 +18,7 @@ public class UserLoginResponseDTO {
             this.password = u.getPassword();
             this.roles = new ArrayList<>();
             for (Role role:u.getRoles()) {
-                roles.add(role.getId());
+                roles.add(role.getTipo());
             }
         }
 }

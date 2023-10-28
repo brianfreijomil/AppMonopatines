@@ -6,11 +6,13 @@ import lombok.Data;
 import lombok.Getter;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Data
 @Getter
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class UserRequest {
     @NotNull(message = "name cannot be null")
@@ -28,5 +30,7 @@ public class UserRequest {
     @NotNull(message = "phoneNumber cannot be null")
     @NotEmpty(message = "phoneNumber cannot be empty")
     private String phoneNumber;
+    @NotNull(message = "role cannot be null")
+    @NotEmpty(message = "role cannot be empty")
     private List<String> roles;
 }

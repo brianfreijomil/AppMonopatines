@@ -53,4 +53,9 @@ public class AccountController {
         return accountService.updateAccount(request,id);
     }
 
+    @GetMapping("/{id}/user")
+    public List<UserAccountResponseDTO> getUserAccountByAccountId(@PathVariable Long id){
+        return this.accountService.getUserAccountByUserId(id);
+    }
+
 }

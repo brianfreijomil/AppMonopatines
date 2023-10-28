@@ -1,5 +1,6 @@
 package com.ScootersApp.Service;
 
+import com.ScootersApp.Service.DTOs.Role.request.RoleRequest;
 import com.ScootersApp.Service.DTOs.User.request.UserRequest;
 import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
@@ -38,11 +39,11 @@ public class UserService {
     @Transactional(readOnly = true)
     public List<UserResponseDTO>findAll() {
         List<User> users = this.repository.findAll();
-        return users.stream().map(s1-> new UserResponseDTO(s1)).collect(Collectors.toList());
+        return users.stream().map(UserResponseDTO::new).collect(Collectors.toList());
     }
 
     @Transactional
-    public ResponseEntity<Long> save(UserRequest user){
+    public ResponseEntity save(UserRequest user){
         if(!this.repository.existsByMail(user.getMail())){
             User newUser= new User(user);
             List<Role> roles = new ArrayList<>();
@@ -54,6 +55,7 @@ public class UserService {
             }
             newUser.setRoles(roles);
             this.repository.save(newUser);
+            System.out.println(newUser);
             return new ResponseEntity(newUser.getID(), HttpStatus.CREATED);
         }
         throw new ConflictExistException("User", "mail", user.getMail());
@@ -91,7 +93,6 @@ public class UserService {
                 }
             }
             user.setRoles(roles);
-
             return new ResponseEntity(user.getID(), HttpStatus.ACCEPTED);
         }
         else{
@@ -132,6 +133,7 @@ public class UserService {
     public ResponseEntity<UserResponseDTO> findByID(Long id){
         if(this.repository.existsById(id)){
             User u = this.repository.findById(id).get();
+            System.out.println(u);
             return new ResponseEntity(new UserResponseDTO(u), HttpStatus.OK);
         }
         else{
@@ -148,6 +150,21 @@ public class UserService {
         }
         else{
             throw new NotFoundException("User", "User_mail(String)", u.getMail());
+        }
+    }
+
+    public List<UserAccountResponseDTO> getUserAccountByUserId(Long id) {
+        if(this.repository.existsById(id)){
+            List<UserAccount> accounts = this.userAccountRepository.findAllById_User(id);
+            if(!accounts.isEmpty()){
+                return accounts.stream().map(a1->new UserAccountResponseDTO(a1)).collect(Collectors.toList());
+            }
+            else {
+                throw new NotFoundException("UserAccount", "User_id in userAccount_id(userAccountId)", id);
+            }
+        }
+        else {
+            throw new NotFoundException("User", "User_id(Long)", id);
         }
     }
 }
