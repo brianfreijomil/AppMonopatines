@@ -15,4 +15,5 @@ public interface ScooterTripRepository extends JpaRepository<ScooterTrip, Scoote
 
     @Query("SELECT st FROM ScooterTrip st WHERE st.id.idTrip.id =:tripId")
     ScooterTrip findById_IdTrip_Id(@Param("tripId") Long id);
+
 }

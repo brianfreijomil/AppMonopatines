@@ -6,8 +6,12 @@ import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.Sc
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.request.ScooterStopRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.response.ScooterStopResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterTrip.request.ScooterTripRequestDTO;
+import com.appscootercopy.scooterusemicroservice.service.dto.scooterTrip.response.ScooterTripResponseDTO;
+import com.appscootercopy.scooterusemicroservice.service.dto.trip.response.TripResponseDTO;
+import com.appscootercopy.scooterusemicroservice.service.dto.ubication.response.UbicationResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.exception.ConflictExistException;
 import com.appscootercopy.scooterusemicroservice.service.exception.NotFoundException;
+import com.appscootercopy.scooterusemicroservice.service.exception.UniqueException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -92,15 +96,14 @@ public class ScooterService {
     public ResponseEntity updateScooter(ScooterRequestDTO request, Long idScooter) {
         Optional<Scooter> scooterExisting = this.scooterRepository.findById(idScooter);
         if(!scooterExisting.isEmpty()){
-            if(!this.scooterRepository.existsByLicensePLate(request.getLicensePlate())) {
-                scooterExisting.get().setLicensePLate(request.getLicensePlate());
+            if(scooterExisting.get().getLicensePLate().equals(request.getLicensePlate())) {
                 scooterExisting.get().setAvailable(request.getAvailable());
                 scooterExisting.get().getUbication().setX(request.getUbication().getX());
                 scooterExisting.get().getUbication().setY(request.getUbication().getY());
                 return new ResponseEntity(idScooter, HttpStatus.ACCEPTED);
             }
             else {
-                throw new ConflictExistException("Scooter", "licensePlate", request.getLicensePlate());
+                throw new UniqueException("Scooter", "licensePlate", request.getLicensePlate());
             }
         }
         throw new NotFoundException("Scooter", "Id", idScooter);
@@ -108,21 +111,57 @@ public class ScooterService {
 
     /*-------------------------------------------------------------------------------------*/
 
+    @Transactional(readOnly = true)
+    public ScooterTripResponseDTO findScooterTripById(Long idScooter, Long idTrip) {
+        Optional<Scooter> scooter = this.scooterRepository.findById(idScooter);
+        if(!scooter.isEmpty()) {
+            Optional<Trip> trip = this.tripRepository.findById(idTrip);
+            if(!trip.isEmpty()) {
+                ScooterTripId pk = new ScooterTripId(scooter.get(),trip.get());
+                return this.scooterTripRepository.findById(pk)
+                        .map(ScooterTripResponseDTO::new)
+                        .orElseThrow(() -> new NotFoundException("ScooterTrip", "IdScooter", "idTrip",
+                                pk.getIdScooter().getId(), pk.getIdTrip().getId()));
+            }
+            throw new NotFoundException("ScooterTrip", "trip.Id", idTrip);
+        }
+        throw new NotFoundException("ScooterTrip", "scooter.Id", idScooter);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ScooterTripResponseDTO> findAllScooterTrip() {
+        List<ScooterTrip> scooterTrips = scooterTripRepository.findAll();
+        return scooterTrips.stream().map(st-> new ScooterTripResponseDTO(st))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ScooterTripResponseDTO> findAllScooterTripByScooterId(Long idScooter) {
+        if(this.scooterRepository.existsById(idScooter)) {
+            List<ScooterTrip> scooterTrips = scooterTripRepository.findAllById_IdScooterId(idScooter);
+            return scooterTrips.stream().map(st-> new ScooterTripResponseDTO(st))
+                    .collect(Collectors.toList());
+        }
+        throw new NotFoundException("Scooter", "Id", idScooter);
+    }
+
     @Transactional
     public ResponseEntity saveScooterTrip(ScooterTripRequestDTO request) {
         Optional<Scooter> scooterReferenced = this.scooterRepository.findById(request.getScooterId());
         if(!scooterReferenced.isEmpty()) {
             Optional<Trip> tripReferenced = this.tripRepository.findById(request.getTripId());
             if(!tripReferenced.isEmpty()) {
-                ScooterTripId idST = new ScooterTripId(scooterReferenced.get(),tripReferenced.get());
-                System.out.println("llego hasta el repo");
-                if(!this.scooterTripRepository.existsById(idST)){
-                    this.scooterTripRepository.save(new ScooterTrip(idST));
-                    return new ResponseEntity(idST, HttpStatus.CREATED);
+                if(this.scooterTripRepository.findById_IdTrip_Id(request.getTripId())==null){
+                    ScooterTripId idST = new ScooterTripId(scooterReferenced.get(),tripReferenced.get());
+                    if(!this.scooterTripRepository.existsById(idST)){
+                        this.scooterTripRepository.save(new ScooterTrip(idST));
+                        return new ResponseEntity("IdScooter: "+request.getScooterId()+", IdTrip: "+request.getTripId(), HttpStatus.CREATED);
+                    }
+                    throw new ConflictExistException("ScooterTrip", "IdScooter", request.getScooterId(), "IdTrip", request.getScooterId());
                 }
-                throw new ConflictExistException("ScooterTrip", "IdScooter", request.getScooterId(), "IdTrip", request.getScooterId());
+                throw new ConflictExistException("ScooterTrip", "trip.id", request.getTripId());
             }
-            throw new NotFoundException("Trip", "Id", request.getScooterId());
+            throw new NotFoundException("Trip", "Id", request.getTripId());
         }
         throw new NotFoundException("Scooter", "Id", request.getScooterId());
     }
@@ -156,11 +195,8 @@ public class ScooterService {
     public ResponseEntity saveScooterStop(ScooterStopRequestDTO request) {
         Double x = request.getUbication().getX();
         Double y = request.getUbication().getY();
-        //si no existe una parada con esa ubicacion
         if(this.scooterStopRepository.existsByUbicationXAndUbicationY(x,y) == null) {
-            //crearia automaticamente la ubicacion de esa parada
             this.scooterStopRepository.save(new ScooterStop(request));
-            //no tengo nada para devolver
             return new ResponseEntity("ubication: "+x+", "+y, HttpStatus.CREATED);
         }
         throw new ConflictExistException("ScooterStop", "ubicationX", x, "ubicationY", y);
@@ -195,10 +231,22 @@ public class ScooterService {
 
     /*-------------------------------------------------------------------------------------*/
 
+    @Transactional(readOnly = true)
+    public UbicationResponseDTO findUbicationById(Long id) {
+        return ubicationRepository.findById(id)
+                .map(UbicationResponseDTO::new)
+                .orElseThrow(() -> new NotFoundException("Ubication", "Id", id));
+    }
+
+    @Transactional(readOnly = true)
+    public List<UbicationResponseDTO> findAllUbication() {
+        List<Ubication> ubications = ubicationRepository.findAll();
+        return ubications.stream().map(u-> new UbicationResponseDTO(u)).collect(Collectors.toList());
+    }
+
     //ABM UBICATION
     // SAVE : AUTOMATICO CON SCOOTER Y SCOOTERSTOP
     // UPDATE : AUTOMATICO CON SCOOTER Y SCOOTERSTOP
     // DELETE : AUTOMATICO CON SCOOTER Y SOOTERSTOP
-
 
 }

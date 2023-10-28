@@ -19,18 +19,16 @@ import java.sql.Timestamp;
 public class CsvReader {
     private ScooterRepository scooterRepository;
     private TripRepository tripRepository;
-    private UbicationRepository ubicationRepository;
     private ScooterStopRepository scooterStopRepository;
     private ScooterTripRepository scooterTripRepository;
     private static final String userDir =
             System.getProperty("user.dir") + "/src/main/java/com/appscootercopy/scooterusemicroservice/service/loadData/";
 
     @Autowired
-    public CsvReader(ScooterRepository sr, TripRepository tr, UbicationRepository ur,
-                     ScooterStopRepository ssr, ScooterTripRepository str) throws IOException, SQLException {
+    public CsvReader(ScooterRepository sr, TripRepository tr, ScooterStopRepository ssr,
+                     ScooterTripRepository str) throws IOException, SQLException {
         this.scooterRepository = sr;
         this.tripRepository = tr;
-        this.ubicationRepository = ur;
         this.scooterStopRepository = ssr;
         this.scooterTripRepository = str;
     }
@@ -41,18 +39,6 @@ public class CsvReader {
         this.loadTrip();
         this.loadScooterTrip();
     }
-
-    /*
-    private void loadUbication() throws IOException, SQLException {
-        CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new
-                FileReader(userDir + "ubication.csv"));
-        for (CSVRecord row : parser) {
-            Double x = Double.valueOf(row.get("x"));
-            Double y = Double.valueOf(row.get("y"));
-            Ubication ubication = new Ubication(x,y);
-            ubicationRepository.save(ubication);
-        }
-    }*/
 
     private void loadScooterStop() throws IOException, SQLException {
         CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new
