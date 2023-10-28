@@ -19,7 +19,7 @@ public class Scooter {
     private String licensePLate;
     @Column(nullable = false)
     private Boolean available;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Ubication ubication;
 
     public Scooter(ScooterRequestDTO requestDTO) {

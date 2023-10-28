@@ -4,6 +4,7 @@ import com.ScootersApp.Service.DTOs.User.request.UserRequest;
 import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
 import com.ScootersApp.Service.DTOs.userAccount.request.UserAccountRequestDTO;
+import com.ScootersApp.Service.DTOs.userAccount.response.UserAccountResponseDTO;
 import com.ScootersApp.Service.UserService;
 import com.ScootersApp.domain.DisableDTO;
 import jakarta.validation.Valid;
@@ -29,8 +30,7 @@ public class UserController {
     }
 
     @PostMapping("")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity createUser(@RequestBody UserRequest user) throws Exception {
+    public ResponseEntity<Long> createUser(@RequestBody UserRequest user) throws Exception {
         System.out.println(user);
         return  this.service.save(user);
     }
@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateUser(@RequestBody @Valid UserRequest userRequest, @PathVariable Long id){
+    public ResponseEntity<Long> updateUser(@RequestBody @Valid UserRequest userRequest, @PathVariable Long id){
         return this.service.updateUser(userRequest, id);
     }
 
@@ -49,6 +49,7 @@ public class UserController {
    //public ResponseEntity<UserLoginResponseDTO> login(@RequestBody UserLoginRequest user){
         //UserLoginResponseDTO userRequest = this.service.findByMailAndPassword(user.getMail(), user.getPassword());
     //}
+
     @GetMapping("/login/{email}")
     public ResponseEntity<UserLoginResponseDTO> login(@PathVariable String email){
         return this.service.findByMail(email);
@@ -60,18 +61,17 @@ public class UserController {
     }*/
 
     @GetMapping("/{id}")
-    public UserResponseDTO getByID(@PathVariable Long id){
+    public ResponseEntity<UserResponseDTO> getByID(@PathVariable Long id){
         return this.service.findByID(id);
     }
 
     @PostMapping("/{id}/account/{idAccount}")
-    public ResponseEntity saveNewUserAccount(@PathVariable Long id, @PathVariable Long idAccount){
+    public ResponseEntity<UserAccountResponseDTO> saveNewUserAccount(@PathVariable Long id, @PathVariable Long idAccount){
         return this.service.saveNewUserAccount(id, idAccount);
     }
 
     @PutMapping("/{mail}/disable")
-    public ResponseEntity disableUser(@PathVariable String mail, @RequestBody DisableDTO status){
-        System.out.println(mail);
+    public ResponseEntity<String> disableUser(@PathVariable String mail, @RequestBody Boolean status){
         System.out.println(status);
         return this.service.disableUser(mail, status);
     }
