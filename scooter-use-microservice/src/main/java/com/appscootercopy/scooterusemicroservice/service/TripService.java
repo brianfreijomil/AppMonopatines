@@ -3,6 +3,7 @@ import com.appscootercopy.scooterusemicroservice.domain.ScooterTrip;
 import com.appscootercopy.scooterusemicroservice.domain.Trip;
 import com.appscootercopy.scooterusemicroservice.repository.ScooterTripRepository;
 import com.appscootercopy.scooterusemicroservice.repository.TripRepository;
+import com.appscootercopy.scooterusemicroservice.service.dto.scooterTrip.response.ScooterTripResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.trip.request.TripRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.trip.response.TripResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.exception.ConflictExistException;
@@ -84,6 +85,15 @@ public class TripService {
         else {
             throw new NotFoundException("Trip", "Id", id);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public ScooterTripResponseDTO findScooterTripByTripId(Long id) {
+        ScooterTrip scooterTrip = this.scooterTripRepository.findById_IdTrip_Id(id);
+        if(scooterTrip!=null) {
+            return new ScooterTripResponseDTO(scooterTrip);
+        }
+        throw new NotFoundException("ScooterTrip", "IdTrip", id);
     }
 
 }

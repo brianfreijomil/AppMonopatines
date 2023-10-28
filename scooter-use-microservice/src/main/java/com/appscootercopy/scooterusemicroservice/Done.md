@@ -12,18 +12,20 @@
 
 - SAVE (done)
 - DELETE (done)
-- DELETE BY deleteScooter()
+- DELETE due deleteScooter()
 - UPDATE (done)
 - GET (done)
 - GET ALL (done)
 
 # ScooterTrip
 
-- SAVE (process)
-- DELETE (done) (delete by deleteScooter and deleteTrip)
-- UPDATE (Not done)
-- GET (Not Done)
-- GET ALL (not done)
+- SAVE (done)
+- DELETE (done) (delete due deleteScooter and deleteTrip)
+- UPDATE (not done)
+- GET (done)
+- GET ALL (done)
+- - GET ALL BY SCOOTER (done)
+- - GET BY TRIP (done)
 
 # ScooterStop
 
@@ -38,5 +40,5 @@
 - SAVE (done)
 - DELETE (done)
 - UPDATE (done)
-- GET (Not done)
-- GET ALL (Not done)
+- GET (done)
+- GET ALL (done)

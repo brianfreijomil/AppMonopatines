@@ -1,6 +1,8 @@
 package com.appscootercopy.scooterusemicroservice.controller;
 
+import com.appscootercopy.scooterusemicroservice.domain.ScooterStop;
 import com.appscootercopy.scooterusemicroservice.service.TripService;
+import com.appscootercopy.scooterusemicroservice.service.dto.scooterTrip.response.ScooterTripResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.trip.request.TripRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.trip.response.TripResponseDTO;
 import jakarta.validation.Valid;
@@ -43,5 +45,10 @@ public class TripController {
     @DeleteMapping("/{id}")
     public void deleteTrip(@PathVariable Long id){
         this.tripService.deleteTrip(id);
+    }
+
+    @GetMapping("/{id}/scooter")
+    public ScooterTripResponseDTO getScooterTripByTripId(@PathVariable Long id) {
+        return this.tripService.findScooterTripByTripId(id);
     }
 }
