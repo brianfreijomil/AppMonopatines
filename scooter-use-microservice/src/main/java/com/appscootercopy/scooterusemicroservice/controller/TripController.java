@@ -20,14 +20,24 @@ public class TripController {
         this.tripService = tripService;
     }
 
+    @GetMapping("/{id}")
+    public TripResponseDTO findTripById(@PathVariable Long id) {
+        return tripService.findTripById(id);
+    }
+
+    @GetMapping("/")
+    public List<TripResponseDTO> findAllTrip() {
+        return tripService.findAllTrip();
+    }
+
     @PostMapping("")
     public ResponseEntity save(@RequestBody @Valid TripRequestDTO request) {
         return tripService.saveTrip(request);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateTrip(@RequestBody @Valid TripRequestDTO trip, @PathVariable Long id) {
-        return this.tripService.updateTrip(trip, id);
+    public ResponseEntity updateTrip(@RequestBody @Valid TripRequestDTO request, @PathVariable Long id) {
+        return this.tripService.updateTrip(request, id);
     }
 
     @DeleteMapping("/{id}")
