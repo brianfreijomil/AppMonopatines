@@ -10,7 +10,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ScooterTripRepository extends JpaRepository<ScooterTrip, ScooterTripId> {
+    @Query("SELECT st FROM ScooterTrip st WHERE st.id.idScooter.id =:idScooter")
+    List<ScooterTrip> findAllById_IdScooterId(@Param("idScooter") Long id);
 
-    @Query("DELETE FROM ScooterTrip st WHERE st.id.idScooter =:idScooter")
-    void deleteAllByIdScooter(@Param("idScooter") Long idScooter);
+    @Query("SELECT st FROM ScooterTrip st WHERE st.id.idTrip.id =:tripId")
+    ScooterTrip findById_IdTrip_Id(@Param("tripId") Long id);
 }
