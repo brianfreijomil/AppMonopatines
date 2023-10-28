@@ -1,4 +1,4 @@
-package com.appscootercopy.scooterusemicroservice.service.dto.ubication.request;
+package com.scooter.apiGateway.DTO.scooter.ubication.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
