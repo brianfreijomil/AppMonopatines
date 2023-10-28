@@ -1,4 +1,4 @@
-package Service.DTO;
+package com.appscootercopy.scootermanagementmicroservice.Service.DTO;
 
 public class ScooterKmsDTO {
     private Long id;

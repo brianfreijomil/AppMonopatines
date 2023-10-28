@@ -1,6 +1,9 @@
 package com.scooter.apiGateway.service;
 
+import com.scooter.apiGateway.DTO.DisableDTO;
 import com.scooter.apiGateway.DTO.UserRequestCreateDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,40 +14,37 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class UsersService {
+    private static final String URL = "http://localhost:8081";
 
-    private WebClient webClient;
+    @Autowired
+    private WebClient.Builder webClient;
     private PasswordEncoder passwordEncoder;
 
     public UsersService() {
-<<<<<<< HEAD
-        this.webClient = WebClient.create("http://192.168.208.66:8081");
-=======
-        this.webClient = WebClient.create("http://localhost:8081");
->>>>>>> benja
         this.passwordEncoder = new BCryptPasswordEncoder(16);
     }
 
-    public Mono<ResponseEntity<Void>> disableUsers(String email){
-        return webClient.post()
-                .uri("/api/users/disable")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(email)
+    public ResponseEntity disableUsers(String email, DisableDTO value){
+        ResponseEntity res = this.webClient.build()
+                .put()
+                .uri("http://localhost:8081/api/users/{email}/disable", email)
+                .bodyValue(value)
                 .retrieve()
-                .toBodilessEntity();
+                .toEntity(String.class)
+                .block();
+
+        return res;
     }
 
-    public Mono<ResponseEntity<Long>> createUsers(UserRequestCreateDTO user) {
+    public ResponseEntity createUsers(UserRequestCreateDTO user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        System.out.println(user);
-        return webClient.post()
-<<<<<<< HEAD
-                .uri("/api/users")
-=======
-                .uri("/api/users/")
->>>>>>> benja
-                .contentType(MediaType.APPLICATION_JSON)
+       ResponseEntity res = webClient.build()
+                .post()
+                .uri(URL + "/api/users")
                 .bodyValue(user)
                 .retrieve()
-                .toEntity(Long.class);
+                .toEntity(String.class)
+                .block();
+        return res;
     }
 }

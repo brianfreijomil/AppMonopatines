@@ -46,6 +46,9 @@ public class JWTFilter extends OncePerRequestFilter {
         String email = jwtUtill.getUserName(token);
         User user = (User) userSecurityService.loadUserByUsername(email);
 
+        System.out.println("usuario filter");
+        System.out.println(user);
+
         //4. CARGAR USUARIO EN EL CONTEXTO DE SEGURIDAD
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 user.getUsername(), user.getPassword(), user.getAuthorities());

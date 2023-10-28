@@ -1,7 +1,9 @@
 package com.scooter.apiGateway.controller;
 
+import com.scooter.apiGateway.DTO.UserRequestCreateDTO;
 import com.scooter.apiGateway.DTO.UserRequestDTO;
 import com.scooter.apiGateway.DTO.UserResponseDTO;
+import com.scooter.apiGateway.service.UsersService;
 import com.scooter.apiGateway.utils.JWTUtill;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -24,11 +27,14 @@ public class AuthController {
 
     private PasswordEncoder passwordEncoder;
 
+    private UsersService usersService;
 
-    public AuthController(AuthenticationManager authenticationManager, JWTUtill jwtUtill) {
+
+    public AuthController(AuthenticationManager authenticationManager, JWTUtill jwtUtill, UsersService usersService) {
+        this.usersService = usersService;
         this.authenticationManager = authenticationManager;
         this.jwtUtill = jwtUtill;
-        this.webClient = WebClient.create("http://192.168.208.66:8081");
+        this.webClient = WebClient.create("http://localhost:8081");
         this.passwordEncoder = new BCryptPasswordEncoder(16);
     }
 
@@ -36,7 +42,7 @@ public class AuthController {
     public ResponseEntity login(@RequestBody @Valid UserRequestDTO user){
         UserResponseDTO userDTO = webClient
                 .get()
-                .uri("/api/users/login/" + user.getMail())
+                .uri("/api/users/login/{email}", user.getMail())
                 .retrieve()
                 .bodyToMono(UserResponseDTO.class)
                 .block();
@@ -46,5 +52,10 @@ public class AuthController {
             return ResponseEntity.ok().header("Authorization", jwt).build();
         }
     return new ResponseEntity("invalid user", HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/")
+    public ResponseEntity createUser(@RequestBody UserRequestCreateDTO user){
+        return this.usersService.createUsers(user);
     }
 }

@@ -137,11 +137,16 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity disableUser(String mail, Boolean status) {
+    public ResponseEntity disableUser(String mail, DisableDTO status) {
         User u = this.repository.findByMail(mail);
         if(u!=null){
-            u.setAvailable(status);
-            return new ResponseEntity(u.getMail(), HttpStatus.OK);
+            if(status.getValue() == 1) {
+                u.setAvailable(true);
+            }else {
+                u.setAvailable(false);
+            }
+
+            return new ResponseEntity(u.getMail(), HttpStatus.ACCEPTED);
         }
         else
             throw new NotFoundException("User", "User_mail(String)", u.getMail());

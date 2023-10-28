@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableMethodSecurity(securedEnabled = true)
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig {
 
     private final JWTFilter jwtFilter;
@@ -32,8 +32,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> {
                     authorize
                             .requestMatchers(HttpMethod.POST, "api/auth/**").permitAll() //le digo q todos los post a auth no requieran la authenticion
-                            .requestMatchers(HttpMethod.POST, "api/users/").permitAll()
-                            .requestMatchers(HttpMethod.GET, "api/admin/hola").hasRole("admin")
+                            .requestMatchers("api/admin/**").hasRole("admin")
+                            .requestMatchers( "api/users/**").hasRole("admin")
+                            .requestMatchers( "api/scooter/**").hasRole("admin")
                             .anyRequest()
                             .authenticated();
                 } )

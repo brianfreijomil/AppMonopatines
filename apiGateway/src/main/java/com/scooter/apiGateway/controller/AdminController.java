@@ -14,7 +14,6 @@ import com.scooter.apiGateway.service.Constants;
 public class AdminController {
 
     @GetMapping("/hello")
-    @PreAuthorize("hasRole('" + Constants.ADMIN + "')")
     public ResponseEntity hello(){
         return new ResponseEntity("Hello Admin", HttpStatus.OK);
     }

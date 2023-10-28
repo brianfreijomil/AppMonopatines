@@ -3,6 +3,7 @@ package com.scooter.apiGateway.service;
 import com.scooter.apiGateway.DTO.UserDTO;
 import com.scooter.apiGateway.DTO.UserRequestDTO;
 import com.scooter.apiGateway.DTO.UserResponseDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,46 +17,45 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class UserSecurityService implements UserDetailsService {
 
-    private WebClient webClient;
+    @Autowired
+    private WebClient.Builder webClient;
+    private static final String URL = "http://localhost:8081";
 
     public UserSecurityService() {
-        this.webClient = WebClient.create("http://192.168.121.66:8081");;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserResponseDTO userDTO = this.webClient
+        UserResponseDTO userDTO = this.webClient.build()
                 .get()
-                .uri("/api/users/login/" + username)
+                .uri(URL + "/api/users/login/{email}", username)
                 .retrieve()
                 .bodyToMono(UserResponseDTO.class)
                 .block();
 
-        String [] rolesUser = new String[userDTO.getRoles().size()-1];
 
-        for(int i = 0; i < userDTO.getRoles().size()-1; i++){
-            rolesUser[i] = userDTO.getRoles().get(i);
-        }
-
+        System.out.println(userDTO);
+        System.out.println(grantedAuthorities(userDTO.getRoles()));
         return User.builder()
                 .username(userDTO.getMail())
                 .password(userDTO.getPassword())
-                .authorities(this.grantedAuthorities(rolesUser))
+                .authorities(this.grantedAuthorities(userDTO.getRoles()))
                 .accountLocked(false)
                 .disabled(false)
                 .build();
     }
 
 
-    private List<GrantedAuthority> grantedAuthorities(String[] roles) {
-        List<GrantedAuthority> authorities = new ArrayList<>(roles.length);
+    private List<GrantedAuthority> grantedAuthorities(List<String> roles) {
+        List<GrantedAuthority> authorities = new ArrayList<>(roles.size());
 
         for (String role: roles) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + role));

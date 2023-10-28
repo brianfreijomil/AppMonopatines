@@ -1,4 +1,4 @@
-package com.scooter.apiGateway.DTO;
+package com.ScootersApp.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

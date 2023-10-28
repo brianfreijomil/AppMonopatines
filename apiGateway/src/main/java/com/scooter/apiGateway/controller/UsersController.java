@@ -1,9 +1,12 @@
 package com.scooter.apiGateway.controller;
 
+import com.scooter.apiGateway.DTO.DisableDTO;
 import com.scooter.apiGateway.DTO.UserDTO;
 import com.scooter.apiGateway.DTO.UserRequestCreateDTO;
 import com.scooter.apiGateway.DTO.UserRequestDTO;
+import com.scooter.apiGateway.service.Constants;
 import com.scooter.apiGateway.service.UsersService;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -19,36 +22,10 @@ public class UsersController {
         this.usersService = usersService;
     }
 
-    @PostMapping("/{email}/disable")
-    public Mono<ResponseEntity> disableUser(@PathVariable String email, @RequestBody boolean status){
-        System.out.println(status);
-        return this.usersService.disableUsers(email)
-                .map(voidResponseEntity -> {
-                    if(voidResponseEntity.getStatusCode().is2xxSuccessful()){
-                        return new ResponseEntity("The user with email: " + email, voidResponseEntity.getStatusCode());
-                    }
-
-                    return new ResponseEntity("Error", voidResponseEntity.getStatusCode());
-                });
+    @PutMapping("/{email}/disable")
+    public ResponseEntity disableUser(@PathVariable String email, @RequestBody DisableDTO status){
+        return this.usersService.disableUsers(email, status);
     }
 
-    @PostMapping("/")
-    public Mono<ResponseEntity<?>> createUser(@RequestBody UserRequestCreateDTO user){
-<<<<<<< HEAD
-        return this.usersService.createUsers(user)
-                .map(voidResponseEntity -> {
-                    if(voidResponseEntity.getStatusCode().is2xxSuccessful()){
-                        return new ResponseEntity("User created ", voidResponseEntity.getStatusCode());
-=======
 
-        return this.usersService.createUsers(user)
-                .map(voidResponseEntity -> {
-                    if(voidResponseEntity.getStatusCode().is2xxSuccessful()){
-                        return new ResponseEntity("User created id +" + voidResponseEntity.getBody(), voidResponseEntity.getStatusCode());
->>>>>>> benja
-                    }
-
-                    return new ResponseEntity("Error", voidResponseEntity.getStatusCode());
-                });
-    }
 }
