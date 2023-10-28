@@ -2,6 +2,7 @@ package com.appscootercopy.scooterusemicroservice.service;
 import com.appscootercopy.scooterusemicroservice.domain.*;
 import com.appscootercopy.scooterusemicroservice.repository.*;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.ScooterRequestDTO;
+import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.ReportUseScootersByKmsDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.ScooterResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.request.ScooterStopRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.response.ScooterStopResponseDTO;
@@ -107,6 +108,13 @@ public class ScooterService {
             }
         }
         throw new NotFoundException("Scooter", "Id", idScooter);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReportUseScootersByKmsDTO> findUseScootersByKms() {
+        return scooterTripRepository.findAllByKms()
+                .stream()
+                .map(r-> new ReportUseScootersByKmsDTO(r.getId(),r.getLicensePlate(),r.getAvailable(),r.getCountTrips(),r.getKms())).collect(Collectors.toList());
     }
 
     /*-------------------------------------------------------------------------------------*/

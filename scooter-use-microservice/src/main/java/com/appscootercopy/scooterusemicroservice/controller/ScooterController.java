@@ -2,6 +2,7 @@ package com.appscootercopy.scooterusemicroservice.controller;
 
 import com.appscootercopy.scooterusemicroservice.service.ScooterService;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.ScooterRequestDTO;
+import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.ReportUseScootersByKmsDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.ScooterResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.request.ScooterStopRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.response.ScooterStopResponseDTO;
@@ -47,6 +48,12 @@ public class ScooterController {
     @PutMapping("/{id}")
     public ResponseEntity updateScooter(@RequestBody @Valid ScooterRequestDTO request, @PathVariable Long id){
         return this.scooterService.updateScooter(request, id);
+    }
+
+    //Generar reporte de uso de monopatines por kilómetros
+    @GetMapping("/report")
+    public List<ReportUseScootersByKmsDTO> getReportUseScootersByKms() {
+        return this.scooterService.findUseScootersByKms();
     }
 
     @GetMapping("/stops/{ubicationId}")
