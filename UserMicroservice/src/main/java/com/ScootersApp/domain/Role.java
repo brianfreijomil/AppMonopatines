@@ -11,16 +11,10 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Role {
 
     @Id
     private String tipo;
-
-    @ManyToOne
-    @JoinColumn(name = "id")
-    User user;
-
     public Role(String tipo) {
         this.tipo = tipo;
     }

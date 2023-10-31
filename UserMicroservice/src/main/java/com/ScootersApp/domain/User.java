@@ -25,10 +25,10 @@ public class User {
     private String password;
     @Column(nullable = false)
     private String phoneNumber;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @ManyToMany
     private List<Role> roles;
-    @Column(columnDefinition = "boolean default true")
-    private Boolean available;
+    @Column(columnDefinition = "Integer default 1")
+    private int available;
 
     public User(UserRequest newUser){
         this.name = newUser.getName();

@@ -32,7 +32,7 @@ public class AccountController {
     }
 
     @GetMapping("/{id}/users") //get associated users from the account
-    public List<UserAccountResponseDTO> getAllUserAccountsByUserId(@PathVariable Long id){
+    public List<UserAccountResponseDTO> getAllUserAccountsByAccountId(@PathVariable Long id){
         return accountService.findAllUserAccounByAccountId(id);
     }
 
@@ -53,7 +53,7 @@ public class AccountController {
         return accountService.updateAccount(request,id);
     }
 
-    @GetMapping("/{id}/user")
+    @GetMapping("/{id}/users")
     public List<UserAccountResponseDTO> getUserAccountByAccountId(@PathVariable Long id){
         return this.accountService.getUserAccountByUserId(id);
     }
