@@ -16,4 +16,14 @@ public interface ScooterTripRepository extends JpaRepository<ScooterTrip, Scoote
     @Query("SELECT st FROM ScooterTrip st WHERE st.id.idTrip.id =:tripId")
     ScooterTrip findById_IdTrip_Id(@Param("tripId") Long id);
 
+    @Query("SELECT s.id AS id, s.licensePLate AS licensePlate, s.available AS available" +
+            ", COUNT(st.id.idTrip.id) AS countTrips" +
+            ", SUM(t.kms) AS kms " +
+            "FROM ScooterTrip st " +
+            "JOIN st.id.idScooter s " +
+            "JOIN st.id.idTrip t " +
+            "GROUP BY id, licensePlate, available " +
+            "ORDER BY kms DESC")
+    List<ScootersByKmsInterface> findAllByKms();
+
 }

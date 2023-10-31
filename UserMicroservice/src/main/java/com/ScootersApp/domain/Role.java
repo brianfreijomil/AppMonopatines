@@ -1,10 +1,12 @@
 package com.ScootersApp.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.persistence.criteria.Fetch;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -13,5 +15,13 @@ import lombok.NoArgsConstructor;
 public class Role {
 
     @Id
-    private String id;
+    private String tipo;
+
+    @ManyToOne
+    @JoinColumn(name = "id")
+    User user;
+
+    public Role(String tipo) {
+        this.tipo = tipo;
+    }
 }

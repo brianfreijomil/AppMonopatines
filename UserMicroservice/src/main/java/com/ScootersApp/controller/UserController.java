@@ -1,5 +1,6 @@
 package com.ScootersApp.controller;
 
+import com.ScootersApp.Service.DTOs.Role.request.RoleRequest;
 import com.ScootersApp.Service.DTOs.User.request.UserRequest;
 import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("api/users")
 public class UserController {
 
     private UserService service;
@@ -29,8 +30,8 @@ public class UserController {
         return this.service.findAll();
     }
 
-    @PostMapping("")
-    public ResponseEntity<Long> createUser(@RequestBody UserRequest user) throws Exception {
+    @PostMapping("/")
+    public ResponseEntity createUser(@RequestBody @Valid UserRequest user){
         System.out.println(user);
         return  this.service.save(user);
     }
@@ -68,6 +69,10 @@ public class UserController {
     @PostMapping("/{id}/account/{idAccount}")
     public ResponseEntity<UserAccountResponseDTO> saveNewUserAccount(@PathVariable Long id, @PathVariable Long idAccount){
         return this.service.saveNewUserAccount(id, idAccount);
+    }
+    @GetMapping("/{id}/account")
+    public List<UserAccountResponseDTO> getUserAccountByUserId(@PathVariable Long id){
+        return this.service.getUserAccountByUserId(id);
     }
 
     @PutMapping("/{mail}/disable")

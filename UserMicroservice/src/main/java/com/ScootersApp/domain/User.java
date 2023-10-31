@@ -13,6 +13,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id",nullable = false)
     private Long ID;
     @Column(nullable = false)
     private String name;
@@ -24,7 +25,7 @@ public class User {
     private String password;
     @Column(nullable = false)
     private String phoneNumber;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<Role> roles;
     @Column(columnDefinition = "boolean default true")
     private Boolean available;
