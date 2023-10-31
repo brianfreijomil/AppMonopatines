@@ -7,6 +7,7 @@ import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
 import com.ScootersApp.Service.DTOs.userAccount.request.UserAccountRequestDTO;
 import com.ScootersApp.Service.DTOs.userAccount.response.UserAccountResponseDTO;
 import com.ScootersApp.Service.UserService;
+import com.ScootersApp.domain.DisableDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +53,6 @@ public class UserController {
 
     @GetMapping("/login/{email}")
     public ResponseEntity<UserLoginResponseDTO> login(@PathVariable String email){
-        System.out.println(email);
         return this.service.findByMail(email);
     }
 

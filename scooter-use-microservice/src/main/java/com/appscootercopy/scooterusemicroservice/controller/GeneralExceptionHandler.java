@@ -3,6 +3,7 @@ package com.appscootercopy.scooterusemicroservice.controller;
 import com.appscootercopy.scooterusemicroservice.service.exception.ConflictExistException;
 import com.appscootercopy.scooterusemicroservice.service.exception.ErrorDTO;
 import com.appscootercopy.scooterusemicroservice.service.exception.NotFoundException;
+import com.appscootercopy.scooterusemicroservice.service.exception.UniqueException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -21,6 +22,11 @@ public class GeneralExceptionHandler {
 
     @ExceptionHandler(ConflictExistException.class)
     public ResponseEntity conflictExistException(ConflictExistException exception) {
+        return new ResponseEntity(new ErrorDTO(exception.getMessage()), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UniqueException.class)
+    public ResponseEntity uniqueException(UniqueException exception) {
         return new ResponseEntity(new ErrorDTO(exception.getMessage()), HttpStatus.CONFLICT);
     }
 

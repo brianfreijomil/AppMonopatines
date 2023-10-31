@@ -19,49 +19,35 @@ import java.sql.Timestamp;
 public class CsvReader {
     private ScooterRepository scooterRepository;
     private TripRepository tripRepository;
-    private UbicationRepository ubicationRepository;
     private ScooterStopRepository scooterStopRepository;
     private ScooterTripRepository scooterTripRepository;
     private static final String userDir =
             System.getProperty("user.dir") + "/src/main/java/com/appscootercopy/scooterusemicroservice/service/loadData/";
 
     @Autowired
-    public CsvReader(ScooterRepository sr, TripRepository tr, UbicationRepository ur,
-                     ScooterStopRepository ssr, ScooterTripRepository str) throws IOException, SQLException {
+    public CsvReader(ScooterRepository sr, TripRepository tr, ScooterStopRepository ssr,
+                     ScooterTripRepository str) throws IOException, SQLException {
         this.scooterRepository = sr;
         this.tripRepository = tr;
-        this.ubicationRepository = ur;
         this.scooterStopRepository = ssr;
         this.scooterTripRepository = str;
     }
 
     public void load() throws SQLException, IOException {
-        this.loadUbication();
         this.loadScooterStop();
         this.loadScooter();
         this.loadTrip();
         this.loadScooterTrip();
     }
 
-    private void loadUbication() throws IOException, SQLException {
-        CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new
-                FileReader(userDir + "ubication.csv"));
-        for (CSVRecord row : parser) {
-            Double x = Double.valueOf(row.get("x"));
-            Double y = Double.valueOf(row.get("y"));
-            Ubication ubication = new Ubication(x,y);
-            ubicationRepository.save(ubication);
-        }
-    }
-
     private void loadScooterStop() throws IOException, SQLException {
         CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new
                 FileReader(userDir + "scooter_stop.csv"));
         for (CSVRecord row : parser) {
-            Long ubicationId = Long.valueOf(row.get("ubication_id"));
-            //isn't correct...
-            Ubication ubicationExisting = ubicationRepository.findById(ubicationId).get();
-            ScooterStop scooterStop = new ScooterStop(ubicationExisting);
+            Double x = Double.valueOf(row.get("x"));
+            Double y = Double.valueOf(row.get("y"));
+            Ubication ubication = new Ubication(x,y);
+            ScooterStop scooterStop = new ScooterStop(ubication);
             scooterStopRepository.save(scooterStop);
         }
     }
@@ -72,9 +58,10 @@ public class CsvReader {
         for (CSVRecord row : parser) {
             String licensePlate = String.valueOf(row.get("license_plate"));
             Boolean available = Boolean.valueOf(row.get("available"));
-            Long ubicationId = Long.valueOf(row.get("ubication_id"));
-            Ubication ubicationExisting = ubicationRepository.findById(ubicationId).get();
-            Scooter scooter = new Scooter(licensePlate, available, ubicationExisting);
+            Double ubicx = Double.valueOf(row.get("x"));
+            Double ubicy = Double.valueOf(row.get("y"));
+            Ubication ubication = new Ubication(ubicx,ubicy);
+            Scooter scooter = new Scooter(licensePlate, available, ubication);
             scooterRepository.save(scooter);
         }
     }

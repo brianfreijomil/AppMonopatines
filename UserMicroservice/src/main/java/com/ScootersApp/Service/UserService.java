@@ -48,6 +48,7 @@ public class UserService {
     public ResponseEntity save(UserRequest user){
         if(!this.repository.existsByMail(user.getMail())){
             User newUser= new User(user);
+            System.out.println("llego al save");
             List<Role> roles = new ArrayList<>();
             for(String s: user.getRoles()){
                 Role r = this.roleRepository.findById(s).get();
