@@ -6,6 +6,7 @@ import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
 import com.ScootersApp.Service.DTOs.userAccount.response.UserAccountResponseDTO;
 import com.ScootersApp.Service.exception.ConflictExistException;
+import com.ScootersApp.Service.exception.ConflictWithStatusException;
 import com.ScootersApp.Service.exception.NotFoundException;
 import com.ScootersApp.domain.*;
 import com.ScootersApp.repository.AccountRepository;
@@ -143,14 +144,26 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<String> disableUser(String mail, Boolean status) {
+    public ResponseEntity<String> disableUser(String mail) {
         User u = this.repository.findByMail(mail);
-        if(u!=null){
-                u.setAvailable(status);
-            return new ResponseEntity(u.getMail(), HttpStatus.ACCEPTED);
+        if(u.getAvailable()==1){
+            u.setAvailable(0);
+            return new ResponseEntity(u.getMail(), HttpStatus.OK);
         }
         else{
-            throw new NotFoundException("User", "User_mail(String)", u.getMail());
+            throw new ConflictWithStatusException("User", "user.available", u.getAvailable());
+        }
+    }
+
+    @Transactional
+    public ResponseEntity<String> enableUser(String mail) {
+        User u = this.repository.findByMail(mail);
+        if(u.getAvailable()==0){
+            u.setAvailable(1);
+            return new ResponseEntity(u.getMail(), HttpStatus.OK);
+        }
+        else{
+            throw new ConflictWithStatusException("User", "user.available", u.getAvailable());
         }
     }
 
@@ -166,6 +179,28 @@ public class UserService {
         }
         else {
             throw new NotFoundException("User", "User_id(Long)", id);
+        }
+    }
+
+    public List<UserAccountResponseDTO> getAllUserAccount() {
+        List<UserAccount> userAccounts = this.userAccountRepository.findAll();
+        return userAccounts.stream().map(ua1-> new UserAccountResponseDTO(ua1)).collect(Collectors.toList());
+    }
+
+    public void deleteUserAccount(Long id, Long idAccount) {
+        if(this.repository.existsById(id)){
+            User u = this.repository.findById(id).get();
+            if(this.accountRepository.existsById(idAccount)){
+                Account a = this.accountRepository.findById(idAccount).get();
+                UserAccountID userAccountID = new UserAccountID(u, a);
+                this.userAccountRepository.deleteById(userAccountID);
+            }
+            else {
+                throw new NotFoundException("Account", "Account.id", idAccount);
+            }
+        }
+        else {
+            throw new NotFoundException("User", "User.id", id);
         }
     }
 }

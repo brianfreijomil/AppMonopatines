@@ -76,8 +76,22 @@ public class UserController {
     }
 
     @PutMapping("/{mail}/disable")
-    public ResponseEntity<String> disableUser(@PathVariable String mail, @RequestBody Boolean status){
-        System.out.println(status);
-        return this.service.disableUser(mail, status);
+    public ResponseEntity<String> disableUser(@PathVariable String mail){
+        return this.service.disableUser(mail);
+    }
+
+    @PutMapping("/{mail}/enable")
+    public ResponseEntity<String> enableUser(@PathVariable String mail){
+        return this.service.enableUser(mail);
+    }
+
+    @GetMapping("/accounts")
+    public List<UserAccountResponseDTO> getAllUserAccount(){
+        return this.service.getAllUserAccount();
+    }
+
+    @DeleteMapping("/{id}/account/{idAccount}")
+    public void deleteUserAccount(@PathVariable Long id, @PathVariable Long idAccount){
+        this.service.deleteUserAccount(id, idAccount);
     }
 }
