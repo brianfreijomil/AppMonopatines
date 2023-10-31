@@ -90,7 +90,7 @@ public class UserController {
         return this.service.getAllUserAccount();
     }
 
-    @DeleteMapping("/{id}/account/{idAccount}")
+    @DeleteMapping("/{id}/accounts/{idAccount}")
     public void deleteUserAccount(@PathVariable Long id, @PathVariable Long idAccount){
         this.service.deleteUserAccount(id, idAccount);
     }

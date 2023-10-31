@@ -8,6 +8,7 @@ import com.ScootersApp.Service.DTOs.userAccount.response.UserAccountResponseDTO;
 import com.ScootersApp.Service.exception.ConflictExistException;
 import com.ScootersApp.Service.exception.ConflictWithStatusException;
 import com.ScootersApp.Service.exception.NotFoundException;
+import com.ScootersApp.Service.exception.ReferencedRowException;
 import com.ScootersApp.domain.*;
 import com.ScootersApp.repository.AccountRepository;
 import com.ScootersApp.repository.RoleRepository;
@@ -74,7 +75,13 @@ public class UserService {
     @Transactional
     public void deleteUser(Long id) {
         if(this.repository.existsById(id)){
-            this.repository.deleteById(id);
+            List<UserAccount> accounts = this.userAccountRepository.findAllById_User(id);
+            if(accounts.isEmpty()){
+                this.repository.deleteById(id);
+            }
+            else{
+                throw new ReferencedRowException("User", "UserAccount", "ID", id);
+            }
         }
         else
             throw new NotFoundException("User","ID",id);

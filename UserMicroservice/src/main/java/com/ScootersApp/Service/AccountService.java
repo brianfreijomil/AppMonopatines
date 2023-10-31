@@ -102,5 +102,4 @@ public class AccountService {
             throw new NotFoundException("Account", "Account_id(Long)", id);
         }
     }
-    }
 }
