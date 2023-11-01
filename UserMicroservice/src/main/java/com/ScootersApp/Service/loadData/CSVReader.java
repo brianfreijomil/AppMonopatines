@@ -1,5 +1,6 @@
 package com.ScootersApp.Service.loadData;
 
+import com.ScootersApp.Service.UserService;
 import com.ScootersApp.domain.*;
 import com.ScootersApp.repository.AccountRepository;
 import com.ScootersApp.repository.RoleRepository;
@@ -24,14 +25,17 @@ public class CSVReader {
     private AccountRepository accountRepository;
     private RoleRepository roleRepository;
 
+    private UserService userService;
+
     private static final String userDir =
             System.getProperty("user.dir") + "/src/main/java/com/ScootersApp/Service/loadData/";
 
-    public CSVReader(RoleRepository roleRepository,UserAccountRepository userAccountRepository, UserRepository userRepository, AccountRepository accountRepository) throws IOException, SQLException {
+    public CSVReader(RoleRepository roleRepository,UserAccountRepository userAccountRepository, UserRepository userRepository, AccountRepository accountRepository, UserService userService) throws IOException, SQLException {
         this.userAccountRepository = userAccountRepository;
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
         this.roleRepository = roleRepository;
+        this.userService = userService;
     }
 
     public void load() throws SQLException, IOException {
@@ -55,6 +59,7 @@ public class CSVReader {
     private void loadUser() throws IOException, SQLException {
         CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new
                 FileReader(userDir + "User.csv"));
+
         CSVParser parserRol = CSVFormat.DEFAULT.withHeader().parse(new
                 FileReader(userDir + "Roles.csv"));
 
@@ -77,6 +82,7 @@ public class CSVReader {
 
             User user = new User(name,surname,mail,password,phoneNumber, roleRepository.findById(randomRole).get());
             userRepository.save(user);
+            userService.enableUser(user.getMail());
         }
     }
 

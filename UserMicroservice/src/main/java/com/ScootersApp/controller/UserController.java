@@ -70,12 +70,11 @@ public class UserController {
 
         return this.service.getUserByMail(mail);
     }
-
-    @PostMapping("/{id}/account/{idAccount}")
-    public ResponseEntity<UserAccountResponseDTO> saveNewUserAccount(@PathVariable Long id, @PathVariable Long idAccount){
-        return this.service.saveNewUserAccount(id, idAccount);
+    @PostMapping("/accounts/")
+    public ResponseEntity<UserAccountResponseDTO> saveNewUserAccount(@RequestBody @Valid UserAccountRequestDTO userAccountRequest){
+        return this.service.saveNewUserAccount(userAccountRequest);
     }
-    @GetMapping("/{id}/account")
+    @GetMapping("/{id}/accounts")
     public List<UserAccountResponseDTO> getUserAccountByUserId(@PathVariable Long id){
         return this.service.getUserAccountByUserId(id);
     }

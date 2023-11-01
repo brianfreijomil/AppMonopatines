@@ -4,6 +4,7 @@ import com.ScootersApp.Service.DTOs.Role.request.RoleRequest;
 import com.ScootersApp.Service.DTOs.User.request.UserRequest;
 import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
+import com.ScootersApp.Service.DTOs.userAccount.request.UserAccountRequestDTO;
 import com.ScootersApp.Service.DTOs.userAccount.response.UserAccountResponseDTO;
 import com.ScootersApp.Service.exception.ConflictExistException;
 import com.ScootersApp.Service.exception.ConflictWithStatusException;
@@ -57,7 +58,7 @@ public class UserService {
             }
             newUser.setRoles(roles);
             this.repository.save(newUser);
-            this.enableUser(user.getMail());
+            this.enableUser(newUser.getMail());
             System.out.println(newUser);
             return new ResponseEntity(newUser.getID(), HttpStatus.CREATED);
         }
@@ -116,11 +117,11 @@ public class UserService {
         return new ResponseEntity(new UserLoginResponseDTO(u), HttpStatus.CREATED);
     }
     @Transactional
-    public ResponseEntity<UserAccountResponseDTO> saveNewUserAccount(Long idUser, Long idAccount) {
-        if(this.repository.existsById(idUser)){
-            User u = this.repository.findById(idUser).get();
-            if(this.accountRepository.existsById(idAccount)){
-                Account a = this.accountRepository.findById(idAccount).get();
+    public ResponseEntity<UserAccountResponseDTO> saveNewUserAccount(UserAccountRequestDTO userAccountRequest) {
+        if(this.repository.existsById(userAccountRequest.getUserID())){
+            User u = this.repository.findById(userAccountRequest.getUserID()).get();
+            if(this.accountRepository.existsById(userAccountRequest.getAccountId())){
+                Account a = this.accountRepository.findById(userAccountRequest.getAccountId()).get();
                 UserAccountID userAccountID = new UserAccountID(u, a);
                 if(!this.userAccountRepository.existsById(userAccountID)){
                     UserAccount userAccount = new UserAccount(userAccountID);
@@ -132,11 +133,11 @@ public class UserService {
                 }
             }
             else{
-                throw new NotFoundException("Account", "Id)", idAccount);
+                throw new NotFoundException("Account", "Id)", userAccountRequest.getAccountId());
             }
         }
         else{
-            throw new NotFoundException("User", "Id", idUser);
+            throw new NotFoundException("User", "Id", userAccountRequest.getUserID());
         }
     }
 
