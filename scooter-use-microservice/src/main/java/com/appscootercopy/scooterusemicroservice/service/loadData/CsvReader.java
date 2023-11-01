@@ -21,22 +21,24 @@ public class CsvReader {
     private TripRepository tripRepository;
     private ScooterStopRepository scooterStopRepository;
     private ScooterTripRepository scooterTripRepository;
+    private TariffRepository tariffRepository;
     private static final String userDir =
             System.getProperty("user.dir") + "/src/main/java/com/appscootercopy/scooterusemicroservice/service/loadData/";
 
     @Autowired
     public CsvReader(ScooterRepository sr, TripRepository tr, ScooterStopRepository ssr,
-                     ScooterTripRepository str) throws IOException, SQLException {
+                     ScooterTripRepository str, TariffRepository tariffRepository) throws IOException, SQLException {
         this.scooterRepository = sr;
         this.tripRepository = tr;
         this.scooterStopRepository = ssr;
         this.scooterTripRepository = str;
+        this.tariffRepository = tariffRepository;
     }
 
     public void load() throws SQLException, IOException {
         this.loadScooterStop();
         this.loadScooter();
-        this.loadTrip();
+        this.loadTariff();
         this.loadScooterTrip();
     }
 
@@ -66,7 +68,15 @@ public class CsvReader {
         }
     }
 
-    private void loadTrip() throws IOException, SQLException {
+    private void loadTariff() throws IOException, SQLException {
+        Tariff t = new Tariff(200.2,true, 1L);
+        Tariff tExtra = new Tariff(50.2,true, 2L);
+        tariffRepository.save(t);
+        tariffRepository.save(tExtra);
+        loadTrip(t);
+    }
+
+    private void loadTrip(Tariff t) throws IOException, SQLException {
         CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new
                 FileReader(userDir + "trip.csv"));
         for (CSVRecord row : parser) {
@@ -75,7 +85,7 @@ public class CsvReader {
             Timestamp endTime = Timestamp.valueOf(row.get("end_time"));
             Double kms = Double.valueOf(row.get("kms"));
             Boolean ended = Boolean.valueOf(row.get("ended"));
-            Trip trip = new Trip(id, initTime, endTime, kms, ended);
+            Trip trip = new Trip(id, initTime, endTime, kms, ended, t);
             tripRepository.save(trip);
         }
     }

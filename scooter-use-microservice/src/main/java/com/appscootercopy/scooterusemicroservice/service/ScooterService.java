@@ -2,13 +2,13 @@ package com.appscootercopy.scooterusemicroservice.service;
 import com.appscootercopy.scooterusemicroservice.domain.*;
 import com.appscootercopy.scooterusemicroservice.repository.*;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.ScooterRequestDTO;
-import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.ReportUseScootersByKmsDTO;
-import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.ScooterResponseDTO;
+import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.*;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.request.ScooterStopRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.response.ScooterStopResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterTrip.request.ScooterTripRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterTrip.response.ScooterTripResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.trip.response.TripResponseDTO;
+import com.appscootercopy.scooterusemicroservice.service.dto.ubication.request.UbicationRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.response.UbicationResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.exception.ConflictExistException;
 import com.appscootercopy.scooterusemicroservice.service.exception.NotFoundException;
@@ -54,6 +54,20 @@ public class ScooterService {
     public List<ScooterResponseDTO> findAllScooter() {
         List<Scooter> scooters = scooterRepository.findAll();
         return scooters.stream().map(s1-> new ScooterResponseDTO(s1)).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public ReportAvailabilityDTO findCountScooterByAvailability() {
+        Long cantAvailables = this.scooterRepository.findCountScootersAvailables(true).getCant();
+        Long cantNotAvailables = this.scooterRepository.findCountScootersAvailables(false).getCant();
+        return new ReportAvailabilityDTO(cantAvailables,cantNotAvailables);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ScooterResponseDTO> findAllScooterCloseToMe(UbicationRequestDTO request) {
+        List<Scooter> scooters = scooterRepository.findAllCloseToMe(request.getX(), request.getY(), 5.0, 5.0);
+        return scooters.stream()
+                .map(s1-> new ScooterResponseDTO(s1)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -117,7 +131,21 @@ public class ScooterService {
                 .map(r-> new ReportUseScootersByKmsDTO(r.getId(),r.getLicensePlate(),r.getAvailable(),r.getCountTrips(),r.getKms())).collect(Collectors.toList());
     }
 
-    /*-------------------------------------------------------------------------------------*/
+    @Transactional(readOnly = true)
+    public List<ReportUseScootersByTimeCcPauses> findUseScootersByTimeCcPauses() {
+        return scooterTripRepository.findAllByTimeCcPauses()
+                .stream()
+                .map(r-> new ReportUseScootersByTimeCcPauses(r.getId(),r.getLicensePlate(),r.getAvailable(),r.getCountTrips(),r.getKms())).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReportUseScootersByTimeOutPauses> findUseScootersByTimeOutPauses() {
+        return scooterTripRepository.findAllByTimeWithoutPauses()
+                .stream()
+                .map(r-> new ReportUseScootersByTimeOutPauses(r.getId(),r.getLicensePlate(),r.getAvailable(),r.getCountTrips(),r.getKms())).collect(Collectors.toList());
+    }
+
+
 
     @Transactional(readOnly = true)
     public ScooterTripResponseDTO findScooterTripById(Long idScooter, Long idTrip) {
@@ -173,8 +201,6 @@ public class ScooterService {
         }
         throw new NotFoundException("Scooter", "Id", request.getScooterId());
     }
-
-    /*-------------------------------------------------------------------------------------*/
 
     @Transactional(readOnly = true)
     public ScooterStopResponseDTO findScooterStopByUbication(Long ubicationId) {
@@ -237,8 +263,6 @@ public class ScooterService {
         throw new NotFoundException("ScooterStop", "Id", idScooterStop);
     }
 
-    /*-------------------------------------------------------------------------------------*/
-
     @Transactional(readOnly = true)
     public UbicationResponseDTO findUbicationById(Long id) {
         return ubicationRepository.findById(id)
@@ -251,10 +275,5 @@ public class ScooterService {
         List<Ubication> ubications = ubicationRepository.findAll();
         return ubications.stream().map(u-> new UbicationResponseDTO(u)).collect(Collectors.toList());
     }
-
-    //ABM UBICATION
-    // SAVE : AUTOMATICO CON SCOOTER Y SCOOTERSTOP
-    // UPDATE : AUTOMATICO CON SCOOTER Y SCOOTERSTOP
-    // DELETE : AUTOMATICO CON SCOOTER Y SOOTERSTOP
 
 }
