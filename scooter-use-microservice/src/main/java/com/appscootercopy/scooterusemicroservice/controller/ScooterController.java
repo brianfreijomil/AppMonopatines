@@ -2,12 +2,12 @@ package com.appscootercopy.scooterusemicroservice.controller;
 
 import com.appscootercopy.scooterusemicroservice.service.ScooterService;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.ScooterRequestDTO;
-import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.ReportUseScootersByKmsDTO;
-import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.ScooterResponseDTO;
+import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.*;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.request.ScooterStopRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.response.ScooterStopResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterTrip.request.ScooterTripRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterTrip.response.ScooterTripResponseDTO;
+import com.appscootercopy.scooterusemicroservice.service.dto.ubication.request.UbicationRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.response.UbicationResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +35,16 @@ public class ScooterController {
         return this.scooterService.findAllScooter();
     }
 
+    @GetMapping("/availability")
+    public ReportAvailabilityDTO getCountScooterByAvailability(){
+        return this.scooterService.findCountScooterByAvailability();
+    }
+
+    @GetMapping("/close")
+    public List<ScooterResponseDTO> getAllScooterCloseToMe(@RequestBody @Valid UbicationRequestDTO request){
+        return this.scooterService.findAllScooterCloseToMe(request);
+    }
+
     @PostMapping("")
     public ResponseEntity saveScooter(@RequestBody @Valid ScooterRequestDTO request){
         return scooterService.saveScooter(request);
@@ -50,10 +60,19 @@ public class ScooterController {
         return this.scooterService.updateScooter(request, id);
     }
 
-    //Generar reporte de uso de monopatines por kilómetros
-    @GetMapping("/report")
+    @GetMapping("/report/kms")
     public List<ReportUseScootersByKmsDTO> getReportUseScootersByKms() {
         return this.scooterService.findUseScootersByKms();
+    }
+
+    @GetMapping("/report/pauses")
+    public List<ReportUseScootersByTimeCcPauses> getReportUseScootersByTimeCcPauses() {
+        return this.scooterService.findUseScootersByTimeCcPauses();
+    }
+
+    @GetMapping("/report/non&pauses")
+    public List<ReportUseScootersByTimeOutPauses> getReportUseScootersByTimeOutPauses() {
+        return this.scooterService.findUseScootersByTimeOutPauses();
     }
 
     @GetMapping("/stops/{ubicationId}")
