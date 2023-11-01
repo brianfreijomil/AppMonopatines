@@ -62,11 +62,11 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 			<version>4.0.2</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>com.ScootersApp</groupId>
 			<artifactId>UserMicroservice</artifactId>

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("RoleController")
+@RestController("RolesController")
 @RequestMapping("api/roles")
 public class RoleController {
 
@@ -20,11 +20,10 @@ public class RoleController {
     }
     @PostMapping("/")
     public ResponseEntity createRole(@RequestBody @Valid RoleRequest role){
-        System.out.println(role);
         return  this.service.save(role);
     }
 
-    @GetMapping("")
+    @GetMapping("/")
     public List<RoleResponseDTO> getAllRoles(){
         return  this.service.findAll();
     }

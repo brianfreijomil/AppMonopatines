@@ -24,13 +24,13 @@ public class RoleService {
 
     @Transactional
     public ResponseEntity save(RoleRequest role){
-        if(!this.repository.existsByTipo(role.getTipo())){
-            Role newRole = new Role(role.getTipo());
+        if(!this.repository.existsByType(role.getType())){
+            Role newRole = new Role(role.getType());
             this.repository.save(newRole);
-            return new ResponseEntity(newRole.getTipo(), HttpStatus.CREATED);
+            return new ResponseEntity(newRole.getType(), HttpStatus.CREATED);
         }
         else {
-            throw new ConflictExistException("Role", "tipo(String)", role.getTipo());
+            throw new ConflictExistException("Role", "tipo(String)", role.getType());
         }
     }
 

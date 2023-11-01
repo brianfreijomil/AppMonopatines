@@ -21,7 +21,7 @@ public class AccountController {
         this.accountService=accountService;
     }
 
-    @PostMapping("")
+    @PostMapping("/")
     public ResponseEntity save(@RequestBody @Valid AccountRequestDTO request){
         return accountService.save(request);
     }
@@ -53,9 +53,9 @@ public class AccountController {
         return accountService.updateAccount(request,id);
     }
 
-    @GetMapping("/{id}/users")
+    /*@GetMapping("/{id}/users")
     public List<UserAccountResponseDTO> getUserAccountByAccountId(@PathVariable Long id){
         return this.accountService.getUserAccountByUserId(id);
-    }
+    }*/
 
 }

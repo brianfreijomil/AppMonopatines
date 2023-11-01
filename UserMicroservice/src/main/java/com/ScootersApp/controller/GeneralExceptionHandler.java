@@ -9,7 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
-@RestControllerAdvice(basePackages = "com.ScootersApp/controller")
+@RestControllerAdvice(basePackages = "com.ScootersApp.controller")
 public class GeneralExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)

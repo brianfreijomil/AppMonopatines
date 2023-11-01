@@ -27,7 +27,7 @@ public class UserResponseDTO {
         this.roles = new ArrayList<>();
         ArrayList<String> rol = new ArrayList<>();
         for (Role r: s1.getRoles()) {
-                rol.add(r.getTipo());
+                rol.add(r.getType());
         }
         this.roles.addAll(rol);
     }
