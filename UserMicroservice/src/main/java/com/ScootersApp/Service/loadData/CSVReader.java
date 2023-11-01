@@ -1,10 +1,8 @@
 package com.ScootersApp.Service.loadData;
 
-import com.ScootersApp.domain.Account;
-import com.ScootersApp.domain.User;
-import com.ScootersApp.domain.UserAccount;
-import com.ScootersApp.domain.UserAccountID;
+import com.ScootersApp.domain.*;
 import com.ScootersApp.repository.AccountRepository;
+import com.ScootersApp.repository.RoleRepository;
 import com.ScootersApp.repository.UserAccountRepository;
 import com.ScootersApp.repository.UserRepository;
 import org.springframework.stereotype.Component;
@@ -15,6 +13,8 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Random;
 
 
 @Component
@@ -22,33 +22,60 @@ public class CSVReader {
     private UserAccountRepository userAccountRepository;
     private UserRepository userRepository;
     private AccountRepository accountRepository;
+    private RoleRepository roleRepository;
+
     private static final String userDir =
             System.getProperty("user.dir") + "/src/main/java/com/ScootersApp/Service/loadData/";
 
-    public CSVReader(UserAccountRepository userAccountRepository, UserRepository userRepository, AccountRepository accountRepository) throws IOException, SQLException {
+    public CSVReader(RoleRepository roleRepository,UserAccountRepository userAccountRepository, UserRepository userRepository, AccountRepository accountRepository) throws IOException, SQLException {
         this.userAccountRepository = userAccountRepository;
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
+        this.roleRepository = roleRepository;
     }
 
-    /*public void load() throws SQLException, IOException {
+    public void load() throws SQLException, IOException {
+        this.loadRoles();
         this.loadUser();
         this.loadAccount();
         this.loadUserAccount();
     }
 
+    private void loadRoles() throws IOException, SQLException {
+        CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new
+                FileReader(userDir + "Roles.csv"));
+        for (CSVRecord row : parser) {
+            String type = String.valueOf(row.get("type"));
+
+            Role role = new Role(type);
+            roleRepository.save(role);
+        }
+    }
+
     private void loadUser() throws IOException, SQLException {
         CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new
                 FileReader(userDir + "User.csv"));
+        CSVParser parserRol = CSVFormat.DEFAULT.withHeader().parse(new
+                FileReader(userDir + "Roles.csv"));
+
+        ArrayList<String> roles = new ArrayList<>();
+
+        for (CSVRecord row : parserRol) {
+            String type = String.valueOf(row.get("type"));
+            roles.add(type);
+        }
+
         for (CSVRecord row : parser) {
             String name = String.valueOf(row.get("name"));
             String surname = String.valueOf(row.get("sur_name"));
             String mail = String.valueOf(row.get("mail"));
             String password = String.valueOf(row.get("password"));
             String phoneNumber = String.valueOf(row.get("phone_number"));
-            String role = String.valueOf(row.get("role"));
 
-            User user = new User(name,surname,mail,password,phoneNumber,role);
+            Random role = new Random();
+            String randomRole = roles.get(role.nextInt(0, roles.size()-1));
+
+            User user = new User(name,surname,mail,password,phoneNumber, roleRepository.findById(randomRole).get());
             userRepository.save(user);
         }
     }
@@ -80,5 +107,5 @@ public class CSVReader {
             UserAccount UserAccount = new UserAccount(userAccountID);
             userAccountRepository.save(UserAccount);
         }
-    }*/
+    }
 }

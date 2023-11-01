@@ -48,7 +48,6 @@ public class UserService {
     public ResponseEntity save(UserRequest user){
         if(!this.repository.existsByMail(user.getMail())){
             User newUser= new User(user);
-            System.out.println("llego al save");
             List<Role> roles = new ArrayList<>();
             for(String s: user.getRoles()){
                 Role r = this.roleRepository.findById(s).get();
@@ -58,10 +57,13 @@ public class UserService {
             }
             newUser.setRoles(roles);
             this.repository.save(newUser);
+            this.enableUser(user.getMail());
             System.out.println(newUser);
             return new ResponseEntity(newUser.getID(), HttpStatus.CREATED);
         }
-        throw new ConflictExistException("User", "mail", user.getMail());
+        else {
+            throw new ConflictExistException("User", "mail", user.getMail());
+        }
     }
 
     @Transactional(readOnly = true)
@@ -80,11 +82,11 @@ public class UserService {
                 this.repository.deleteById(id);
             }
             else{
-                throw new ReferencedRowException("User", "UserAccount", "ID", id);
+                throw new ReferencedRowException("User", "UserAccount", "Id", id);
             }
         }
         else
-            throw new NotFoundException("User","ID",id);
+            throw new NotFoundException("User","Id",id);
     }
     @Transactional
     public ResponseEntity<Long> updateUser(UserRequest userRequest, Long id) {
@@ -105,7 +107,7 @@ public class UserService {
             return new ResponseEntity(user.getID(), HttpStatus.ACCEPTED);
         }
         else{
-            throw new NotFoundException("User","ID_User(Long)",id);
+            throw new NotFoundException("User","Id",id);
         }
      }
     @Transactional(readOnly = true)
@@ -126,15 +128,15 @@ public class UserService {
                     return new ResponseEntity(userAccount.getId(), HttpStatus.CREATED);
                 }
                 else {
-                    throw new ConflictExistException("UserAccount", "ID", userAccountID);
+                    throw new ConflictExistException("UserAccount", "Id", userAccountID);
                 }
             }
             else{
-                throw new NotFoundException("Account", "ID_Account(Long)", idAccount);
+                throw new NotFoundException("Account", "Id)", idAccount);
             }
         }
         else{
-            throw new NotFoundException("User", "ID_User(Long)", idUser);
+            throw new NotFoundException("User", "Id", idUser);
         }
     }
 
@@ -208,6 +210,16 @@ public class UserService {
         }
         else {
             throw new NotFoundException("User", "User.id", id);
+        }
+    }
+
+    public ResponseEntity<UserResponseDTO> getUserByMail(String mail) {
+        if(this.repository.existsByMail(mail)){
+            User u = this.repository.findByMail(mail);
+            return new ResponseEntity<>(new UserResponseDTO(u), HttpStatus.OK);
+        }
+        else {
+            throw new NotFoundException("User", "mail", mail);
         }
     }
 }

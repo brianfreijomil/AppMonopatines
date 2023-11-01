@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 public class RoleResponseDTO {
-    private String tipo;
+    private String type;
 
     public RoleResponseDTO(Role role) {
-        this.tipo = role.getTipo();
+        this.type = role.getType();
     }
 }

@@ -14,8 +14,8 @@ import java.util.List;
 public class Role {
 
     @Id
-    private String tipo;
-    public Role(String tipo) {
-        this.tipo = tipo;
+    private String type;
+    public Role(String type) {
+        this.type = type;
     }
 }

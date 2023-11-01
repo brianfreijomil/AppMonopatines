@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RoleRequest {
 
-    @NotNull(message = "id cannot be null")
-    @NotEmpty(message = "id cannot be empty")
-    private String tipo;
+    @NotNull(message = "type cannot be null")
+    @NotEmpty(message = "type cannot be empty")
+    private String type;
 }
