@@ -4,6 +4,9 @@ GET ALL: http://localhost:8081/microuser/api/users/
 SAVE: http://localhost:8081/microuser/api/users/
 DELETE: http://localhost:8081/microuser/api/users/id
 UPDATE: http://localhost:8081/microuser/api/users/id
+PUT: http://localhost:8081/microuser/api/users/id
+PUT (disable user): http://localhost:8081/microuser/api/users/mail/disable
+PUT (enable user): http://localhost:8081/microuser/api/users/mail/enable
 
 USER JSON EXAMPLE:
 
@@ -48,13 +51,14 @@ ROLE JSON EXAMPLE:
 # USERACCOUNT ENDPOINTS
 GET ALL: http://localhost:8081/microuser/api/users/accounts/
 GET BY ACCOUNT : http://localhost:8081/microuser/api/accounts/{id}/users
-GET BY USER: http://localhost:8081/microuser/api/users/{id}/account
-SAVE: http://localhost:8081/microuser/api/users/{id}/accounts/{idAccount}
+GET BY USER: http://localhost:8081/microuser/api/users/{id}/accounts
+SAVE: http://localhost:8081/microuser/api/users/accounts/
 DELETE: http://localhost:8081/microuser/api/users/{id}/accounts/{idAccount}
 
 USERACCOUNT JSON EXAMPLE
 
 {
-"accountID": 11,
-"userID": 18
+"accountId":19,
+"userID":1
 }
+    

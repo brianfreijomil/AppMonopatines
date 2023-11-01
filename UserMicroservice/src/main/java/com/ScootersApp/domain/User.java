@@ -27,7 +27,7 @@ public class User {
     private String phoneNumber;
     @ManyToMany
     private List<Role> roles;
-    @Column( nullable = false, columnDefinition = "int default 1")
+    @Column(nullable = false, columnDefinition = "int default 1")
     private int available;
 
     public User(UserRequest newUser){

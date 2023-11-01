@@ -1,5 +1,8 @@
 package com.ScootersApp.Service.exception;
 
+import lombok.Getter;
+
+@Getter
 public class ConflictWithStatusException extends RuntimeException{
     private String message;
 
