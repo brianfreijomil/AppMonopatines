@@ -5,16 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c86b65f-897e-4f8f-ae6a-36e028eecd8c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservices.user/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservices.user/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservices.user/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservices.user/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservices.user/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservices.user/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservices.user/HELP.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservices.user/target/classes/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scooter-management-microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/scooter-management-microservice/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,12 +45,15 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/monte/OneDrive/Escritorio/AppMonopatines/scooter-management-microservice",
+    "last_opened_file_path": "C:/Users/Cacha/Desktop/AppMonopatines/api-gateway",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -73,7 +68,9 @@
   </component>
   <component name="RunManager" selected="Spring Boot.ApiGatewayApplication">
     <configuration name="ApiGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="apiGateway" />
+      <option name="ALTERNATIVE_JRE_PATH" value="openjdk-21" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <module name="AppMonopatines" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.scooter.apiGateway.ApiGatewayApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -98,6 +95,9 @@
       <workItem from="1697654686842" duration="2875000" />
       <workItem from="1697901873905" duration="538000" />
       <workItem from="1698242732246" duration="911000" />
+      <workItem from="1698809108825" duration="646000" />
+      <workItem from="1698849443186" duration="166000" />
+      <workItem from="1698849628654" duration="244000" />
     </task>
     <servers />
   </component>

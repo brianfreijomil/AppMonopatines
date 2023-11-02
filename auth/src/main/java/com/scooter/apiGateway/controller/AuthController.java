@@ -1,6 +1,8 @@
 package com.scooter.apiGateway.controller;
 
 import com.scooter.apiGateway.DTO.*;
+import com.scooter.apiGateway.domain.Role;
+import com.scooter.apiGateway.domain.User;
 import com.scooter.apiGateway.repository.UserRepository;
 import com.scooter.apiGateway.utils.JWTUtill;
 import jakarta.persistence.EntityManagerFactory;
@@ -10,7 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+
+
+import java.util.ArrayList;
+import java.util.List;import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
@@ -30,20 +38,17 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid UserRequestDTO user){
-        UserDto userDto = this.userRepository.getUser(user.getMail());
-        if(userDto!= null && passwordEncoder.matches(user.getPassword(), userDto.getPassword())){
-            String token = this.jwtUtill.createToken(userDto.getEmail(), userDto.getRoles());
+        System.out.println(user);
+        User u = this.userRepository.findByMail(user.getMail());
+        if(u!= null && passwordEncoder.matches(user.getPassword(), u.getPassword())){
+            List<String> rolesUser = new ArrayList<>();
+            for (Role role : u.getRoles()){
+                rolesUser.add(role.getType());
+            }
+            String token = this.jwtUtill.createToken(u.getMail(), rolesUser);
             return new ResponseEntity(token, HttpStatus.OK);
         }
         return new ResponseEntity("invalid user", HttpStatus.NOT_FOUND);
-    }
-
-    @GetMapping("/valid")
-    public ResponseEntity validToken(@RequestBody String token){
-        if(this.jwtUtill.isValid(token)){
-
-        }
-        return new ResponseEntity("Token invalid", HttpStatus.UNAUTHORIZED);
     }
 
 }

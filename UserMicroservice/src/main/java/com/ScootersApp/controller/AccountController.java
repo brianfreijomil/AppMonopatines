@@ -53,16 +53,5 @@ public class AccountController {
         return accountService.updateAccount(request,id);
     }
 
-<<<<<<< HEAD
-    //@GetMapping("/{id}/users")
-    //public List<UserAccountResponseDTO> getUserAccountByAccountId(@PathVariable Long id){
-      //  return this.accountService.getUserAccountByUserId(id);
-    //}
-=======
-    /*@GetMapping("/{id}/users")
-    public List<UserAccountResponseDTO> getUserAccountByAccountId(@PathVariable Long id){
-        return this.accountService.getUserAccountByUserId(id);
-    }*/
->>>>>>> c24dfbd4d3e3f6fdd8f14f66b5082f461d742c94
 
 }
