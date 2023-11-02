@@ -12,6 +12,7 @@ public class JwtUtill {
     private static final Algorithm ALGORITHM = Algorithm.HMAC256(SECRET_KEY);
     public boolean isValid(String token) {
         try {
+            System.out.println("llego al valid del jwt");
             JWT.require(ALGORITHM)
                     .build()
                     .verify(token);
