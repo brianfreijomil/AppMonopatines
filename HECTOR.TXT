@@ -1,0 +1,15 @@
+Hola hector para que funcione todo 
+1ro - lanzar el discovery-service, este va a levantar el servidor de eureka
+2do - Lanzar api-gateway
+3ro - lanzar UserMicroservice
+4to - lanzar scooter-use-microservice
+
+En UserMicroservice y scooter-use-microservice hay un archivo que dece endpoints.md ahi estan los endpoints de cada uno, todos siempre al puerto 8080
+que es donde se lanza el gateway, el se encarga de redireccionar las peticiones
+
+En los microservicios tenemos las imagenes de docker, te todas formas nosotros testeamos con xampp y pgadmin 
+ya que levantar tantos IDE y dockers... si usas docker, proba de igual manera deberia funciaonar sin inconvenietes
+
+Por otro lado las db estan pobladas
+
+Por si te interesa mirar, en la branch benja, estamos terminando lo de auth, no llegamos a terminarlo para hoy, pero ya quedan detalles finales
