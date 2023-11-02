@@ -16,6 +16,8 @@ import com.ScootersApp.repository.UserAccountRepository;
 import com.ScootersApp.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,11 +33,15 @@ public class UserService {
     UserAccountRepository userAccountRepository;
     RoleRepository roleRepository;
 
+    private PasswordEncoder passwordEncoder;
+
+
     public UserService(UserAccountRepository userAccountRepository, UserRepository repository, AccountRepository accountRepository, RoleRepository roleRepository) {
         this.repository = repository;
         this.userAccountRepository = userAccountRepository;
         this.accountRepository = accountRepository;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = new BCryptPasswordEncoder(16);
     }
 
     @Transactional(readOnly = true)
@@ -46,9 +52,9 @@ public class UserService {
 
     @Transactional
     public ResponseEntity save(UserRequest user){
+        user.setPassword(this.passwordEncoder.encode(user.getPassword()));
         if(!this.repository.existsByMail(user.getMail())){
             User newUser= new User(user);
-            System.out.println("llego al save");
             List<Role> roles = new ArrayList<>();
             for(String s: user.getRoles()){
                 Role r = this.roleRepository.findById(s).get();
@@ -58,7 +64,6 @@ public class UserService {
             }
             newUser.setRoles(roles);
             this.repository.save(newUser);
-            System.out.println(newUser);
             return new ResponseEntity(newUser.getID(), HttpStatus.CREATED);
         }
         throw new ConflictExistException("User", "mail", user.getMail());
@@ -66,10 +71,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserLoginResponseDTO findByMailAndPassword(String mail, String pass) {
-        System.out.println(pass);
-        System.out.println(mail);
         User u = this.repository.findByMail(mail);
-        System.out.println(u);
         return new UserLoginResponseDTO(u);
     }
     @Transactional
@@ -88,6 +90,7 @@ public class UserService {
     }
     @Transactional
     public ResponseEntity<Long> updateUser(UserRequest userRequest, Long id) {
+        userRequest.setPassword(this.passwordEncoder.encode(userRequest.getPassword()));
         if(this.repository.existsById(id)){
             User user = this.repository.findById(id).get();
             user.setName(userRequest.getName());

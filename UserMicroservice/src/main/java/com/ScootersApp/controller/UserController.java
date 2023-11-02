@@ -32,7 +32,6 @@ public class UserController {
 
     @PostMapping("/")
     public ResponseEntity createUser(@RequestBody @Valid UserRequest user){
-        System.out.println(user);
         return  this.service.save(user);
     }
 
