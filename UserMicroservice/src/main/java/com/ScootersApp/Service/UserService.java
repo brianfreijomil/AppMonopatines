@@ -4,6 +4,7 @@ import com.ScootersApp.Service.DTOs.Role.request.RoleRequest;
 import com.ScootersApp.Service.DTOs.User.request.UserRequest;
 import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
+import com.ScootersApp.Service.DTOs.userAccount.request.UserAccountRequestDTO;
 import com.ScootersApp.Service.DTOs.userAccount.response.UserAccountResponseDTO;
 import com.ScootersApp.Service.exception.ConflictExistException;
 import com.ScootersApp.Service.exception.ConflictWithStatusException;
@@ -66,7 +67,9 @@ public class UserService {
             this.repository.save(newUser);
             return new ResponseEntity(newUser.getID(), HttpStatus.CREATED);
         }
-        throw new ConflictExistException("User", "mail", user.getMail());
+        else {
+            throw new ConflictExistException("User", "mail", user.getMail());
+        }
     }
 
     @Transactional(readOnly = true)
@@ -82,11 +85,11 @@ public class UserService {
                 this.repository.deleteById(id);
             }
             else{
-                throw new ReferencedRowException("User", "UserAccount", "ID", id);
+                throw new ReferencedRowException("User", "UserAccount", "Id", id);
             }
         }
         else
-            throw new NotFoundException("User","ID",id);
+            throw new NotFoundException("User","Id",id);
     }
     @Transactional
     public ResponseEntity<Long> updateUser(UserRequest userRequest, Long id) {
@@ -108,7 +111,7 @@ public class UserService {
             return new ResponseEntity(user.getID(), HttpStatus.ACCEPTED);
         }
         else{
-            throw new NotFoundException("User","ID_User(Long)",id);
+            throw new NotFoundException("User","Id",id);
         }
      }
     @Transactional(readOnly = true)
@@ -117,11 +120,11 @@ public class UserService {
         return new ResponseEntity(new UserLoginResponseDTO(u), HttpStatus.CREATED);
     }
     @Transactional
-    public ResponseEntity<UserAccountResponseDTO> saveNewUserAccount(Long idUser, Long idAccount) {
-        if(this.repository.existsById(idUser)){
-            User u = this.repository.findById(idUser).get();
-            if(this.accountRepository.existsById(idAccount)){
-                Account a = this.accountRepository.findById(idAccount).get();
+    public ResponseEntity<UserAccountResponseDTO> saveNewUserAccount(UserAccountRequestDTO userAccountRequest) {
+        if(this.repository.existsById(userAccountRequest.getUserID())){
+            User u = this.repository.findById(userAccountRequest.getUserID()).get();
+            if(this.accountRepository.existsById(userAccountRequest.getAccountId())){
+                Account a = this.accountRepository.findById(userAccountRequest.getAccountId()).get();
                 UserAccountID userAccountID = new UserAccountID(u, a);
                 if(!this.userAccountRepository.existsById(userAccountID)){
                     UserAccount userAccount = new UserAccount(userAccountID);
@@ -129,15 +132,15 @@ public class UserService {
                     return new ResponseEntity(userAccount.getId(), HttpStatus.CREATED);
                 }
                 else {
-                    throw new ConflictExistException("UserAccount", "ID", userAccountID);
+                    throw new ConflictExistException("UserAccount", "Id", userAccountID);
                 }
             }
             else{
-                throw new NotFoundException("Account", "ID_Account(Long)", idAccount);
+                throw new NotFoundException("Account", "Id)", userAccountRequest.getAccountId());
             }
         }
         else{
-            throw new NotFoundException("User", "ID_User(Long)", idUser);
+            throw new NotFoundException("User", "Id", userAccountRequest.getUserID());
         }
     }
 
@@ -211,6 +214,16 @@ public class UserService {
         }
         else {
             throw new NotFoundException("User", "User.id", id);
+        }
+    }
+
+    public ResponseEntity<UserResponseDTO> getUserByMail(String mail) {
+        if(this.repository.existsByMail(mail)){
+            User u = this.repository.findByMail(mail);
+            return new ResponseEntity<>(new UserResponseDTO(u), HttpStatus.OK);
+        }
+        else {
+            throw new NotFoundException("User", "mail", mail);
         }
     }
 }

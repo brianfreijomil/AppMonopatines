@@ -1,15 +1,13 @@
 package com.ScootersApp.controller;
 
-import com.ScootersApp.Service.exception.ConflictExistException;
-import com.ScootersApp.Service.exception.ErrorDTO;
-import com.ScootersApp.Service.exception.NotFoundException;
+import com.ScootersApp.Service.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
-@RestControllerAdvice(basePackages = "com.ScootersApp/controller")
+@RestControllerAdvice(basePackages = "com.ScootersApp.controller")
 public class GeneralExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
@@ -30,5 +28,15 @@ public class GeneralExceptionHandler {
         /*for each FieldError, I get the defaultMessage which is a string and add it to the error list*/
 
         return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ReferencedRowException.class)
+    public ResponseEntity conflictExistException(ReferencedRowException exception) {
+        return new ResponseEntity(new ErrorDTO(exception.getMessage()), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ConflictWithStatusException.class)
+    public ResponseEntity conflictExistException(ConflictWithStatusException exception) {
+        return new ResponseEntity(new ErrorDTO(exception.getMessage()), HttpStatus.CONFLICT);
     }
 }

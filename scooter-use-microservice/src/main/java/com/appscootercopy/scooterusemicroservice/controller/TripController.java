@@ -1,8 +1,10 @@
 package com.appscootercopy.scooterusemicroservice.controller;
 
 import com.appscootercopy.scooterusemicroservice.domain.ScooterStop;
+import com.appscootercopy.scooterusemicroservice.repository.TariffRepository;
 import com.appscootercopy.scooterusemicroservice.service.TripService;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterTrip.response.ScooterTripResponseDTO;
+import com.appscootercopy.scooterusemicroservice.service.dto.tariff.TariffRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.trip.request.TripRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.trip.response.TripResponseDTO;
 import jakarta.validation.Valid;
@@ -50,5 +52,20 @@ public class TripController {
     @GetMapping("/{id}/scooter")
     public ScooterTripResponseDTO getScooterTripByTripId(@PathVariable Long id) {
         return this.tripService.findScooterTripByTripId(id);
+    }
+
+    @PutMapping("/{id}/stops")
+    public void initPause(@PathVariable Long id) {
+        this.tripService.initPause(id);
+    }
+
+    @DeleteMapping("/{id}/stops")
+    public void cancelPause(@PathVariable Long id) {
+        this.tripService.endPause(id);
+    }
+
+    @PostMapping("/tariff")
+    public ResponseEntity save(@RequestBody @Valid TariffRequestDTO request) {
+        return tripService.saveTariff(request);
     }
 }

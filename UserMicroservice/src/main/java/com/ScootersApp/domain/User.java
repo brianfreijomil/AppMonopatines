@@ -27,7 +27,7 @@ public class User {
     private String phoneNumber;
     @ManyToMany
     private List<Role> roles;
-    @Column(columnDefinition = "Integer default 1")
+    @Column(nullable = false, columnDefinition = "int default 1")
     private int available;
 
     public User(UserRequest newUser){
@@ -39,12 +39,13 @@ public class User {
         this.roles = new ArrayList<>();
     }
 
-    public User(String name, String surname, String mail, String password, String phoneNumber) {
+    public User(String name, String surname, String mail, String password, String phoneNumber, Role role) {
         this.name = name;
         this.surname = surname;
         this.mail = mail;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.roles = new ArrayList<>();
+        roles.add(role);
     }
 }

@@ -25,7 +25,7 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping("")
+    @GetMapping("/")
     public List<UserResponseDTO> getAllUsers(){
         return this.service.findAll();
     }
@@ -50,9 +50,9 @@ public class UserController {
         //UserLoginResponseDTO userRequest = this.service.findByMailAndPassword(user.getMail(), user.getPassword());
     //}
 
-    @GetMapping("/login/{email}")
-    public ResponseEntity<UserLoginResponseDTO> login(@PathVariable String email){
-        return this.service.findByMail(email);
+    @GetMapping("/login/{mail}")
+    public ResponseEntity<UserLoginResponseDTO> login(@PathVariable String mail){
+        return this.service.findByMail(mail);
     }
 
     /*@GetMapping("/{mail}")
@@ -60,16 +60,21 @@ public class UserController {
         return this.service.findByMail(mail);
     }*/
 
-    @GetMapping("/{id}")
+   /*@GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getByID(@PathVariable Long id){
         return this.service.findByID(id);
-    }
+    }*/
 
-    @PostMapping("/{id}/account/{idAccount}")
-    public ResponseEntity<UserAccountResponseDTO> saveNewUserAccount(@PathVariable Long id, @PathVariable Long idAccount){
-        return this.service.saveNewUserAccount(id, idAccount);
+    @GetMapping("/{mail}")
+    public ResponseEntity<UserResponseDTO> getByMail(@PathVariable String mail){
+
+        return this.service.getUserByMail(mail);
     }
-    @GetMapping("/{id}/account")
+    @PostMapping("/accounts/")
+    public ResponseEntity<UserAccountResponseDTO> saveNewUserAccount(@RequestBody @Valid UserAccountRequestDTO userAccountRequest){
+        return this.service.saveNewUserAccount(userAccountRequest);
+    }
+    @GetMapping("/{id}/accounts")
     public List<UserAccountResponseDTO> getUserAccountByUserId(@PathVariable Long id){
         return this.service.getUserAccountByUserId(id);
     }
@@ -84,7 +89,7 @@ public class UserController {
         return this.service.enableUser(mail);
     }
 
-    @GetMapping("/accounts")
+    @GetMapping("/accounts/")
     public List<UserAccountResponseDTO> getAllUserAccount(){
         return this.service.getAllUserAccount();
     }
