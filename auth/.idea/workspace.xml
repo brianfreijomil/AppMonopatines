@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6a4d4d9a-be18-4207-a513-31ae2671f85a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../UserMicroservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../UserMicroservice/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../UserMicroservice/src/main/java/com/ScootersApp/Service/loadData/CSVReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../UserMicroservice/src/main/java/com/ScootersApp/Service/loadData/CSVReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../UserMicroservice/src/main/java/com/ScootersApp/UserMicroserviceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../UserMicroservice/src/main/java/com/ScootersApp/UserMicroserviceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../UserMicroservice/src/main/java/com/ScootersApp/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../UserMicroservice/src/main/java/com/ScootersApp/controller/AccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../UserMicroservice/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../UserMicroservice/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/src/main/java/com/apigateway/ApiGatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/src/main/java/com/apigateway/ApiGatewayApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/src/main/java/com/apigateway/config/GatewayConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/src/main/java/com/apigateway/config/GatewayConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/src/main/java/com/apigateway/config/JwtUtill.java" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/src/main/java/com/apigateway/config/JwtUtill.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/src/main/java/com/apigateway/config/RouterValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/src/main/java/com/apigateway/config/RouterValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api-gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../api-gateway/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/scooter/apiGateway/DTO/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/scooter/apiGateway/DTO/UserDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/scooter/apiGateway/DTO/UserRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/scooter/apiGateway/DTO/UserRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/scooter/apiGateway/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/scooter/apiGateway/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/scooter/apiGateway/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/scooter/apiGateway/domain/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/scooter/apiGateway/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/scooter/apiGateway/repository/UserRepository.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2XLuJ8jqnMGhULJ7123e3YjPISP" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "benja",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Cacha/Desktop/AppMonopatines/auth",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.scooter.apiGateway.DTO" />
+      <recent name="com.scooter.apiGateway.service" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Cacha\Desktop\AppMonopatines\apiGateway\src\main\java\com\scooter\apiGateway\DTO\scooterDTOs" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="ApiGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="apiGateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.scooter.apiGateway.ApiGatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ApiGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="apiGateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.scooter.apiGateway.ApiGatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6a4d4d9a-be18-4207-a513-31ae2671f85a" name="Changes" comment="" />
+      <created>1698420613080</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1698420613080</updated>
+      <workItem from="1698420615780" duration="47000" />
+      <workItem from="1698420672997" duration="17185000" />
+      <workItem from="1698505625160" duration="4404000" />
+      <workItem from="1698590262708" duration="2900000" />
+      <workItem from="1698595582323" duration="38000" />
+      <workItem from="1698621763618" duration="3045000" />
+      <workItem from="1698626594155" duration="3875000" />
+      <workItem from="1698809157388" duration="1405000" />
+      <workItem from="1698859291982" duration="14921000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
