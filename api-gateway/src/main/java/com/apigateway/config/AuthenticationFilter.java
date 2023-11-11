@@ -30,17 +30,25 @@ public class AuthenticationFilter implements GatewayFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
-
         if (routerValidator.isSecured.test(request)) {
             if (this.isAuthMissing(request)) {
                 return this.onError(exchange, HttpStatus.UNAUTHORIZED);
             }
 
-            final String token = this.getAuthHeader(request);
+            final String tokenCadena = this.getAuthHeader(request);
+
+            /*
+            * Hago esto ya que tokenCadena me deuelve "bearer token"
+            * y solo necesito el token
+            * */
+            String[] cadena = tokenCadena.split(" ");
+
+            final String token = cadena[1];
 
             if (!jwtUtill.isValid(token)) {
                 return this.onError(exchange, HttpStatus.FORBIDDEN);
             }
+
 
             //logica para los roles
             this.updateRequest(exchange, token);

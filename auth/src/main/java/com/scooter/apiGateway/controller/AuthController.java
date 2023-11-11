@@ -38,7 +38,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid UserRequestDTO user){
-        System.out.println(user);
         User u = this.userRepository.findByMail(user.getMail());
         if(u!= null && passwordEncoder.matches(user.getPassword(), u.getPassword())){
             List<String> rolesUser = new ArrayList<>();
