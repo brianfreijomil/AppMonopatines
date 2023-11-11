@@ -21,6 +21,9 @@ import java.util.List;
 public class UserSecurityService implements UserDetailsService {
 
     private UserRepository userRepository;
+    private List<String> roles;
+
+    private final String hashFakePassword = "$2a$16$p6lo2eRCFAKGrUCVXD9gceSdqtBx7.2CvQ4X3BhQWUrAhYV7lyvRC";
 
     public UserSecurityService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -28,20 +31,17 @@ public class UserSecurityService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        com.ScootersApp.domain.User u = this.userRepository.findByMail(username);
-
-        if(u == null) return null;
-
-        UserLoginResponseDTO userDTO = new UserLoginResponseDTO(u);
-
         return User.builder()
-                .username(userDTO.getMail())
-                .password(userDTO.getPassword())
-                .authorities(this.grantedAuthorities(userDTO.getRoles()))
+                .username(username)
+                .password(this.hashFakePassword)
+                .authorities(this.grantedAuthorities(this.roles))
                 .accountLocked(false)
                 .disabled(false)
                 .build();
+    }
+
+    public void setRoles(List<String> roles){
+        this.roles = roles;
     }
 
 

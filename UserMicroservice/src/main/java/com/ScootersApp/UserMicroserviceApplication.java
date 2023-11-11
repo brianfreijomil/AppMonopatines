@@ -21,6 +21,6 @@ public class UserMicroserviceApplication {
     }
     @PostConstruct
     public void init() throws SQLException, IOException {
-        this.loadDb.load();
+        //this.loadDb.load();
     }
 }

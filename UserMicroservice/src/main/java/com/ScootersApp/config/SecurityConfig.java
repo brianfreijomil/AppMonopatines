@@ -1,5 +1,6 @@
 package com.ScootersApp.config;
 
+import com.ScootersApp.Service.Constants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,7 +33,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> {
                     authorize
                             .requestMatchers(HttpMethod.POST, "api/users/").permitAll()
-                            .requestMatchers( HttpMethod.DELETE,"api/users/{id}").hasRole("admin")
+                            .requestMatchers( HttpMethod.DELETE,"api/users/{id}").hasRole(Constants.ADMIN)
+                            .requestMatchers(HttpMethod.PUT,"api/users/{mail}/disable", "api/users/{mail}/enable").hasRole(Constants.ADMIN)
                             .requestMatchers(  HttpMethod.DELETE,"api/users/login/{email}").permitAll()
                             .anyRequest()
                             .authenticated();

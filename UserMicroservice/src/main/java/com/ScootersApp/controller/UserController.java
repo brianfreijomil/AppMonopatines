@@ -27,6 +27,7 @@ public class UserController {
 
     @GetMapping("/")
     public List<UserResponseDTO> getAllUsers(){
+        System.out.println("llego");
         return this.service.findAll();
     }
 
@@ -45,29 +46,15 @@ public class UserController {
         return this.service.updateUser(userRequest, id);
     }
 
-   // @PostMapping("/login")
-   //public ResponseEntity<UserLoginResponseDTO> login(@RequestBody UserLoginRequest user){
-        //UserLoginResponseDTO userRequest = this.service.findByMailAndPassword(user.getMail(), user.getPassword());
-    //}
 
     @GetMapping("/login/{mail}")
     public ResponseEntity<UserLoginResponseDTO> login(@PathVariable String mail){
         return this.service.findByMail(mail);
     }
 
-    /*@GetMapping("/{mail}")
-    public UserLoginResponseDTO getByMail(@PathVariable String mail){
-        return this.service.findByMail(mail);
-    }*/
-
-   /*@GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> getByID(@PathVariable Long id){
-        return this.service.findByID(id);
-    }*/
 
     @GetMapping("/{mail}")
     public ResponseEntity<UserResponseDTO> getByMail(@PathVariable String mail){
-
         return this.service.getUserByMail(mail);
     }
     @PostMapping("/accounts/")
