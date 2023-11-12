@@ -1,6 +1,6 @@
 package com.appscootercopy.scooterusemicroservice.repository;
 
-public interface ScootersByKmsInterface {
+public interface ReportInterface {
 
     public Long getId();
     public String getLicensePlate();

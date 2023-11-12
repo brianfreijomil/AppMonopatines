@@ -1,12 +1,12 @@
 # User Endpoints
-GET: http://localhost:8081/microuser/api/users/mail
-GET ALL: http://localhost:8081/microuser/api/users/
-SAVE: http://localhost:8081/microuser/api/users/
-DELETE: http://localhost:8081/microuser/api/users/id
-UPDATE: http://localhost:8081/microuser/api/users/id
-PUT: http://localhost:8081/microuser/api/users/id
-PUT (disable user): http://localhost:8081/microuser/api/users/mail/disable
-PUT (enable user): http://localhost:8081/microuser/api/users/mail/enable
+GET: http://localhost:8080/api/users/mail
+GET ALL: http://localhost:8080/api/users/
+SAVE: http://localhost:8080/api/users/
+DELETE: http://localhost:8080/api/users/id
+UPDATE: http://localhost:8080/api/users/id
+PUT: http://localhost:8080/api/users/id
+PUT (disable user): http://localhost:8080/api/users/mail/disable
+PUT (enable user): http://localhost:8080/api/users/mail/enable
 
 USER JSON EXAMPLE:
 
@@ -21,11 +21,11 @@ USER JSON EXAMPLE:
 
 # ACCOUNT ENDPOINTS
 
-GET: http://localhost:8081/microuser/api/accounts/id
-GET ALL: http://localhost:8081/microuser/api/accounts/
-SAVE: http://localhost:8081/microuser/api/accounts/
-DELETE: http://localhost:8081/microuser/api/accounts/id
-UPDATE: http://localhost:8081/microuser/api/accounts/id
+GET: http://localhost:8080/api/accounts/id
+GET ALL: http://localhost:8080/api/accounts/
+SAVE: http://localhost:8080/api/accounts/
+DELETE: http://localhost:8080/api/accounts/id
+UPDATE: http://localhost:8080/api/accounts/id
 
 ACCOUNT JSON EXAMPLE:
 
@@ -38,8 +38,8 @@ ACCOUNT JSON EXAMPLE:
 
 # ROLE ENDPOINTS
 
-GET ALL: http://localhost:8081/microuser/api/roles/
-SAVE: http://localhost:8081/microuser/api/roles/
+GET ALL: http://localhost:8080/api/roles/
+SAVE: http://localhost:8080/api/roles/
 
 ROLE JSON EXAMPLE:
 
@@ -49,11 +49,11 @@ ROLE JSON EXAMPLE:
 
 
 # USERACCOUNT ENDPOINTS
-GET ALL: http://localhost:8081/microuser/api/users/accounts/
-GET BY ACCOUNT : http://localhost:8081/microuser/api/accounts/{id}/users
-GET BY USER: http://localhost:8081/microuser/api/users/{id}/accounts
-SAVE: http://localhost:8081/microuser/api/users/accounts/
-DELETE: http://localhost:8081/microuser/api/users/{id}/accounts/{idAccount}
+GET ALL: http://localhost:8080/api/users/accounts/
+GET BY ACCOUNT : http://localhost:8080/api/accounts/{id}/users
+GET BY USER: http://localhost:8080/api/users/{id}/accounts
+SAVE: http://localhost:8080/api/users/accounts/
+DELETE: http://localhost:8080/api/users/{id}/accounts/{idAccount}
 
 USERACCOUNT JSON EXAMPLE
 

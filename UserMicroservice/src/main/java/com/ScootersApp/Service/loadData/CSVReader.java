@@ -7,6 +7,8 @@ import com.ScootersApp.repository.AccountRepository;
 import com.ScootersApp.repository.RoleRepository;
 import com.ScootersApp.repository.UserAccountRepository;
 import com.ScootersApp.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -27,6 +29,7 @@ public class CSVReader {
     private RoleRepository roleRepository;
 
     private UserService userService;
+    private PasswordEncoder passwordEncoder;
 
     private static final String userDir =
             System.getProperty("user.dir") + "/src/main/java/com/ScootersApp/Service/loadData/";
@@ -37,6 +40,7 @@ public class CSVReader {
         this.accountRepository = accountRepository;
         this.roleRepository = roleRepository;
         this.userService = userService;
+        this.passwordEncoder = new BCryptPasswordEncoder(16);
     }
 
     public void load() throws SQLException, IOException {
@@ -89,7 +93,6 @@ public class CSVReader {
 
             UserRequest ur = new UserRequest(name,surname,mail,password,phoneNumber,userRoles);
             userService.save(ur);
-
         }
     }
 

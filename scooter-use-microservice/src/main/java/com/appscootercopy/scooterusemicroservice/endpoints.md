@@ -1,10 +1,10 @@
 SCOOTER ENDPOINTS:
 
-GET: http://localhost:8080/scooterApp/api/scooters/id
-GET ALL: http://localhost:8080/scooterApp/api/scooters/
-SAVE: http://localhost:8080/scooterApp/api/scooters
-DELETE: http://localhost:8080/scooterApp/api/scooters/id
-UPDATE: http://localhost:8080/scooterApp/api/scooters/id
+GET: http://localhost:8080/api/scooters/id
+GET ALL: http://localhost:8080/api/scooters/
+SAVE: http://localhost:8080/api/scooters
+DELETE: http://localhost:8080/api/scooters/id
+UPDATE: http://localhost:8080/api/scooters/id
 
 EXAMPLE JSON SCOOTER
 
@@ -19,11 +19,11 @@ EXAMPLE JSON SCOOTER
 --------------------------------------------------------------------------------------
 TRIP ENDPOINTS:
 
-GET: http://localhost:8080/scooterApp/api/trips/id
-GET ALL: http://localhost:8080/scooterApp/api/trips/
-SAVE: http://localhost:8080/scooterApp/api/trips
-DELETE: http://localhost:8080/scooterApp/api/trips/id
-UPDATE: http://localhost:8080/scooterApp/api/trips/id
+GET: http://localhost:8080/api/trips/id
+GET ALL: http://localhost:8080/api/trips/
+SAVE: http://localhost:8080/api/trips
+DELETE: http://localhost:8080/api/trips/id
+UPDATE: http://localhost:8080/api/trips/id
 
 EXAMPLE JSON TRIP
 
@@ -37,13 +37,13 @@ EXAMPLE JSON TRIP
 --------------------------------------------------------------------------------------
 SCOOTERTRIP ENDPOINTS:
 
-GET: http://localhost:8080/scooterApp/api/scooters/idScooter/trip/idtrip
-GET BY TRIP: http://localhost:8080/scooterApp/api/trips/id/scooter
-GET ALL: http://localhost:8080/scooterApp/api/scooters/trips
-GET ALL BY SCOOTER: http://localhost:8080/scooterApp/api/scooters/id/trips
-SAVE: http://localhost:8080/scooterApp/api/scooters/trip (request)
-DELETE BY SCOOTER: http://localhost:8080/scooterApp/api/scooters/id
-DELETE BY TRIP: http://localhost:8080/scooterApp/api/trips/id
+GET: http://localhost:8080/api/scooters/idScooter/trip/idtrip
+GET BY TRIP: http://localhost:8080/api/trips/id/scooter
+GET ALL: http://localhost:8080/api/scooters/trips
+GET ALL BY SCOOTER: http://localhost:8080/api/scooters/id/trips
+SAVE: http://localhost:8080/api/scooters/trip (request)
+DELETE BY SCOOTER: http://localhost:8080/api/scooters/id
+DELETE BY TRIP: http://localhost:8080/api/trips/id
 UPDATE: 
 
 EXAMPLE JSON TRIP
@@ -55,11 +55,11 @@ EXAMPLE JSON TRIP
 --------------------------------------------------------------------------------------
 SCOOTERSTOP ENDPOINTS:
 
-GET: http://localhost:8080/scooterApp/api/scooters/stops/id
-GET ALL: http://localhost:8080/scooterApp/api/scooters/stops/
-SAVE: http://localhost:8080/scooterApp/api/scooters/stops
-DELETE: http://localhost:8080/scooterApp/api/scooters/stops/id
-UPDATE: http://localhost:8080/scooterApp/api/scooters/stops/id
+GET: http://localhost:8080/api/scooters/stops/id
+GET ALL: http://localhost:8080/api/scooters/stops/
+SAVE: http://localhost:8080/api/scooters/stops
+DELETE: http://localhost:8080/api/scooters/stops/id
+UPDATE: http://localhost:8080/api/scooters/stops/id
 
 EXAMPLE JSON TRIP
 
@@ -72,5 +72,5 @@ EXAMPLE JSON TRIP
 --------------------------------------------------------------------------------------
 UBICATION ENDPOINTS:
 
-GET: http://localhost:8080/scooterApp/api/scooters/ubications/id
-GET ALL: http://localhost:8080/scooterApp/api/scooters/ubications/
+GET: http://localhost:8080/api/scooters/ubications/id
+GET ALL: http://localhost:8080/api/scooters/ubications/
