@@ -82,13 +82,17 @@ public class CSVReader {
             String password = String.valueOf(row.get("password"));
             String phoneNumber = String.valueOf(row.get("phone_number"));
 
-            Random role = new Random();
-            String randomRole = roles.get(role.nextInt(0, roles.size()-1));
+            Random random = new Random();
+            int i = random.nextInt(0,roles.size()-1);
+            ArrayList<String> userRoles = new ArrayList<>();
 
-            User user = new User(name,surname,mail,password,phoneNumber, roleRepository.findById(randomRole).get());
-            user.setPassword(this.passwordEncoder.encode(user.getPassword()));
-            userRepository.save(user);
+            while (i>=0){
+                    userRoles.add(roles.get(i));
+                    i--;
+            }
 
+            UserRequest ur = new UserRequest(name,surname,mail,password,phoneNumber,userRoles);
+            userService.save(ur);
         }
     }
 
