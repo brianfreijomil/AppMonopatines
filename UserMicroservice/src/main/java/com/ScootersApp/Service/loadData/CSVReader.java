@@ -1,11 +1,14 @@
 package com.ScootersApp.Service.loadData;
 
+import com.ScootersApp.Service.DTOs.User.request.UserRequest;
 import com.ScootersApp.Service.UserService;
 import com.ScootersApp.domain.*;
 import com.ScootersApp.repository.AccountRepository;
 import com.ScootersApp.repository.RoleRepository;
 import com.ScootersApp.repository.UserAccountRepository;
 import com.ScootersApp.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -26,6 +29,7 @@ public class CSVReader {
     private RoleRepository roleRepository;
 
     private UserService userService;
+    private PasswordEncoder passwordEncoder;
 
     private static final String userDir =
             System.getProperty("user.dir") + "/src/main/java/com/ScootersApp/Service/loadData/";
@@ -36,6 +40,7 @@ public class CSVReader {
         this.accountRepository = accountRepository;
         this.roleRepository = roleRepository;
         this.userService = userService;
+        this.passwordEncoder = new BCryptPasswordEncoder(16);
     }
 
     public void load() throws SQLException, IOException {
@@ -77,12 +82,17 @@ public class CSVReader {
             String password = String.valueOf(row.get("password"));
             String phoneNumber = String.valueOf(row.get("phone_number"));
 
-            Random role = new Random();
-            String randomRole = roles.get(role.nextInt(0, roles.size()-1));
+            Random random = new Random();
+            int i = random.nextInt(0,roles.size()-1);
+            ArrayList<String> userRoles = new ArrayList<>();
 
-            User user = new User(name,surname,mail,password,phoneNumber, roleRepository.findById(randomRole).get());
-            userRepository.save(user);
-            userService.enableUser(user.getMail());
+            while (i>=0){
+                    userRoles.add(roles.get(i));
+                    i--;
+            }
+
+            UserRequest ur = new UserRequest(name,surname,mail,password,phoneNumber,userRoles);
+            userService.save(ur);
         }
     }
 
