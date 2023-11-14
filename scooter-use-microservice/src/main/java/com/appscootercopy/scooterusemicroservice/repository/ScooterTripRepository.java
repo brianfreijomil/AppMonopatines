@@ -2,7 +2,8 @@ package com.appscootercopy.scooterusemicroservice.repository;
 
 import com.appscootercopy.scooterusemicroservice.domain.ScooterTrip;
 import com.appscootercopy.scooterusemicroservice.domain.ScooterTripId;
-import org.springframework.data.domain.Example;
+import com.appscootercopy.scooterusemicroservice.repository.interfaces.ReportInterface;
+import com.appscootercopy.scooterusemicroservice.repository.interfaces.ScootersByTripsAndYearInterface;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -47,5 +48,18 @@ public interface ScooterTripRepository extends JpaRepository<ScooterTrip, Scoote
             "GROUP BY id, licensePlate, available " +
             "ORDER BY kms DESC")
     List<ReportInterface> findAllByTimeWithoutPauses();
+
+    @Query("SELECT s.licensePLate AS licensePlate, s.available AS available, " +
+            "COUNT(st.id.idScooter.id) AS countTrips, " +
+            "extract(YEAR FROM t.initTime) AS year " +
+            "FROM ScooterTrip st " +
+            "JOIN st.id.idScooter s " +
+            "JOIN st.id.idTrip t " +
+            "WHERE extract(YEAR FROM t.initTime) =:year " +
+            "GROUP BY s.licensePLate, s.available, year " +
+            "HAVING COUNT(st.id.idScooter.id) >:minTrips " +
+            "ORDER BY countTrips DESC")
+    List<ScootersByTripsAndYearInterface> findAllScooterByTripsAndYear(@Param("minTrips") Long minTrips,
+                                                                       @Param("year") Long year);
 
 }

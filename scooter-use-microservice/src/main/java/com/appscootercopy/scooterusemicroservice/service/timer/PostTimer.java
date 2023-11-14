@@ -1,8 +1,10 @@
 package com.appscootercopy.scooterusemicroservice.service.timer;
 
+import com.appscootercopy.scooterusemicroservice.domain.GeneralPrice;
 import com.appscootercopy.scooterusemicroservice.domain.PauseTrip;
 import com.appscootercopy.scooterusemicroservice.domain.Tariff;
 import com.appscootercopy.scooterusemicroservice.domain.Trip;
+import com.appscootercopy.scooterusemicroservice.repository.GeneralPriceRepository;
 import com.appscootercopy.scooterusemicroservice.repository.TariffRepository;
 import com.appscootercopy.scooterusemicroservice.repository.TripRepository;
 
@@ -17,10 +19,14 @@ public class PostTimer extends TimerTask {
     private Long idTrip;
     private TripRepository tripRepository;
     private TariffRepository tariffRepository;
-    public PostTimer(Long idTrip, TripRepository tr, TariffRepository tariffRepository) {
+    private GeneralPriceRepository priceRepository;
+
+    public PostTimer(Long idTrip, TripRepository tr, TariffRepository tariffRepository,
+                     GeneralPriceRepository pr) {
         this.idTrip=idTrip;
         this.tripRepository=tr;
         this.tariffRepository=tariffRepository;
+        this.priceRepository=pr;
     }
 
     @Override
@@ -34,8 +40,9 @@ public class PostTimer extends TimerTask {
                 Long diff = endPause.getTime() - initPause.getTime();
                 pauseTrip.setTimePause(diff/1000);
                 pauseTrip.setEndPause(endPause);
-                Tariff extra = this.tariffRepository.findByTypeAndAvailable(2L, true);
-                trip.get().setTariffExtra(extra);
+                GeneralPrice generalPrice = this.priceRepository.findByCurrent(true);
+                Tariff tariffExtra = new Tariff(generalPrice.getPriceInterest(), 2L);
+                trip.get().setTariffExtra(tariffExtra);
                 this.tripRepository.save(trip.get());
 
             }

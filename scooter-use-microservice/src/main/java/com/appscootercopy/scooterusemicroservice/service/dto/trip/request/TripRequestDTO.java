@@ -2,6 +2,7 @@ package com.appscootercopy.scooterusemicroservice.service.dto.trip.request;
 
 import com.appscootercopy.scooterusemicroservice.domain.Tariff;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class TripRequestDTO {
     private Double kms;
     @NotNull(message = "endend cannot be null")
     private Boolean ended;
-    @NotNull(message = "tariff cannot be null")
-    private Tariff tariff;
+    @NotNull(message = "endend cannot be null")
+    @NotEmpty(message = "te licenseScooter cannot be empty")
+    private String licenseScooter;
 }

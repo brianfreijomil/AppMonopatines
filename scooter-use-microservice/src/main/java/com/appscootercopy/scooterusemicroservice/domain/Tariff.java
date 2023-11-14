@@ -19,13 +19,10 @@ public class Tariff {
     @Column
     private Double cost;
     @Column
-    private Boolean available;
-    @Column(unique = true)
     private Long type;
 
-    public Tariff(Double cost, Boolean available, Long type) {
+    public Tariff(Double cost, Long type) {
         this.cost=cost;
-        this.available=available;
         this.type=type;
     }
 }

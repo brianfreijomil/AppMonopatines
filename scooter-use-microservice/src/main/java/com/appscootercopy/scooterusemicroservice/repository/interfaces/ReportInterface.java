@@ -1,4 +1,4 @@
-package com.appscootercopy.scooterusemicroservice.repository;
+package com.appscootercopy.scooterusemicroservice.repository.interfaces;
 
 public interface ReportInterface {
 

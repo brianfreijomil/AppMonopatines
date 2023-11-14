@@ -1,7 +1,10 @@
 package com.appscootercopy.scooterusemicroservice.service;
 import com.appscootercopy.scooterusemicroservice.domain.*;
 import com.appscootercopy.scooterusemicroservice.repository.*;
+import com.appscootercopy.scooterusemicroservice.repository.interfaces.ScootersByTripsAndYearInterface;
+import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.EnableScooterRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.ScooterRequestDTO;
+import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.TripsAndYearRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.*;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.request.ScooterStopRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.response.ScooterStopResponseDTO;
@@ -57,10 +60,16 @@ public class ScooterService {
     }
 
     @Transactional(readOnly = true)
+    public List<ScooterResponseDTO> findAllScooterFetchingUbication() {
+        List<Scooter> scooters = scooterRepository.findAllfetchingUbication();
+        return scooters.stream().map(s1-> new ScooterResponseDTO(s1)).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
     public ReportAvailabilityDTO findCountScooterByAvailability() {
-        Long cantAvailables = this.scooterRepository.findCountScootersAvailables(true).getCant();
-        Long cantNotAvailables = this.scooterRepository.findCountScootersAvailables(false).getCant();
-        return new ReportAvailabilityDTO(cantAvailables,cantNotAvailables);
+        Long countAvailables = this.scooterRepository.findCountScootersAvailables(true).getCountScooters();
+        Long countNotAvailables = this.scooterRepository.findCountScootersAvailables(false).getCountScooters();
+        return new ReportAvailabilityDTO(countAvailables,countNotAvailables);
     }
 
     @Transactional(readOnly = true)
@@ -68,6 +77,14 @@ public class ScooterService {
         List<Scooter> scooters = scooterRepository.findAllCloseToMe(request.getX(), request.getY(), 5.0, 5.0);
         return scooters.stream()
                 .map(s1-> new ScooterResponseDTO(s1)).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ScooterByTripsYearResponseDTO> findAllScooterByTripsAndYear(TripsAndYearRequestDTO request) {
+        List<ScootersByTripsAndYearInterface> scooters =
+                this.scooterTripRepository.findAllScooterByTripsAndYear(request.getMinCountTrips(), request.getYear());
+        return scooters.stream()
+                .map(s1-> new ScooterByTripsYearResponseDTO(s1.getLicensePlate(), s1.getAvailable(), s1.getCountTrips(), s1.getYear())).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -122,6 +139,16 @@ public class ScooterService {
             }
         }
         throw new NotFoundException("Scooter", "Id", idScooter);
+    }
+
+    @Transactional
+    public ScooterResponseDTO enableScooter(EnableScooterRequestDTO request, Long id) {
+        Optional<Scooter> scooterExisting = this.scooterRepository.findById(id);
+        if(!scooterExisting.isEmpty()){
+            scooterExisting.get().setAvailable(request.getAvailable());
+            return new ScooterResponseDTO(scooterExisting.get());
+        }
+        throw new NotFoundException("Scooter", "Id", id);
     }
 
     @Transactional(readOnly = true)
@@ -181,6 +208,7 @@ public class ScooterService {
         throw new NotFoundException("Scooter", "Id", idScooter);
     }
 
+    /*
     @Transactional
     public ResponseEntity saveScooterTrip(ScooterTripRequestDTO request) {
         Optional<Scooter> scooterReferenced = this.scooterRepository.findById(request.getScooterId());
@@ -200,7 +228,7 @@ public class ScooterService {
             throw new NotFoundException("Trip", "Id", request.getTripId());
         }
         throw new NotFoundException("Scooter", "Id", request.getScooterId());
-    }
+    }*/
 
     @Transactional(readOnly = true)
     public ScooterStopResponseDTO findScooterStopByUbication(Long ubicationId) {

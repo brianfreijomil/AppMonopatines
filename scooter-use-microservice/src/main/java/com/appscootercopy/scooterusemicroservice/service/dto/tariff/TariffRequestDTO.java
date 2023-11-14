@@ -13,8 +13,6 @@ public class TariffRequestDTO {
     @NotNull(message = "cost cannot be null")
     @Min(value = 200, message ="ID should not be less than 200")
     private Double cost;
-    @NotNull(message = "available cannot be null")
-    private Boolean available;
     @NotNull(message = "type cannot be null")
     private Long type;
 

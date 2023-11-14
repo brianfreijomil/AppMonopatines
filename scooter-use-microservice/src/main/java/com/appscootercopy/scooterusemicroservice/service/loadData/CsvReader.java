@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Component
 public class CsvReader {
@@ -22,23 +23,26 @@ public class CsvReader {
     private ScooterStopRepository scooterStopRepository;
     private ScooterTripRepository scooterTripRepository;
     private TariffRepository tariffRepository;
+    private GeneralPriceRepository pricesRepository;
     private static final String userDir =
             System.getProperty("user.dir") + "/src/main/java/com/appscootercopy/scooterusemicroservice/service/loadData/";
 
     @Autowired
     public CsvReader(ScooterRepository sr, TripRepository tr, ScooterStopRepository ssr,
-                     ScooterTripRepository str, TariffRepository tariffRepository) throws IOException, SQLException {
+                     ScooterTripRepository str, TariffRepository tariffRepository, GeneralPriceRepository pr) throws IOException, SQLException {
         this.scooterRepository = sr;
         this.tripRepository = tr;
         this.scooterStopRepository = ssr;
         this.scooterTripRepository = str;
         this.tariffRepository = tariffRepository;
+        this.pricesRepository = pr;
     }
 
     public void load() throws SQLException, IOException {
         this.loadScooterStop();
         this.loadScooter();
-        this.loadTariff();
+        this.loadPrices();
+        this.loadTrip();
         this.loadScooterTrip();
     }
 
@@ -68,15 +72,12 @@ public class CsvReader {
         }
     }
 
-    private void loadTariff() throws IOException, SQLException {
-        Tariff t = new Tariff(200.2,true, 1L);
-        Tariff tExtra = new Tariff(50.2,true, 2L);
-        tariffRepository.save(t);
-        tariffRepository.save(tExtra);
-        loadTrip(t);
+    private void loadPrices() throws IOException, SQLException {
+        GeneralPrice price = new GeneralPrice(198.5, 30.5, true, Timestamp.valueOf(LocalDateTime.now()));
+        this.pricesRepository.save(price);
     }
 
-    private void loadTrip(Tariff t) throws IOException, SQLException {
+    private void loadTrip() throws IOException, SQLException {
         CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new
                 FileReader(userDir + "trip.csv"));
         for (CSVRecord row : parser) {
@@ -85,7 +86,8 @@ public class CsvReader {
             Timestamp endTime = Timestamp.valueOf(row.get("end_time"));
             Double kms = Double.valueOf(row.get("kms"));
             Boolean ended = Boolean.valueOf(row.get("ended"));
-            Trip trip = new Trip(id, initTime, endTime, kms, ended, t);
+            String scooter = String.valueOf(row.get("licenseScooter"));
+            Trip trip = new Trip(id, initTime, endTime, kms, ended, 198.5, scooter);
             tripRepository.save(trip);
         }
     }

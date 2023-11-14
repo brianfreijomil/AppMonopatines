@@ -1,7 +1,9 @@
 package com.appscootercopy.scooterusemicroservice.controller;
 
 import com.appscootercopy.scooterusemicroservice.service.ScooterService;
+import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.EnableScooterRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.ScooterRequestDTO;
+import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.TripsAndYearRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.*;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.request.ScooterStopRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.response.ScooterStopResponseDTO;
@@ -35,6 +37,11 @@ public class ScooterController {
         return this.scooterService.findAllScooter();
     }
 
+    @GetMapping("/fetching")
+    public List<ScooterResponseDTO> getAllScooterFetch(){
+        return this.scooterService.findAllScooterFetchingUbication();
+    }
+
     @GetMapping("/availability")
     public ReportAvailabilityDTO getCountScooterByAvailability(){
         return this.scooterService.findCountScooterByAvailability();
@@ -60,6 +67,11 @@ public class ScooterController {
         return this.scooterService.updateScooter(request, id);
     }
 
+    @PatchMapping("/{id}")
+    public ScooterResponseDTO changeAvailabilityScooter(@RequestBody @Valid EnableScooterRequestDTO request, @PathVariable Long id) {
+        return this.scooterService.enableScooter(request, id);
+    }
+
     @GetMapping("/report/kms")
     public List<ReportUseScootersByKmsDTO> getReportUseScootersByKms() {
         return this.scooterService.findUseScootersByKms();
@@ -78,6 +90,11 @@ public class ScooterController {
     @GetMapping("/stops/{ubicationId}")
     public ScooterStopResponseDTO getScooterStopByUbication(@PathVariable Long ubicationId){
         return scooterService.findScooterStopByUbication(ubicationId);
+    }
+
+    @GetMapping("/trips&year")
+    public List<ScooterByTripsYearResponseDTO> getAllScooterByTripsAndYear(@RequestBody @Valid TripsAndYearRequestDTO request){
+        return scooterService.findAllScooterByTripsAndYear(request);
     }
 
     @GetMapping("/stops/")
@@ -115,10 +132,11 @@ public class ScooterController {
         return this.scooterService.findAllScooterTripByScooterId(id);
     }
 
+    /*
     @PostMapping("/trip")
     public ResponseEntity saveScooterTrip(@RequestBody @Valid ScooterTripRequestDTO request) {
         return this.scooterService.saveScooterTrip(request);
-    }
+    }*/
 
     @GetMapping("/ubications/{id}")
     public UbicationResponseDTO getUbicationById(@PathVariable Long id){
