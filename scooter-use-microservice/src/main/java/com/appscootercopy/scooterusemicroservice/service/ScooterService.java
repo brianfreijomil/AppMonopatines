@@ -193,6 +193,8 @@ public class ScooterService {
 
     @Transactional(readOnly = true)
     public List<ScooterTripResponseDTO> findAllScooterTrip() {
+        //por cada id de scooter obtner viajes
+        //lista de viajes = fetch de micro trip
         List<ScooterTrip> scooterTrips = scooterTripRepository.findAll();
         return scooterTrips.stream().map(st-> new ScooterTripResponseDTO(st))
                 .collect(Collectors.toList());
