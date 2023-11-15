@@ -35,7 +35,9 @@ public class SecurityConfig {
                                     "api/scooters/report/kms",
                                     "api/scooters/report/pauses",
                                     "api/scooters/report/non&pauses" ).hasRole(Constants.MANAGER)
-
+                            .requestMatchers( HttpMethod.GET, "api/scooters/trips&year", "api/scooters/profits/{year}","api/scooters/availability").hasRole(Constants.ADMIN)
+                            .requestMatchers( HttpMethod.POST, "api/trips/prices").hasRole(Constants.ADMIN)
+                            .requestMatchers( HttpMethod.GET, "api/scooters/CLOSE").hasAnyRole(Constants.ADMIN, Constants.USER, Constants.MANAGER)
                             .anyRequest()
                             .authenticated();
                 } )
