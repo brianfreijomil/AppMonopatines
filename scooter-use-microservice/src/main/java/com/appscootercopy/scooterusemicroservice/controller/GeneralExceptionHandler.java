@@ -27,8 +27,8 @@ public class GeneralExceptionHandler {
         return new ResponseEntity(new ErrorDTO(exception.getMessage()), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(PauseActiveException.class)
-    public ResponseEntity PauseActiveException(PauseActiveException exception) {
+    @ExceptionHandler(InvalidScooterStopException.class)
+    public ResponseEntity invalidScooterStopException(InvalidScooterStopException exception) {
         return new ResponseEntity(new ErrorDTO(exception.getMessage()), HttpStatus.CONFLICT);
     }
 

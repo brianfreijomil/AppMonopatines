@@ -10,5 +10,4 @@ public class ReportAvailabilityDTO {
     private Long countAvailable;
     private Long countNotAvailable;
 
-
 }

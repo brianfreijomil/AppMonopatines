@@ -1,13 +1,13 @@
 package com.appscootercopy.scooterusemicroservice.service;
 import com.appscootercopy.scooterusemicroservice.domain.*;
 import com.appscootercopy.scooterusemicroservice.repository.*;
+import com.appscootercopy.scooterusemicroservice.repository.interfaces.ScootersByTripsAndYearInterface;
+import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.EnableScooterRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.ScooterRequestDTO;
+import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.TripsAndYearRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.*;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.request.ScooterStopRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.response.ScooterStopResponseDTO;
-import com.appscootercopy.scooterusemicroservice.service.dto.scooterTrip.request.ScooterTripRequestDTO;
-import com.appscootercopy.scooterusemicroservice.service.dto.scooterTrip.response.ScooterTripResponseDTO;
-import com.appscootercopy.scooterusemicroservice.service.dto.trip.response.TripResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.request.UbicationRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.response.UbicationResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.exception.ConflictExistException;
@@ -27,16 +27,12 @@ public class ScooterService {
 
     private ScooterRepository scooterRepository;
     private ScooterStopRepository scooterStopRepository;
-    private ScooterTripRepository scooterTripRepository;
-    private TripRepository tripRepository;
     private UbicationRepository ubicationRepository;
 
-    public ScooterService(ScooterRepository s, ScooterStopRepository ss, ScooterTripRepository st,
-                          TripRepository tr, UbicationRepository ur) {
+    public ScooterService(ScooterRepository s, ScooterStopRepository ss,
+                          UbicationRepository ur) {
         this.scooterRepository=s;
         this.scooterStopRepository=ss;
-        this.scooterTripRepository=st;
-        this.tripRepository=tr;
         this.ubicationRepository=ur;
     }
 
@@ -57,10 +53,16 @@ public class ScooterService {
     }
 
     @Transactional(readOnly = true)
+    public List<ScooterResponseDTO> findAllScooterFetchingUbication() {
+        List<Scooter> scooters = scooterRepository.findAllfetchingUbication();
+        return scooters.stream().map(s1-> new ScooterResponseDTO(s1)).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
     public ReportAvailabilityDTO findCountScooterByAvailability() {
-        Long cantAvailables = this.scooterRepository.findCountScootersAvailables(true).getCant();
-        Long cantNotAvailables = this.scooterRepository.findCountScootersAvailables(false).getCant();
-        return new ReportAvailabilityDTO(cantAvailables,cantNotAvailables);
+        Long countAvailables = this.scooterRepository.findCountScootersAvailables(true).getCountScooters();
+        Long countNotAvailables = this.scooterRepository.findCountScootersAvailables(false).getCountScooters();
+        return new ReportAvailabilityDTO(countAvailables,countNotAvailables);
     }
 
     @Transactional(readOnly = true)
@@ -68,6 +70,20 @@ public class ScooterService {
         List<Scooter> scooters = scooterRepository.findAllCloseToMe(request.getX(), request.getY(), 5.0, 5.0);
         return scooters.stream()
                 .map(s1-> new ScooterResponseDTO(s1)).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ScooterByTripsYearResponseDTO> findAllScooterByTripsAndYear(TripsAndYearRequestDTO request) {
+        /*
+        solicitar a trip-microservice (/api/scooters/trips&year)
+
+        //si viene como un obj lo mapeas directamente o necesitas el requestDTO
+
+        List<ScootersByTripsAndYearInterface> scooters =
+        return scooters.stream()
+                .map(s1-> new ScooterByTripsYearResponseDTO(s1.getLicensePlate(), s1.getAvailable(), s1.getCountTrips(), s1.getYear())).collect(Collectors.toList());
+        */
+        return null;
     }
 
     @Transactional(readOnly = true)
@@ -90,15 +106,14 @@ public class ScooterService {
     @Transactional
     public ResponseEntity deleteScooter(Long id){
         if(this.scooterRepository.existsById(id)) {
-            List<ScooterTrip> scooterTrips = this.scooterTripRepository.findAllById_IdScooterId(id);
-            if(!scooterTrips.isEmpty()) {
-                for (ScooterTrip scooterTrip : scooterTrips) {
-                    ScooterTripId pkST = scooterTrip.getId();
-                    Long idTrip = pkST.getIdTrip().getId();
-                    this.scooterTripRepository.deleteById(pkST);
-                    this.tripRepository.deleteById(idTrip);
-                }
-            }
+            /*
+            * solicitud a trip-microservice (/api/trips/scooter/{licensePlate})
+            * obtengo los trips
+            * //si viene como un obj lo mapeas directamente o necesitas el requestDTO
+            * y eliminar todos enviando un delete por el id de cada uno?
+            * delete solicitud por cada registro a trip-microservice (/api/trips/{id})*/
+
+
             this.scooterRepository.deleteById(id);
             return new ResponseEntity(id, HttpStatus.NO_CONTENT);
         }
@@ -124,82 +139,58 @@ public class ScooterService {
         throw new NotFoundException("Scooter", "Id", idScooter);
     }
 
+    @Transactional
+    public ScooterResponseDTO enableScooter(EnableScooterRequestDTO request, Long id) {
+        Optional<Scooter> scooterExisting = this.scooterRepository.findById(id);
+        if(!scooterExisting.isEmpty()){
+            scooterExisting.get().setAvailable(request.getAvailable());
+            return new ScooterResponseDTO(scooterExisting.get());
+        }
+        throw new NotFoundException("Scooter", "Id", id);
+    }
+
     @Transactional(readOnly = true)
     public List<ReportUseScootersByKmsDTO> findUseScootersByKms() {
+
+        //solicitar a trip-microservice (/api/trips/report/kms)
+        ////si viene como un obj lo mapeas directamente o necesitas el requestDTO
+        //luego obtener info de scooters y unir la informacion (si es necesario)
+
+        /*
         return scooterTripRepository.findAllByKms()
                 .stream()
                 .map(r-> new ReportUseScootersByKmsDTO(r.getId(),r.getLicensePlate(),r.getAvailable(),r.getCountTrips(),r.getKms())).collect(Collectors.toList());
+        */
+
+        return null;
     }
 
     @Transactional(readOnly = true)
     public List<ReportUseScootersByTimeCcPauses> findUseScootersByTimeCcPauses() {
+        /*
+         * obtener info de trip-microservice (/api/trips/report/pauses)
+         *si viene como un obj lo mapeas directamente o necesitas el requestDTO
+         * luego obtener info de scooters y unir la informacion (si es necesario)
+         *
         return scooterTripRepository.findAllByTimeCcPauses()
                 .stream()
                 .map(r-> new ReportUseScootersByTimeCcPauses(r.getId(),r.getLicensePlate(),r.getAvailable(),r.getCountTrips(),r.getKms())).collect(Collectors.toList());
+        */
+        return null;
     }
 
     @Transactional(readOnly = true)
     public List<ReportUseScootersByTimeOutPauses> findUseScootersByTimeOutPauses() {
+        /*
+         * obtener info de trip-microservice (/api/trips/report/non&pauses)
+         *si viene como un obj lo mapeas directamente o necesitas el requestDTO
+         * luego obtener info de scooters y unir la informacion (si es necesario)
+         *
         return scooterTripRepository.findAllByTimeWithoutPauses()
                 .stream()
                 .map(r-> new ReportUseScootersByTimeOutPauses(r.getId(),r.getLicensePlate(),r.getAvailable(),r.getCountTrips(),r.getKms())).collect(Collectors.toList());
-    }
-
-
-
-    @Transactional(readOnly = true)
-    public ScooterTripResponseDTO findScooterTripById(Long idScooter, Long idTrip) {
-        Optional<Scooter> scooter = this.scooterRepository.findById(idScooter);
-        if(!scooter.isEmpty()) {
-            Optional<Trip> trip = this.tripRepository.findById(idTrip);
-            if(!trip.isEmpty()) {
-                ScooterTripId pk = new ScooterTripId(scooter.get(),trip.get());
-                return this.scooterTripRepository.findById(pk)
-                        .map(ScooterTripResponseDTO::new)
-                        .orElseThrow(() -> new NotFoundException("ScooterTrip", "IdScooter", "idTrip",
-                                pk.getIdScooter().getId(), pk.getIdTrip().getId()));
-            }
-            throw new NotFoundException("ScooterTrip", "trip.Id", idTrip);
-        }
-        throw new NotFoundException("ScooterTrip", "scooter.Id", idScooter);
-    }
-
-    @Transactional(readOnly = true)
-    public List<ScooterTripResponseDTO> findAllScooterTrip() {
-        List<ScooterTrip> scooterTrips = scooterTripRepository.findAll();
-        return scooterTrips.stream().map(st-> new ScooterTripResponseDTO(st))
-                .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public List<ScooterTripResponseDTO> findAllScooterTripByScooterId(Long idScooter) {
-        if(this.scooterRepository.existsById(idScooter)) {
-            List<ScooterTrip> scooterTrips = scooterTripRepository.findAllById_IdScooterId(idScooter);
-            return scooterTrips.stream().map(st-> new ScooterTripResponseDTO(st))
-                    .collect(Collectors.toList());
-        }
-        throw new NotFoundException("Scooter", "Id", idScooter);
-    }
-
-    @Transactional
-    public ResponseEntity saveScooterTrip(ScooterTripRequestDTO request) {
-        Optional<Scooter> scooterReferenced = this.scooterRepository.findById(request.getScooterId());
-        if(!scooterReferenced.isEmpty()) {
-            Optional<Trip> tripReferenced = this.tripRepository.findById(request.getTripId());
-            if(!tripReferenced.isEmpty()) {
-                if(this.scooterTripRepository.findById_IdTrip_Id(request.getTripId())==null){
-                    ScooterTripId idST = new ScooterTripId(scooterReferenced.get(),tripReferenced.get());
-                    if(!this.scooterTripRepository.existsById(idST)){
-                        this.scooterTripRepository.save(new ScooterTrip(idST));
-                        return new ResponseEntity("IdScooter: "+request.getScooterId()+", IdTrip: "+request.getTripId(), HttpStatus.CREATED);
-                    }
-                    throw new ConflictExistException("ScooterTrip", "IdScooter", request.getScooterId(), "IdTrip", request.getScooterId());
-                }
-                throw new ConflictExistException("ScooterTrip", "trip.id", request.getTripId());
-            }
-            throw new NotFoundException("Trip", "Id", request.getTripId());
-        }
-        throw new NotFoundException("Scooter", "Id", request.getScooterId());
+        */
+        return null;
     }
 
     @Transactional(readOnly = true)
