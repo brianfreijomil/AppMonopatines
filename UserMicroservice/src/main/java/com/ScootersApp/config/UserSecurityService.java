@@ -21,7 +21,6 @@ import java.util.List;
 public class UserSecurityService implements UserDetailsService {
 
     private UserRepository userRepository;
-    private List<String> roles;
 
     private final String hashFakePassword = "$2a$16$p6lo2eRCFAKGrUCVXD9gceSdqtBx7.2CvQ4X3BhQWUrAhYV7lyvRC";
 
@@ -34,7 +33,6 @@ public class UserSecurityService implements UserDetailsService {
         return User.builder()
                 .username(username)
                 .password(this.hashFakePassword)
-                .authorities(this.grantedAuthorities(this.roles))
                 .accountLocked(false)
                 .disabled(false)
                 .build();
@@ -44,8 +42,7 @@ public class UserSecurityService implements UserDetailsService {
         this.roles = roles;
     }
 
-
-    private List<GrantedAuthority> grantedAuthorities(List<String> roles) {
+    public List<GrantedAuthority> grantedAuthorities(List<String> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>(roles.size());
 
         for (String role: roles) {

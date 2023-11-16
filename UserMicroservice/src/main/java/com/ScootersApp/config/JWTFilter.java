@@ -25,6 +25,9 @@ public class JWTFilter extends OncePerRequestFilter {
     private final JWTUtill jwtUtill;
     private final UserSecurityService userSecurityService;
 
+    private final String hashFakePassword = "$2a$16$p6lo2eRCFAKGrUCVXD9gceSdqtBx7.2CvQ4X3BhQWUrAhYV7lyvRC";
+
+
     public JWTFilter(JWTUtill jwtUtill, UserSecurityService userSecurityService) {
         this.jwtUtill = jwtUtill;
         this.userSecurityService = userSecurityService;
@@ -32,34 +35,28 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //falsifico un usuario para que admita el post a crear usuario
-        if(request.getRequestURI().equals("/api/users/") && request.getMethod().equals("POST")){
-            List<String> fakeRole = new ArrayList<String>();
-            fakeRole.add("user");
-            this.userSecurityService.setRoles(fakeRole);
-            User user = (User) userSecurityService.loadUserByUsername("fakeEmail");
+        if((request.getRequestURI().equals("/api/users/") && request.getMethod().equals("POST"))){
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(
-                    user.getUsername(), user.getPassword(), user.getAuthorities());
+                    "fake", this.hashFakePassword, null);
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             filterChain.doFilter(request, response);
             return;
         }
-        String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
+        String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         String token = header.split(" ")[1].trim();
 
-
-        //3. CARGAR EL USUARIO AL USERDETAILSERVICE
         String email = jwtUtill.getUserName(token);
 
-        this.userSecurityService.setRoles(jwtUtill.getClaims(token));
+        // CARGAR EL USUARIO AL USERDETAILSERVICE
         User user = (User) userSecurityService.loadUserByUsername(email);
 
 
-        //4. CARGAR USUARIO EN EL CONTEXTO DE SEGURIDAD
+        // CARGAR USUARIO EN EL CONTEXTO DE SEGURIDAD
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                user.getUsername(), user.getPassword(), user.getAuthorities());
+                user.getUsername(), user.getPassword(), userSecurityService.grantedAuthorities(jwtUtill.getClaims(token)));
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         filterChain.doFilter(request, response);

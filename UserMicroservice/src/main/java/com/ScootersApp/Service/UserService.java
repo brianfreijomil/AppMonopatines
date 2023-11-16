@@ -226,4 +226,11 @@ public class UserService {
             throw new NotFoundException("User", "mail", mail);
         }
     }
+
+    @Transactional(readOnly = true)
+    public UserLoginResponseDTO login(String mail) {
+        User u = this.repository.findByMail(mail);
+        if(u == null) throw new NotFoundException("User", "mail", mail);
+        return new UserLoginResponseDTO(u);
+    }
 }
