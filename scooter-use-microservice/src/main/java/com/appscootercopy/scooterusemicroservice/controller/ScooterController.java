@@ -28,24 +28,21 @@ public class ScooterController {
 
     @GetMapping("/{licensePlate}")
     public ScooterResponseDTO getScooterByLicensePlate(@PathVariable String licensePlate){
-        //cualquira
         return scooterService.findScooterByLicensePlate(licensePlate);
     }
 
     @GetMapping("/")
     public List<ScooterResponseDTO> getAllScooter(){
-        //cualquiera
         return this.scooterService.findAllScooter();
     }
 
     @GetMapping("/availability")
     public ReportAvailabilityDTO getCountScooterByAvailability(){
-        //manager
         return this.scooterService.findCountScooterByAvailability();
     }
 
     @GetMapping("/close")
-    public List<ScooterResponseDTO> getAllScooterCloseToMe(@RequestBody @Valid UbicationRequestDTO request){
+    public List<ScooterResponseDTO> getAllScooterCloseToMe(UbicationRequestDTO request){
         //cualquiera
         return this.scooterService.findAllScooterCloseToMe(request);
     }

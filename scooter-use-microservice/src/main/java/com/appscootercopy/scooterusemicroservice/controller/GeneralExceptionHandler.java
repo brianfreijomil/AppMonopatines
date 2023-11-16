@@ -32,6 +32,11 @@ public class GeneralExceptionHandler {
         return new ResponseEntity(new ErrorDTO(exception.getMessage()), HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity badRequest(BadRequestException exception) {
+        return new ResponseEntity(new ErrorDTO(exception.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class) //MethodArgumentNotValidException, receives the exception of validations
     public ResponseEntity constraintViolationException(MethodArgumentNotValidException exc){
 
