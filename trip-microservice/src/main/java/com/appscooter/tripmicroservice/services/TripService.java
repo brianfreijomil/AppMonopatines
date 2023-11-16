@@ -9,6 +9,7 @@ import com.appscooter.tripmicroservice.repositories.TripRepository;
 import com.appscooter.tripmicroservice.repositories.interfaces.ScootersByTripsAndYearInterface;
 import com.appscooter.tripmicroservice.services.dtos.generalprice.request.GeneralPriceRequestDTO;
 import com.appscooter.tripmicroservice.services.dtos.generalprice.response.GeneralPriceResponseDTO;
+import com.appscooter.tripmicroservice.services.dtos.scooter.ScooterResponseDTO;
 import com.appscooter.tripmicroservice.services.dtos.tariff.response.ReportProfitsDTO;
 import com.appscooter.tripmicroservice.services.dtos.trip.requests.FinishTripRequestDTO;
 import com.appscooter.tripmicroservice.services.dtos.trip.requests.TripRequestDTO;
@@ -20,11 +21,16 @@ import com.appscooter.tripmicroservice.services.exception.ConflictExistException
 import com.appscooter.tripmicroservice.services.exception.NotFoundException;
 import com.appscooter.tripmicroservice.services.exception.PauseActiveException;
 import com.appscooter.tripmicroservice.services.timer.TimerPause;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -40,6 +46,11 @@ public class TripService {
     private TripRepository tripRepository;
     private TariffRepository tariffRepository;
     private GeneralPriceRepository priceRepository;
+
+    private WebClient.Builder webClient;
+
+    @Autowired
+    HttpServletRequest request;
 
     public TripService(TripRepository t, TariffRepository tariffRepository,
                        GeneralPriceRepository pr) {
@@ -71,28 +82,36 @@ public class TripService {
     @Transactional
     public ResponseEntity saveTrip(TripRequestDTO request) {
         if(!this.tripRepository.existsById(request.getId())){
-
-            //chequear que existe la scooter ingresada
-            // solicitar a scooterusemicro (/api/scooters/{licensePlate})
-            //obtener obj o usar request de scooter avisame benja
-            //si me da null largar exception, si me trae entidad prosigue metodo
-
-            Timestamp currentDate = Timestamp.valueOf(LocalDateTime.now());
-            GeneralPrice currentPrices = this.priceRepository.findByCurrent(true);
-            if(currentPrices != null) {
-                GeneralPrice lastPrices = this.priceRepository.findByLastDateValidity(currentPrices.getDateValidity());
-                if(lastPrices == null || currentDate.compareTo(lastPrices.getDateValidity()) < 0) {
-                    this.tripRepository.save(new Trip(request, currentPrices.getPriceService()));
-                    return new ResponseEntity(request.getId(), HttpStatus.CREATED);
+            String licensePlate = request.getLicenseScooter();
+            String token = this.request.getHeader(HttpHeaders.AUTHORIZATION);
+            ScooterResponseDTO scooter = this.webClient.build()
+                    .get()
+                    .uri("http://scooter-use-microservice/api/scooter/{licensePlate}", licensePlate)
+                    .headers(httpHeaders -> {httpHeaders.set("Authorization", token);})
+                    .accept(MediaType.APPLICATION_JSON)
+                    .retrieve()
+                    .bodyToMono(ScooterResponseDTO.class)
+                    .block();
+            if(scooter!=null) {
+                Timestamp currentDate = Timestamp.valueOf(LocalDateTime.now());
+                GeneralPrice currentPrices = this.priceRepository.findByCurrent(true);
+                if(currentPrices != null) {
+                    GeneralPrice lastPrices = this.priceRepository.findByLastDateValidity(currentPrices.getDateValidity());
+                    if(lastPrices == null || currentDate.compareTo(lastPrices.getDateValidity()) < 0) {
+                        this.tripRepository.save(new Trip(request, currentPrices.getPriceService()));
+                        return new ResponseEntity(request.getId(), HttpStatus.CREATED);
+                    }
+                    else {
+                        lastPrices.setCurrent(true);
+                        currentPrices.setCurrent(false);
+                        this.tripRepository.save(new Trip(request, lastPrices.getPriceService()));
+                        return new ResponseEntity(request.getId(), HttpStatus.CREATED);
+                    }
                 }
-                else {
-                    lastPrices.setCurrent(true);
-                    currentPrices.setCurrent(false);
-                    this.tripRepository.save(new Trip(request, lastPrices.getPriceService()));
-                    return new ResponseEntity(request.getId(), HttpStatus.CREATED);
-                }
+                throw new NotFoundException("GeneralPrices", "current", "true");
             }
-            throw new NotFoundException("GeneralPrices", "current", "true");
+            System.out.println("lanza esta exception");
+            throw new NotFoundException("Scooter", "licensePlate", licensePlate);
         }
 
         throw new ConflictExistException("Trip", "ID", request.getId());
@@ -124,14 +143,22 @@ public class TripService {
         Optional<Trip> tripExisting = this.tripRepository.findById(id);
         if(!tripExisting.isEmpty()){
             String licensePlate = tripExisting.get().getLicenseScooter();
-
-
-            //NO HAGAS ESTE
-            //FALTA METODO EN SCOOTERUSEMICRO
             /*antes de finalizar el viaje debo chequear que mi scooter asociada
              * esta en una parada valida
-             * solicitar a scooter-use-microservice (/api/scooters/{licensePlate}
-             *  )*/
+             * solicitar a scooter-use-microservice (/api/scooters/{licensePlate}/in-stop
+             *  )
+
+            String token = this.request.getHeader(HttpHeaders.AUTHORIZATION);
+            ScooterResponseDTO scooter = this.webClient.build()
+                    .get()
+                    .uri("http://scooter-use-microservice/api/scooters/{licensePlate}/in-stop", licensePlate)
+                    .headers(httpHeaders -> {httpHeaders.set("Authorization", token);})
+                    .accept(MediaType.APPLICATION_JSON)
+                    .retrieve()
+                    .bodyToMono(ScooterResponseDTO.class)
+                    .block();
+
+             */
 
             tripExisting.get().setEndTime(Timestamp.valueOf(LocalDateTime.now()));
             tripExisting.get().setKms(request.getKms());
