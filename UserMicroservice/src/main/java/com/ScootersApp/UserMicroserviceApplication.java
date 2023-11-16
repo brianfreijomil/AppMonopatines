@@ -1,6 +1,4 @@
 package com.ScootersApp;
-
-
 import com.ScootersApp.Service.loadData.CSVReader;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
