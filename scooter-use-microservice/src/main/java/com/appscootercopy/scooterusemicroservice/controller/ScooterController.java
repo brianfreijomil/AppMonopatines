@@ -139,5 +139,10 @@ public class ScooterController {
         return this.scooterService.findAllUbication();
     }
 
+    @GetMapping("/{licensePlate}/in-stop")
+    public ResponseEntity checkScooterInStop(@PathVariable String licensePlate){
+        return this.scooterService.checkScooterInStop(licensePlate);
+    }
+
 
 }

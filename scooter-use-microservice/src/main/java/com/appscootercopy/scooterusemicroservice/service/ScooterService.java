@@ -290,4 +290,19 @@ public class ScooterService {
         return ubications.stream().map(u-> new UbicationResponseDTO(u)).collect(Collectors.toList());
     }
 
+    @Transactional
+    public ResponseEntity checkScooterInStop(String licensePlate) {
+        Scooter s = this.scooterRepository.findByLicensePLate(licensePlate);
+        if(s != null) {
+            ScooterStop ss = this.scooterStopRepository.existsByUbicationXAndUbicationY(s.getUbication().getX(), s.getUbication().getY());
+            if(ss != null) {
+                return new ResponseEntity(licensePlate, HttpStatus.ACCEPTED);
+            }
+            else {
+                return new ResponseEntity(licensePlate, HttpStatus.NOT_FOUND);
+            }
+        }
+        throw new NotFoundException("scooter", "licensePlate", licensePlate);
+    }
+
 }
