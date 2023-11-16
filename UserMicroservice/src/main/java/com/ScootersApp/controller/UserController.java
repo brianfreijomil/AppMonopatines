@@ -52,7 +52,6 @@ public class UserController {
         return this.service.findByMail(mail);
     }
 
-
     @GetMapping("/{mail}")
     public ResponseEntity<UserResponseDTO> getByMail(@PathVariable String mail){
         return this.service.getUserByMail(mail);
