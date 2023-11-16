@@ -7,8 +7,6 @@ import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.Tri
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.*;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.request.ScooterStopRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.response.ScooterStopResponseDTO;
-import com.appscootercopy.scooterusemicroservice.service.dto.scooterTrip.request.ScooterTripRequestDTO;
-import com.appscootercopy.scooterusemicroservice.service.dto.scooterTrip.response.ScooterTripResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.request.UbicationRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.response.UbicationResponseDTO;
 import jakarta.validation.Valid;
@@ -35,11 +33,6 @@ public class ScooterController {
     @GetMapping("/")
     public List<ScooterResponseDTO> getAllScooter(){
         return this.scooterService.findAllScooter();
-    }
-
-    @GetMapping("/fetching")
-    public List<ScooterResponseDTO> getAllScooterFetch(){
-        return this.scooterService.findAllScooterFetchingUbication();
     }
 
     @GetMapping("/availability")
@@ -116,27 +109,6 @@ public class ScooterController {
     public ResponseEntity updateScooterStop(@RequestBody @Valid ScooterStopRequestDTO request, @PathVariable Long id){
         return this.scooterService.updateScooterStop(request, id);
     }
-
-    @GetMapping("/{id}/trip/{idTrip}")
-    public ScooterTripResponseDTO getScooterTripById(@PathVariable Long id, @PathVariable Long idTrip) {
-        return this.scooterService.findScooterTripById(id,idTrip);
-    }
-
-    @GetMapping("/trips")
-    public List<ScooterTripResponseDTO> getAllScooterTrip() {
-        return this.scooterService.findAllScooterTrip();
-    }
-
-    @GetMapping("/{id}/trips")
-    public List<ScooterTripResponseDTO> getAllScooterTripByScooterId(@PathVariable Long id) {
-        return this.scooterService.findAllScooterTripByScooterId(id);
-    }
-
-    /*
-    @PostMapping("/trip")
-    public ResponseEntity saveScooterTrip(@RequestBody @Valid ScooterTripRequestDTO request) {
-        return this.scooterService.saveScooterTrip(request);
-    }*/
 
     @GetMapping("/ubications/{id}")
     public UbicationResponseDTO getUbicationById(@PathVariable Long id){

@@ -1,4 +1,4 @@
-package com.appscootercopy.scooterusemicroservice.service.exception;
+package com.appscooter.tripmicroservice.services.exception;
 
 import lombok.Getter;
 
