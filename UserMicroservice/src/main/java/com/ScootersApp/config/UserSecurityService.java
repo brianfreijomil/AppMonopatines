@@ -38,9 +38,6 @@ public class UserSecurityService implements UserDetailsService {
                 .build();
     }
 
-    public void setRoles(List<String> roles){
-        this.roles = roles;
-    }
 
     public List<GrantedAuthority> grantedAuthorities(List<String> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>(roles.size());
