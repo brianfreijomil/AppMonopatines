@@ -1,6 +1,6 @@
 package com.appscooter.tripmicroservice.config;
 
-import com.appscootercopy.scooterusemicroservice.config.utils.JWTUtill;
+import com.appscooter.tripmicroservice.config.utils.JWTUtill;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

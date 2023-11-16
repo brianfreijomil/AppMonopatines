@@ -1,6 +1,6 @@
 package com.appscooter.tripmicroservice.config;
 
-import com.appscootercopy.scooterusemicroservice.service.Constants;
+import com.appscooter.tripmicroservice.services.Constants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

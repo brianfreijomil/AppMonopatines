@@ -6,6 +6,9 @@ import com.appscooter.tripmicroservice.services.dtos.generalprice.response.Gener
 import com.appscooter.tripmicroservice.services.dtos.tariff.response.ReportProfitsDTO;
 import com.appscooter.tripmicroservice.services.dtos.trip.requests.FinishTripRequestDTO;
 import com.appscooter.tripmicroservice.services.dtos.trip.requests.TripRequestDTO;
+import com.appscooter.tripmicroservice.services.dtos.trip.requests.TripsAndYearRequestDTO;
+import com.appscooter.tripmicroservice.services.dtos.trip.responses.ReportScootersDTO;
+import com.appscooter.tripmicroservice.services.dtos.trip.responses.ScooterByTripsYearResponseDTO;
 import com.appscooter.tripmicroservice.services.dtos.trip.responses.TripResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +34,11 @@ public class TripController {
     @GetMapping("/")
     public List<TripResponseDTO> findAllTrip() {
         return tripService.findAllTrip();
+    }
+
+    @GetMapping("/scooter/{licensePlate}")
+    public List<TripResponseDTO> getAllTripByScooter(@PathVariable String licensePlate) {
+        return this.tripService.findAllTripByScooter(licensePlate);
     }
 
     @PostMapping("")
@@ -77,5 +85,29 @@ public class TripController {
     public List<GeneralPriceResponseDTO> findAllPrices() {
         return tripService.findHistoryPrices();
     }
+
+    @GetMapping("/report/kms")
+    public List<ReportScootersDTO> getReportUseScootersByKms() {
+        return this.tripService.findUseScootersByKms();
+    }
+
+    @GetMapping("/report/pauses")
+    public List<ReportScootersDTO> getReportUseScootersByTimeCcPauses() {
+        return this.tripService.findUseScootersByTimeCcPauses();
+    }
+
+    @GetMapping("/report/non&pauses")
+    public List<ReportScootersDTO> getReportUseScootersByTimeOutPauses() {
+        return this.tripService.findUseScootersByTimeOutPauses();
+    }
+
+    @GetMapping("/scooters/trips&year")
+    public List<ScooterByTripsYearResponseDTO> getAllScooterByTripsAndYear(@RequestBody @Valid TripsAndYearRequestDTO request){
+        return this.tripService.findAllScooterByTripsAndYear(request);
+    }
+
+
+
+
 }
 

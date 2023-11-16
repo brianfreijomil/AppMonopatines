@@ -32,7 +32,9 @@ public class Trip {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Tariff tariffExtra;
     @Column(nullable = false)
-    private String licenseScooterAssociated;
+    private String licenseScooter;
+    @Column
+    private Long userId;
 
     public Trip(TripRequestDTO requestDTO, Double priceService) {
         this.id = requestDTO.getId();
@@ -44,11 +46,12 @@ public class Trip {
         this.pause = null;
         this.timer = null;
         this.tariffExtra = null;
-        this.licenseScooterAssociated = requestDTO.getLicenseScooter();
+        this.licenseScooter = requestDTO.getLicenseScooter();
+        this.userId = requestDTO.getUserId();
     }
 
     public Trip(Long id, Timestamp initTime, Timestamp endTime,
-                Double kms, Boolean ended, Double priceService, String scooter) {
+                Double kms, Boolean ended, Double priceService, String scooter, Long userId) {
         this.id = id;
         this.initTime = initTime;
         this.endTime = endTime;
@@ -58,7 +61,8 @@ public class Trip {
         this.pause = null;
         this.timer = null;
         this.tariffExtra = null;
-        this.licenseScooterAssociated = scooter;
+        this.licenseScooter = scooter;
+        this.userId = userId;
     }
 
 }

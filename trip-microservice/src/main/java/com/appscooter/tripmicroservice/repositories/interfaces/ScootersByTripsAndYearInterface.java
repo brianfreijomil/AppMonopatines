@@ -1,9 +1,8 @@
-package com.appscootercopy.scooterusemicroservice.repository.interfaces;
+package com.appscooter.tripmicroservice.repositories.interfaces;
 
 public interface ScootersByTripsAndYearInterface {
 
-    public String getLicensePlate();
-    public Boolean getAvailable();
+    public String getLicenseScooter();
     public Long getCountTrips();
     public Long getYear();
 

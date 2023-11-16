@@ -23,7 +23,7 @@ public class CsvReader {
     private TariffRepository tariffRepository;
     private GeneralPriceRepository pricesRepository;
     private static final String userDir =
-            System.getProperty("user.dir") + "/src/main/java/com/appscooter/tripmicroservice/service/loadData/";
+            System.getProperty("user.dir") + "/src/main/java/com/appscooter/tripmicroservice/services/loadData/";
 
     @Autowired
     public CsvReader(TripRepository tr, TariffRepository tariffRepository,
@@ -53,7 +53,8 @@ public class CsvReader {
             Double kms = Double.valueOf(row.get("kms"));
             Boolean ended = Boolean.valueOf(row.get("ended"));
             String scooter = String.valueOf(row.get("licenseScooter"));
-            Trip trip = new Trip(id, initTime, endTime, kms, ended, 198.5, scooter);
+            Long user = Long.valueOf(row.get("user"));
+            Trip trip = new Trip(id, initTime, endTime, kms, ended, 198.5, scooter, user);
             tripRepository.save(trip);
         }
     }

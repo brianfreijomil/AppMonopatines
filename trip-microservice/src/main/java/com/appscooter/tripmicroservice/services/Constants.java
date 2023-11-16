@@ -1,4 +1,4 @@
-package com.appscootercopy.scooterusemicroservice.service;
+package com.appscooter.tripmicroservice.services;
 
 import lombok.NoArgsConstructor;
 

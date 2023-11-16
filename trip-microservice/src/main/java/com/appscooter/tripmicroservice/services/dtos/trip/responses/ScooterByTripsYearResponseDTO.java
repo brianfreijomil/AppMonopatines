@@ -1,18 +1,16 @@
-package com.appscootercopy.scooterusemicroservice.service.dto.scooter.response;
+package com.appscooter.tripmicroservice.services.dtos.trip.responses;
 
 import lombok.Data;
 
 @Data
 public class ScooterByTripsYearResponseDTO {
 
-    private String licensePLate;
-    private Boolean available;
+    private String licenseScooter;
     private Long countTrips;
     private Long year;
 
-    public ScooterByTripsYearResponseDTO(String licensePLate, Boolean available, Long countTrips, Long year) {
-        this.licensePLate = licensePLate;
-        this.available = available;
+    public ScooterByTripsYearResponseDTO(String licenseScooter, Long countTrips, Long year) {
+        this.licenseScooter = licenseScooter;
         this.countTrips = countTrips;
         this.year = year;
     }

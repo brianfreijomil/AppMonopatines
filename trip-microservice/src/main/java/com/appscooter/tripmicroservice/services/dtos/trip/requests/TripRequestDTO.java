@@ -26,4 +26,6 @@ public class TripRequestDTO {
     @NotNull(message = "endend cannot be null")
     @NotEmpty(message = "te licenseScooter cannot be empty")
     private String licenseScooter;
+    @NotNull(message = "userId cannot be null")
+    private Long userId;
 }

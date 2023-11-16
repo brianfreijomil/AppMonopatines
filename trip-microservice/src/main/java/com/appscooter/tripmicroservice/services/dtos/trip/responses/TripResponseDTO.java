@@ -17,6 +17,7 @@ public class TripResponseDTO {
     private Long idTariff;
     private Long idTariffExtra;
     private String licenseScooter;
+    private Long userId;
 
     public TripResponseDTO(Trip trip) {
         this.id=trip.getId();
@@ -24,7 +25,8 @@ public class TripResponseDTO {
         this.endTime=trip.getEndTime();
         this.kms= trip.getKms();
         this.ended=trip.getEnded();
-        this.licenseScooter=trip.getLicenseScooterAssociated();
+        this.licenseScooter=trip.getLicenseScooter();
+        this.userId=trip.getUserId();
         if(trip.getPause() == null) {
             this.idPause=null;
         }
