@@ -1,6 +1,5 @@
-package com.appscootercopy.scooterusemicroservice.service.dto.trip.request;
+package com.appscootercopy.scooterusemicroservice.service.dto.trip;
 
-import com.appscootercopy.scooterusemicroservice.domain.Tariff;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -8,7 +7,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 @RequiredArgsConstructor
 @Data
@@ -28,4 +26,6 @@ public class TripRequestDTO {
     @NotNull(message = "endend cannot be null")
     @NotEmpty(message = "te licenseScooter cannot be empty")
     private String licenseScooter;
+    @NotNull(message = "userId cannot be null")
+    private Long userId;
 }
