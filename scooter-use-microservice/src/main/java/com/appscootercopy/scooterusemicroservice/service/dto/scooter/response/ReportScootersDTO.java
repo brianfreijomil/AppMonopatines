@@ -2,14 +2,14 @@ package com.appscootercopy.scooterusemicroservice.service.dto.scooter.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class ReportUseScootersByTimeCcPauses {
+@NoArgsConstructor
+public class ReportScootersDTO {
 
-    private Long id;
-    private String licensePlate;
-    private Boolean available;
+    private String licenseScooter;
     private Long countTrips;
     private Double kms;
 

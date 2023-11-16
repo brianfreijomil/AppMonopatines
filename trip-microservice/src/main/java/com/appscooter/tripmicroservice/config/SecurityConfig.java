@@ -31,11 +31,6 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> {
                     authorize
-                            .requestMatchers( HttpMethod.GET,
-                                    "api/scooters/report/kms",
-                                    "api/scooters/report/pauses",
-                                    "api/scooters/report/non&pauses" ).hasRole(Constants.MANAGER)
-
                             .anyRequest()
                             .authenticated();
                 } )

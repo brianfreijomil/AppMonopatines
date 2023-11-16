@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -103,7 +104,15 @@ public class TripController {
 
     @GetMapping("/scooters/trips&year")
     public List<ScooterByTripsYearResponseDTO> getAllScooterByTripsAndYear(@RequestBody @Valid TripsAndYearRequestDTO request){
-        return this.tripService.findAllScooterByTripsAndYear(request);
+        System.out.println(request);
+        List<ScooterByTripsYearResponseDTO> list = this.tripService.findAllScooterByTripsAndYear(request);
+        //List<ScooterByTripsYearResponseDTO> list = new ArrayList<>();
+        //ScooterByTripsYearResponseDTO a1 = new ScooterByTripsYearResponseDTO("aa", 1L, 2024L);
+        //ScooterByTripsYearResponseDTO a2 = new ScooterByTripsYearResponseDTO("aa", 1L, 2024L);
+        //list.add(a1);
+        //list.add(a2);
+        System.out.println(list);
+        return list;
     }
 
 

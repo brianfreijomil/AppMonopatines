@@ -35,9 +35,14 @@ public class SecurityConfig {
                                     "api/scooters/report/kms",
                                     "api/scooters/report/pauses",
                                     "api/scooters/report/non&pauses" ).hasRole(Constants.MANAGER)
-                            .requestMatchers( HttpMethod.GET, "api/scooters/trips&year", "api/scooters/profits/{year}","api/scooters/availability").hasRole(Constants.ADMIN)
-                            .requestMatchers( HttpMethod.POST, "api/trips/prices").hasRole(Constants.ADMIN)
-                            .requestMatchers( HttpMethod.GET, "api/scooters/CLOSE").hasAnyRole(Constants.ADMIN, Constants.USER, Constants.MANAGER)
+                            .requestMatchers( HttpMethod.GET, "api/scooters/trips&year","api/scooters/availability").hasRole(Constants.ADMIN)
+                            .requestMatchers( HttpMethod.POST, "api/scooters", "").hasRole(Constants.ADMIN)
+                            .requestMatchers( HttpMethod.DELETE, "api/scooters/{id}").hasRole(Constants.ADMIN)
+                            .requestMatchers( HttpMethod.PUT, "api/scooters/{id}").hasRole(Constants.ADMIN)
+                            .requestMatchers( HttpMethod.PATCH, "api/scooters/{id}").hasAnyRole(Constants.ADMIN, Constants.MANAGER)
+                            .requestMatchers( HttpMethod.POST, "api/scooters/stops").hasAnyRole(Constants.ADMIN, Constants.MANAGER)
+                            .requestMatchers( HttpMethod.DELETE, "api/scooters/stops/{id}").hasAnyRole(Constants.ADMIN, Constants.MANAGER)
+                            .requestMatchers( HttpMethod.PUT, "api/scooters/stops/{id}").hasAnyRole(Constants.ADMIN, Constants.MANAGER)
                             .anyRequest()
                             .authenticated();
                 } )

@@ -44,7 +44,7 @@ public interface TripRepository extends JpaRepository<Trip,Long> {
             "ORDER BY kms DESC")
     List<ReportInterface> findAllByTimeWithoutPauses();
 
-    @Query("SELECT t.licenseScooter, " +
+    @Query("SELECT t.licenseScooter as licenseScooter, " +
             "COUNT(t.id) AS countTrips, " +
             "extract(YEAR FROM t.initTime) AS year " +
             "FROM Trip t " +

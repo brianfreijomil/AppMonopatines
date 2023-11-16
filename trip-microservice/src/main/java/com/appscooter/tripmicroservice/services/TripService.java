@@ -233,6 +233,7 @@ public class TripService {
 
     @Transactional(readOnly = true)
     public List<ReportScootersDTO> findUseScootersByKms() {
+        System.out.println("entro al report kms");
         return this.tripRepository.findAllByKms()
                 .stream()
                 .map(r-> new ReportScootersDTO(r.getLicenseScooter(),r.getCountTrips(),r.getKms())).collect(Collectors.toList());

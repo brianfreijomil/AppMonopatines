@@ -1,22 +1,24 @@
 package com.appscootercopy.scooterusemicroservice.service;
 import com.appscootercopy.scooterusemicroservice.domain.*;
 import com.appscootercopy.scooterusemicroservice.repository.*;
-import com.appscootercopy.scooterusemicroservice.repository.interfaces.ScootersByTripsAndYearInterface;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.EnableScooterRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.ScooterRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.request.TripsAndYearRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooter.response.*;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.request.ScooterStopRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.response.ScooterStopResponseDTO;
+import com.appscootercopy.scooterusemicroservice.service.dto.trip.ScooterByTripsYearResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.request.UbicationRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.response.UbicationResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.exception.ConflictExistException;
 import com.appscootercopy.scooterusemicroservice.service.exception.NotFoundException;
 import com.appscootercopy.scooterusemicroservice.service.exception.UniqueException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,11 +31,17 @@ public class ScooterService {
     private ScooterStopRepository scooterStopRepository;
     private UbicationRepository ubicationRepository;
 
+    private WebClient.Builder webClient;
+
+    @Autowired
+    HttpServletRequest request;
+
     public ScooterService(ScooterRepository s, ScooterStopRepository ss,
-                          UbicationRepository ur) {
+                          UbicationRepository ur, WebClient.Builder webClient) {
         this.scooterRepository=s;
         this.scooterStopRepository=ss;
         this.ubicationRepository=ur;
+        this.webClient = webClient;
     }
 
     @Transactional(readOnly = true)
@@ -74,16 +82,21 @@ public class ScooterService {
 
     @Transactional(readOnly = true)
     public List<ScooterByTripsYearResponseDTO> findAllScooterByTripsAndYear(TripsAndYearRequestDTO request) {
-        /*
-        solicitar a trip-microservice (/api/scooters/trips&year)
 
-        //si viene como un obj lo mapeas directamente o necesitas el requestDTO
+        String token = this.request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        List<ScootersByTripsAndYearInterface> scooters =
-        return scooters.stream()
-                .map(s1-> new ScooterByTripsYearResponseDTO(s1.getLicensePlate(), s1.getAvailable(), s1.getCountTrips(), s1.getYear())).collect(Collectors.toList());
-        */
-        return null;
+        List<ScooterByTripsYearResponseDTO> list = (List<ScooterByTripsYearResponseDTO>) this.webClient.build()
+                .method(HttpMethod.GET)
+                .uri("http://trip-microservice/api/trips/scooters/trips&year")
+                .bodyValue(request)
+                .headers(httpHeaders -> {httpHeaders.set("Authorization", token);})
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToFlux(ScooterByTripsYearResponseDTO.class)
+                .collectList()
+                .block();
+
+        return list;
     }
 
     @Transactional(readOnly = true)
@@ -106,13 +119,15 @@ public class ScooterService {
     @Transactional
     public ResponseEntity deleteScooter(Long id){
         if(this.scooterRepository.existsById(id)) {
-            /*
-            * solicitud a trip-microservice (/api/trips/scooter/{licensePlate})
-            * obtengo los trips
-            * //si viene como un obj lo mapeas directamente o necesitas el requestDTO
-            * y eliminar todos enviando un delete por el id de cada uno?
-            * delete solicitud por cada registro a trip-microservice (/api/trips/{id})*/
-
+            String token = this.request.getHeader(HttpHeaders.AUTHORIZATION);
+            this.webClient.build()
+                    .delete()
+                    .uri("http://trip-microservice/api/trips/licence-scooter/{license}", id)
+                    .headers(httpHeaders -> {httpHeaders.set("Authorization", token);})
+                    .accept(MediaType.APPLICATION_JSON)
+                    .retrieve()
+                    .bodyToMono(Void.class)
+                    .block();
 
             this.scooterRepository.deleteById(id);
             return new ResponseEntity(id, HttpStatus.NO_CONTENT);
@@ -150,47 +165,55 @@ public class ScooterService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReportUseScootersByKmsDTO> findUseScootersByKms() {
+    public List<ReportScootersDTO> findUseScootersByKms() {
 
-        //solicitar a trip-microservice (/api/trips/report/kms)
-        ////si viene como un obj lo mapeas directamente o necesitas el requestDTO
-        //luego obtener info de scooters y unir la informacion (si es necesario)
+        String token = this.request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        /*
-        return scooterTripRepository.findAllByKms()
-                .stream()
-                .map(r-> new ReportUseScootersByKmsDTO(r.getId(),r.getLicensePlate(),r.getAvailable(),r.getCountTrips(),r.getKms())).collect(Collectors.toList());
-        */
+        List<ReportScootersDTO> list = (List<ReportScootersDTO>) this.webClient.build()
+                .get()
+                .uri("http://trip-microservice/api/trips/report/kms")
+                .headers(httpHeaders -> {httpHeaders.set("Authorization", token);})
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToFlux(ReportScootersDTO.class)
+                .collectList()
+                .block();
 
-        return null;
+        return list;
+
     }
 
     @Transactional(readOnly = true)
-    public List<ReportUseScootersByTimeCcPauses> findUseScootersByTimeCcPauses() {
-        /*
-         * obtener info de trip-microservice (/api/trips/report/pauses)
-         *si viene como un obj lo mapeas directamente o necesitas el requestDTO
-         * luego obtener info de scooters y unir la informacion (si es necesario)
-         *
-        return scooterTripRepository.findAllByTimeCcPauses()
-                .stream()
-                .map(r-> new ReportUseScootersByTimeCcPauses(r.getId(),r.getLicensePlate(),r.getAvailable(),r.getCountTrips(),r.getKms())).collect(Collectors.toList());
-        */
-        return null;
+    public List<ReportScootersDTO> findUseScootersByTimeCcPauses() {
+        String token = this.request.getHeader(HttpHeaders.AUTHORIZATION);
+
+        List<ReportScootersDTO> list = (List<ReportScootersDTO>) this.webClient.build()
+                .get()
+                .uri("http://trip-microservice/api/trips/report/pauses")
+                .headers(httpHeaders -> {httpHeaders.set("Authorization", token);})
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToFlux(ReportScootersDTO.class)
+                .collectList()
+                .block();
+
+        return list;
     }
 
     @Transactional(readOnly = true)
-    public List<ReportUseScootersByTimeOutPauses> findUseScootersByTimeOutPauses() {
-        /*
-         * obtener info de trip-microservice (/api/trips/report/non&pauses)
-         *si viene como un obj lo mapeas directamente o necesitas el requestDTO
-         * luego obtener info de scooters y unir la informacion (si es necesario)
-         *
-        return scooterTripRepository.findAllByTimeWithoutPauses()
-                .stream()
-                .map(r-> new ReportUseScootersByTimeOutPauses(r.getId(),r.getLicensePlate(),r.getAvailable(),r.getCountTrips(),r.getKms())).collect(Collectors.toList());
-        */
-        return null;
+    public List<ReportScootersDTO> findUseScootersByTimeOutPauses() {
+        String token = this.request.getHeader(HttpHeaders.AUTHORIZATION);
+
+        List<ReportScootersDTO> list = (List<ReportScootersDTO>) this.webClient.build()
+                .get()
+                .uri("http://trip-microservice/api/trips/report/non&pauses")
+                .headers(httpHeaders -> {httpHeaders.set("Authorization", token);})
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToFlux(ReportScootersDTO.class)
+                .collectList()
+                .block();
+        return list;
     }
 
     @Transactional(readOnly = true)

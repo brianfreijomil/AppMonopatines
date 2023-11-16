@@ -41,6 +41,11 @@ public class JWTFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+
+        System.out.println("ANTES DE RECUPERAR EL TOKEN");
+
+        System.out.println(request.getHeaderNames());
+
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
 
