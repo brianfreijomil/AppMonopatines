@@ -47,7 +47,7 @@ public class AuthenticationFilter implements GatewayFilter {
             final String token = cadena[1];
 
             if (!jwtUtill.isValid(token)) {
-                return this.onError(exchange, HttpStatus.FORBIDDEN);
+                return this.onError(exchange, HttpStatus.UNAUTHORIZED);
             }
 
             //logica para los roles

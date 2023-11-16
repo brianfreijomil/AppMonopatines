@@ -10,6 +10,7 @@ import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.respons
 import com.appscootercopy.scooterusemicroservice.service.dto.trip.ScooterByTripsYearResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.request.UbicationRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.response.UbicationResponseDTO;
+import com.appscootercopy.scooterusemicroservice.service.exception.BadRequestException;
 import com.appscootercopy.scooterusemicroservice.service.exception.ConflictExistException;
 import com.appscootercopy.scooterusemicroservice.service.exception.NotFoundException;
 import com.appscootercopy.scooterusemicroservice.service.exception.UniqueException;
@@ -75,6 +76,7 @@ public class ScooterService {
 
     @Transactional(readOnly = true)
     public List<ScooterResponseDTO> findAllScooterCloseToMe(UbicationRequestDTO request) {
+        if(request.getX() == null || request.getY() == null) throw new BadRequestException("Complete all parameters");
         List<Scooter> scooters = scooterRepository.findAllCloseToMe(request.getX(), request.getY(), 5.0, 5.0);
         return scooters.stream()
                 .map(s1-> new ScooterResponseDTO(s1)).collect(Collectors.toList());
