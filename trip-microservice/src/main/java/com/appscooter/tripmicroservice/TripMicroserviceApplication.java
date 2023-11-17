@@ -1,5 +1,6 @@
 package com.appscooter.tripmicroservice;
 
+import com.appscooter.tripmicroservice.services.MainTest;
 import com.appscooter.tripmicroservice.services.loadData.CsvReader;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class TripMicroserviceApplication {
 	@Autowired
 	private CsvReader loadDb;
 
+	@Autowired
+	private MainTest tests;
+
 	public static void main(String[] args) {
 		SpringApplication.run(TripMicroserviceApplication.class, args);
 	}
@@ -24,5 +28,6 @@ public class TripMicroserviceApplication {
 	@PostConstruct
 	public void init() throws SQLException, IOException {
 		//this.loadDb.load();
+		//this.tests.loadTest();
 	}
 }

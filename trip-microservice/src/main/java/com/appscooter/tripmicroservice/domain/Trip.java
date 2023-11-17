@@ -51,15 +51,20 @@ public class Trip {
     }
 
     public Trip(Long id, Timestamp initTime, Timestamp endTime,
-                Double kms, Boolean ended, Double priceService, String scooter, String userEmail) {
+                Double kms, Boolean ended, Double priceService,
+                String scooter, String userEmail, PauseTrip pause) {
         this.id = id;
         this.initTime = initTime;
         this.endTime = endTime;
         this.kms = kms;
         this.ended = ended;
         this.tariff = new Tariff(priceService,1L);
-        //this.pause = pause;
-        this.pause = null;
+        if(pause != null) {
+            this.pause = new PauseTrip(pause.getTimePause(),pause.getInitPause(),pause.getEndPause());
+        }
+        else {
+            this.pause = null;
+        }
         this.timer = null;
         this.tariffExtra = null;
         this.licenseScooter = scooter;
