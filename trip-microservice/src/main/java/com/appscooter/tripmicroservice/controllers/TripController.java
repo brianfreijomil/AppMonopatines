@@ -59,7 +59,7 @@ public class TripController {
     }
 
     @DeleteMapping("/license-scooter/{licenseScooter}")
-    public void deleteTrip(@PathVariable String licenseScooter) {
+    public void deleteTripByLicenseScooter(@PathVariable String licenseScooter) {
         this.tripService.deleteAllTripByLicenseScooter(licenseScooter);
     }
 
@@ -73,8 +73,8 @@ public class TripController {
         this.tripService.endPause(id);
     }
 
-    @GetMapping("/profits/")
-    public List<ReportProfitsDTO> findProfitsByMonthsInYear(@RequestBody @Valid TotalProfitsRequestDTO request) {
+    @GetMapping("/profits")
+    public List<ReportProfitsDTO> findProfitsByMonthsInYear(@Valid TotalProfitsRequestDTO request) {
         return this.tripService.findProfitsBetweenMonthsInYear(request);
     }
 
