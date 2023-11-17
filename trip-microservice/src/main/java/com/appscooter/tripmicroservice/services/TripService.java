@@ -11,6 +11,7 @@ import com.appscooter.tripmicroservice.repositories.interfaces.ScootersByTripsAn
 import com.appscooter.tripmicroservice.services.dtos.generalprice.request.GeneralPriceRequestDTO;
 import com.appscooter.tripmicroservice.services.dtos.generalprice.response.GeneralPriceResponseDTO;
 import com.appscooter.tripmicroservice.services.dtos.scooter.ScooterResponseDTO;
+import com.appscooter.tripmicroservice.services.dtos.tariff.request.TotalProfitsRequestDTO;
 import com.appscooter.tripmicroservice.services.dtos.tariff.response.ReportProfitsDTO;
 import com.appscooter.tripmicroservice.services.dtos.trip.requests.FinishTripRequestDTO;
 import com.appscooter.tripmicroservice.services.dtos.trip.requests.TripRequestDTO;
@@ -223,9 +224,9 @@ public class TripService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReportProfitsDTO> findProfitsByMonthsInYear(Long year) {
-        return this.tariffRepository.findProfitsByMonthsInYear(year)
-                .stream().map(p->new ReportProfitsDTO(p.getXmonth(), p.getXyear(), p.getTotalProfits()))
+    public List<ReportProfitsDTO> findProfitsBetweenMonthsInYear(TotalProfitsRequestDTO request) {
+        return this.tariffRepository.findProfitsByMonthsInYear(request.getFirstMonth(), request.getLastMonth(), request.getYear())
+                .stream().map(p->new ReportProfitsDTO(request.getFirstMonth(), request.getLastMonth(), p.getXyear(), p.getTotalProfits()))
                 .collect(Collectors.toList());
     }
 
