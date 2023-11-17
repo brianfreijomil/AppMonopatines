@@ -36,7 +36,7 @@ public class SecurityConfig {
                                     "api/scooters/report/pauses",
                                     "api/scooters/report/non&pauses" ).hasRole(Constants.MANAGER)
                             .requestMatchers( HttpMethod.GET, "api/scooters/trips&year","api/scooters/availability").hasRole(Constants.ADMIN)
-                            .requestMatchers( HttpMethod.POST, "api/scooters", "").hasRole(Constants.ADMIN)
+                            .requestMatchers( HttpMethod.POST, "api/scooters").hasRole(Constants.ADMIN)
                             .requestMatchers( HttpMethod.DELETE, "api/scooters/{id}").hasRole(Constants.ADMIN)
                             .requestMatchers( HttpMethod.PUT, "api/scooters/{id}").hasRole(Constants.ADMIN)
                             .requestMatchers( HttpMethod.PATCH, "api/scooters/{id}").hasAnyRole(Constants.ADMIN, Constants.MANAGER)

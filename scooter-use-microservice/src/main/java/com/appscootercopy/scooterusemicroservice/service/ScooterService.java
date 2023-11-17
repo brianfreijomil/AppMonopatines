@@ -111,8 +111,15 @@ public class ScooterService {
     @Transactional
     public ResponseEntity saveScooter(ScooterRequestDTO request) {
         if(!this.scooterRepository.existsByLicensePLate(request.getLicensePlate())) {
-            this.scooterRepository.save(new Scooter(request));
-            return new ResponseEntity(request.getLicensePlate(), HttpStatus.CREATED);
+            Long idUbication= request.getUbication().getId();
+            System.out.println(idUbication);
+            System.out.println("id ubicartion");
+            if(idUbication != null && this.ubicationRepository.existsById(idUbication)) {
+                System.out.println("entontro un id de ubtication");
+                this.scooterRepository.save(new Scooter(request));
+                return new ResponseEntity(request.getLicensePlate(), HttpStatus.CREATED);
+            }
+            throw new NotFoundException("Ubication", "ID", idUbication);
         }
 
         throw new ConflictExistException("Scooter", "licensePlate", request.getLicensePlate());
@@ -145,6 +152,7 @@ public class ScooterService {
         if(!scooterExisting.isEmpty()){
             if(scooterExisting.get().getLicensePLate().equals(request.getLicensePlate())) {
                 scooterExisting.get().setAvailable(request.getAvailable());
+                //se deberia validar la ubicacion
                 scooterExisting.get().getUbication().setX(request.getUbication().getX());
                 scooterExisting.get().getUbication().setY(request.getUbication().getY());
                 return new ResponseEntity(idScooter, HttpStatus.ACCEPTED);
@@ -245,6 +253,7 @@ public class ScooterService {
     public ResponseEntity saveScooterStop(ScooterStopRequestDTO request) {
         Double x = request.getUbication().getX();
         Double y = request.getUbication().getY();
+        if(x == null && y == null) throw new BadRequestException("Error set X and Y in Ubication"); //PARChe
         if(this.scooterStopRepository.existsByUbicationXAndUbicationY(x,y) == null) {
             this.scooterStopRepository.save(new ScooterStop(request));
             return new ResponseEntity("ubication: "+x+", "+y, HttpStatus.CREATED);
@@ -267,6 +276,7 @@ public class ScooterService {
         if(!scooterStopExisting.isEmpty()){
             Double x = request.getUbication().getX();
             Double y = request.getUbication().getY();
+            if(x == null && y == null) throw new BadRequestException("Error set X and Y in Ubication"); //PARChe
             if(this.scooterStopRepository.existsByUbicationXAndUbicationY(x,y) == null) {
                 scooterStopExisting.get().getUbication().setX(x);
                 scooterStopExisting.get().getUbication().setY(y);

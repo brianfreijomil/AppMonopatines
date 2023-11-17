@@ -12,6 +12,7 @@ import com.appscootercopy.scooterusemicroservice.service.dto.ubication.request.U
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.response.UbicationResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,13 +44,13 @@ public class ScooterController {
 
     @GetMapping("/close")
     public List<ScooterResponseDTO> getAllScooterCloseToMe(UbicationRequestDTO request){
-        //cualquiera
         return this.scooterService.findAllScooterCloseToMe(request);
     }
 
     @PostMapping("")
     public ResponseEntity saveScooter(@RequestBody @Valid ScooterRequestDTO request){
-        //admin
+        System.out.println("llego al save");
+        System.out.println(request);
         return scooterService.saveScooter(request);
     }
 
@@ -67,19 +68,16 @@ public class ScooterController {
 
     @PatchMapping("/{id}")
     public ScooterResponseDTO changeAvailabilityScooter(@RequestBody @Valid EnableScooterRequestDTO request, @PathVariable Long id) {
-        //admin y manager
         return this.scooterService.enableScooter(request, id);
     }
 
     @GetMapping("/report/kms")
     public List<ReportScootersDTO> getReportUseScootersByKms() {
-        //manager
         return this.scooterService.findUseScootersByKms();
     }
 
     @GetMapping("/report/pauses")
     public List<ReportScootersDTO> getReportUseScootersByTimeCcPauses() {
-        //manager
         return this.scooterService.findUseScootersByTimeCcPauses();
     }
 
@@ -102,37 +100,31 @@ public class ScooterController {
 
     @GetMapping("/stops/")
     public List<ScooterStopResponseDTO> getAllScooterStop(){
-        //cualquiera
         return this.scooterService.findAllScooterStop();
     }
 
     @PostMapping("/stops")
     public ResponseEntity saveScooterStop(@RequestBody @Valid ScooterStopRequestDTO request) {
-        //manager y admin
         return this.scooterService.saveScooterStop(request);
     }
 
     @DeleteMapping("/stops/{id}")
     public void deleteScooterStop(@PathVariable Long id){
-        //manager y admin
         this.scooterService.deleteScooterStop(id);
     }
 
     @PutMapping("/stops/{id}")
     public ResponseEntity updateScooterStop(@RequestBody @Valid ScooterStopRequestDTO request, @PathVariable Long id){
-        //manager y admin
         return this.scooterService.updateScooterStop(request, id);
     }
 
     @GetMapping("/ubications/{id}")
     public UbicationResponseDTO getUbicationById(@PathVariable Long id){
-        //cualquiera
         return scooterService.findUbicationById(id);
     }
 
     @GetMapping("/ubications/")
     public List<UbicationResponseDTO> getAllUbication(){
-        //cualquiera
         return this.scooterService.findAllUbication();
     }
 
