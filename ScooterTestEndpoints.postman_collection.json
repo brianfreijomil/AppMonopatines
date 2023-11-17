@@ -36,12 +36,12 @@
 				"auth": {
 					"type": "bearer",
 					"bearer": {
-						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAxNzE5MjUsImV4cCI6MTcwMDE3NTUyNX0.kK02xXV_zUkG_kHVUwXIsK_6g0TDi-PLLEowQVHL6j0"
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyNDM0NDMsImV4cCI6MTcwMDI0NzA0M30.w4Z8wsZIMPs6ylt9D595jiDyyUrtuVwe8UxdWaEWJn0"
 					}
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/3A46"
+				"url": "http://localhost:8080/api/scooters/913L57"
 			},
 			"response": []
 		},
@@ -125,19 +125,19 @@
 			"response": []
 		},
 		{
-			"name": "saveScooter-/-Revisar",
+			"name": "saveScooter",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": {
-						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAxODkxOTksImV4cCI6MTcwMDE5Mjc5OX0.r5xpz66TlIgyRLPHIcxf7TMX1PNcmL4RTRR0i1nylk8"
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyMjc5MDMsImV4cCI6MTcwMDIzMTUwM30.gyp-4c7SbhPAuuETBUDEvFwjAtdVvFUow8pOJu_POTs"
 					}
 				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"available\": true,\r\n\"licensePlate\": \"bkll22\",\r\n\"ubication\": {\r\n    \"id\": 2,\r\n    \"x\": 13,\r\n    \"y\": 15\r\n}}",
+					"raw": "{\"available\": true,\r\n\"licensePlate\": \"hector777\",\r\n\"ubication\": {\r\n    \"x\": 13,\r\n    \"y\": 15\r\n}}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -149,32 +149,41 @@
 			"response": []
 		},
 		{
-			"name": "deleteScooter -/- Revisar del lado de trip",
+			"name": "deleteScooter",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": {
-						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAxODkxOTksImV4cCI6MTcwMDE5Mjc5OX0.r5xpz66TlIgyRLPHIcxf7TMX1PNcmL4RTRR0i1nylk8"
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyNDcxNjEsImV4cCI6MTcwMDI1MDc2MX0.SR08hjY7AQ-7utOz2IykDay2aXYysG45aYs2WWSFazg"
 					}
 				},
 				"method": "DELETE",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/1"
+				"url": "http://localhost:8080/api/scooters/3A46"
 			},
 			"response": []
 		},
 		{
-			"name": "updateScooter -/- Revisar service method",
+			"name": "updateScooter",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": {
-						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0cGVwZXJlbGw0QDE2ODguY29tIiwicm9sZXMiOlsidXNlciIsIm1hbmFnZXIiXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDE5Mjc4NywiZXhwIjoxNzAwMTk2Mzg3fQ.mXYgjaxmZwZdFenOvxsJsuCK1WwkNgAoAsKYW550P9o"
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyMjc5MDMsImV4cCI6MTcwMDIzMTUwM30.gyp-4c7SbhPAuuETBUDEvFwjAtdVvFUow8pOJu_POTs"
 					}
 				},
 				"method": "PUT",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/1"
+				"body": {
+					"mode": "raw",
+					"raw": "{\"available\": false,\r\n\"licensePlate\": \"9P81\",\r\n\"ubication\": {\r\n    \"id\": 200,\r\n    \"x\": 400,\r\n    \"y\": 990\r\n}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/scooters/3"
 			},
 			"response": []
 		},
@@ -208,7 +217,7 @@
 				"auth": {
 					"type": "bearer",
 					"bearer": {
-						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0cGVwZXJlbGw0QDE2ODguY29tIiwicm9sZXMiOlsidXNlciIsIm1hbmFnZXIiXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDE5MzIwMywiZXhwIjoxNzAwMTk2ODAzfQ.qIfMvy41Fv2vgarUJZT_Pj5k3Wk72xmtIePOsTXPxt4"
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyMjQwNDQsImV4cCI6MTcwMDIyNzY0NH0.Q7gJzjpTZawqEKakNE4Mn2r-9xyk-aRepDI-3_e8CbI"
 					}
 				},
 				"method": "GET",
@@ -218,12 +227,12 @@
 			"response": []
 		},
 		{
-			"name": "//-agregar pausas - getReportUseScootersByTimeCcPauses",
+			"name": "getReportUseScootersByTimeCcPauses",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": {
-						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0cGVwZXJlbGw0QDE2ODguY29tIiwicm9sZXMiOlsidXNlciIsIm1hbmFnZXIiXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDE5MzIwMywiZXhwIjoxNzAwMTk2ODAzfQ.qIfMvy41Fv2vgarUJZT_Pj5k3Wk72xmtIePOsTXPxt4"
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyNDcxNjEsImV4cCI6MTcwMDI1MDc2MX0.SR08hjY7AQ-7utOz2IykDay2aXYysG45aYs2WWSFazg"
 					}
 				},
 				"method": "GET",
@@ -295,7 +304,7 @@
 				"auth": {
 					"type": "bearer",
 					"bearer": {
-						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbWFncmFuZTdAaW1ndXIuY29tIiwicm9sZXMiOlsiYWRtaW4iXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDE5Mzg0NywiZXhwIjoxNzAwMTk3NDQ3fQ.NDL7unZU9oTEQGqn__Rk9e9SSCUlLGXcJHeShQ27Evw"
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyNDM0NDMsImV4cCI6MTcwMDI0NzA0M30.w4Z8wsZIMPs6ylt9D595jiDyyUrtuVwe8UxdWaEWJn0"
 					}
 				},
 				"method": "GET",
@@ -305,7 +314,7 @@
 			"response": []
 		},
 		{
-			"name": "saveScooterStop // parche en service",
+			"name": "saveScooterStop",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -334,12 +343,12 @@
 				"auth": {
 					"type": "bearer",
 					"bearer": {
-						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAxOTUwNjksImV4cCI6MTcwMDE5ODY2OX0.vN2cx5DhtTryRbZwgKFM-gerfgln-IxnNcDop84mw_0"
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyNDM0NDMsImV4cCI6MTcwMDI0NzA0M30.w4Z8wsZIMPs6ylt9D595jiDyyUrtuVwe8UxdWaEWJn0"
 					}
 				},
 				"method": "DELETE",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/stops/2"
+				"url": "http://localhost:8080/api/scooters/stops/5"
 			},
 			"response": []
 		},
@@ -373,7 +382,7 @@
 				"auth": {
 					"type": "bearer",
 					"bearer": {
-						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAxOTUwNjksImV4cCI6MTcwMDE5ODY2OX0.vN2cx5DhtTryRbZwgKFM-gerfgln-IxnNcDop84mw_0"
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyNDM0NDMsImV4cCI6MTcwMDI0NzA0M30.w4Z8wsZIMPs6ylt9D595jiDyyUrtuVwe8UxdWaEWJn0"
 					}
 				},
 				"method": "GET",
@@ -385,8 +394,15 @@
 		{
 			"name": "checkScooterInStop",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJ1c2VyIiwiYWRtaW4iXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTY5OTcyMjYxMSwiZXhwIjoxNjk5NzI2MjExfQ.HaNC9Fktl16Kaq0MjwI0OGvFfpo1Qn5yOxFcNBvWowQ"
+					}
+				},
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "http://localhost:8080/api/scooters/3A46/in-stop"
 			},
 			"response": []
 		}

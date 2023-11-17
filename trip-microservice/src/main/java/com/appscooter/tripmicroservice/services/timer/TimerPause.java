@@ -34,7 +34,6 @@ public class TimerPause {
         timer.schedule(new PostTimer(idTrip, repository, tariffRep, priceRepository), 2 * 60 * 1000);
         trip.get().setPause(new PauseTrip(Time.valueOf(LocalTime.now())));
         this.repository.save(trip.get());
-        System.out.println("pausa iniciada: "+Time.valueOf(LocalTime.now()));
     }
 
 

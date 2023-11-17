@@ -73,8 +73,8 @@ public class TripController {
         this.tripService.endPause(id);
     }
 
-    @GetMapping("/profits/")
-    public List<ReportProfitsDTO> findProfitsByMonthsInYear(@RequestBody @Valid TotalProfitsRequestDTO request) {
+    @GetMapping("/profits")
+    public List<ReportProfitsDTO> findProfitsByMonthsInYear(@Valid TotalProfitsRequestDTO request) {
         return this.tripService.findProfitsBetweenMonthsInYear(request);
     }
 

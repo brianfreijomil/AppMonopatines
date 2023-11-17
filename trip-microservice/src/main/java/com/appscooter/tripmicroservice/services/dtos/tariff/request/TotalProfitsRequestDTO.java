@@ -11,14 +11,16 @@ import lombok.RequiredArgsConstructor;
 public class TotalProfitsRequestDTO {
 
     @NotNull(message = "firstMonth cannot be null")
-    @Min(value = 1, message ="ID should not be less than 200")
-    @Max(value = 12, message ="ID should not be greater than 200")
+    @Min(value = 1, message ="firstMonth should not be less than 1")
+    @Max(value = 12, message ="firstMonth should not be greater than 12")
     private Long firstMonth;
-    @Min(value = 1, message ="ID should not be less than 200")
-    @Max(value = 12, message ="ID should not be greater than 200")
+    @NotNull(message = "lastMonth cannot be null")
+    @Min(value = 1, message ="lastMonth should not be less than 1")
+    @Max(value = 12, message ="lastMonth should not be greater than 12")
     private Long lastMonth;
-    @Min(value = 2022, message ="ID should not be less than 2022")
-    @Max(value = 2024, message ="ID should not be greater than 2024")
+    @NotNull(message = "year cannot be null")
+    @Min(value = 2022, message ="year should not be less than 2022")
+    @Max(value = 2024, message ="year should not be greater than 2024")
     private Long year;
 
 }

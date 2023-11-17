@@ -232,6 +232,11 @@ public class TripService {
 
     @Transactional(readOnly = true)
     public List<ReportProfitsDTO> findProfitsBetweenMonthsInYear(TotalProfitsRequestDTO request) {
+        if(request.getFirstMonth() > request.getLastMonth()){
+            Long copy = request.getFirstMonth();
+            request.setFirstMonth(request.getLastMonth());
+            request.setLastMonth(copy);
+        }
         return this.tariffRepository.findProfitsByMonthsInYear(request.getFirstMonth(), request.getLastMonth(), request.getYear())
                 .stream().map(p->new ReportProfitsDTO(request.getFirstMonth(), request.getLastMonth(), p.getXyear(), p.getTotalProfits()))
                 .collect(Collectors.toList());
@@ -262,7 +267,6 @@ public class TripService {
 
     @Transactional(readOnly = true)
     public List<ReportScootersDTO> findUseScootersByKms() {
-        System.out.println("entro al report kms");
         return this.tripRepository.findAllByKms()
                 .stream()
                 .map(r-> new ReportScootersDTO(r.getLicenseScooter(),r.getCountTrips(),r.getKms())).collect(Collectors.toList());

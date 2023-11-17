@@ -310,17 +310,12 @@ public class ScooterService {
     public ResponseEntity checkScooterInStop(String licensePlate) {
         Scooter s = this.scooterRepository.findByLicensePLate(licensePlate);
         if(s != null) {
-            System.out.println("entro al scooter");
             ScooterStop ss = this.scooterStopRepository.existsByUbicationXAndUbicationY(s.getUbication().getX(), s.getUbication().getY());
-            System.out.println(ss);
             if(ss != null) {
-                System.out.println("es nulo no tiene q entrar");
                 return new ResponseEntity(licensePlate, HttpStatus.ACCEPTED);
             }
-            System.out.println("Es nulo invalidScooterException");
             throw new InvalidScooterStopException("ScooterStop", "licensePlate", licensePlate);
         }
         throw new NotFoundException("scooter", "licensePlate", licensePlate);
     }
-
 }
