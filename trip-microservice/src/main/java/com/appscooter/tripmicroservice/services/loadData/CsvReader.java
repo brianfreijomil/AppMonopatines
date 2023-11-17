@@ -55,7 +55,7 @@ public class CsvReader {
             Double kms = Double.valueOf(row.get("kms"));
             Boolean ended = Boolean.valueOf(row.get("ended"));
             String scooter = String.valueOf(row.get("licenseScooter"));
-            Long user = Long.valueOf(row.get("user"));
+            String user = String.valueOf(row.get("user"));
 
             String time = String.valueOf(row.get("time_pause"));
             String initPause = String.valueOf(row.get("init_pause"));
