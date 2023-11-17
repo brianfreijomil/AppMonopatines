@@ -181,6 +181,13 @@ public class TripService {
     }
 
     @Transactional
+    public ResponseEntity deleteAllTripByLicenseScooter(String licenseScooter) {
+        //queres chequeos?
+            this.tripRepository.deleteAllByLicenseScooter(licenseScooter);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @Transactional
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void initPause(Long id) {
         Optional<Trip> trip = this.tripRepository.findById(id);

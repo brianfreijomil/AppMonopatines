@@ -26,6 +26,9 @@ public interface TripRepository extends JpaRepository<Trip,Long> {
             "ORDER BY kms DESC")
     List<ReportInterface> findAllByKms();
 
+    @Query("DELETE FROM Trip t WHERE t.licenseScooter =:license")
+    void deleteAllByLicenseScooter(@Param("license") String licenseScooter);
+
     @Query("SELECT t.licenseScooter AS licenseScooter" +
             ", COUNT(t.id) AS countTrips" +
             ", SUM(t.kms) AS kms " +

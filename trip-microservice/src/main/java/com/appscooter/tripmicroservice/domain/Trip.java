@@ -58,6 +58,7 @@ public class Trip {
         this.kms = kms;
         this.ended = ended;
         this.tariff = new Tariff(priceService,1L);
+        //this.pause = pause;
         this.pause = null;
         this.timer = null;
         this.tariffExtra = null;

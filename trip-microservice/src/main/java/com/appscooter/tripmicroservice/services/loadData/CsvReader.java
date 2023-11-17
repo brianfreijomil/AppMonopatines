@@ -1,6 +1,7 @@
 package com.appscooter.tripmicroservice.services.loadData;
 
 import com.appscooter.tripmicroservice.domain.GeneralPrice;
+import com.appscooter.tripmicroservice.domain.PauseTrip;
 import com.appscooter.tripmicroservice.domain.Trip;
 import com.appscooter.tripmicroservice.repositories.GeneralPriceRepository;
 import com.appscooter.tripmicroservice.repositories.TariffRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -54,6 +56,14 @@ public class CsvReader {
             Boolean ended = Boolean.valueOf(row.get("ended"));
             String scooter = String.valueOf(row.get("licenseScooter"));
             Long user = Long.valueOf(row.get("user"));
+            /*pauses
+            Long time = Long.valueOf(row.get("time_pause"));
+            Time initPause = Time.valueOf(row.get("init_pause"));
+            Time endPause = Time.valueOf(row.get("end_pause"));
+            PauseTrip pause = new PauseTrip(time, initPause, endPause);
+
+             */
+
             Trip trip = new Trip(id, initTime, endTime, kms, ended, 198.5, scooter, user);
             tripRepository.save(trip);
         }

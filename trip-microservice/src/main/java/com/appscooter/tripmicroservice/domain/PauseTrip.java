@@ -26,4 +26,10 @@ public class PauseTrip {
     public PauseTrip(Time initPause) {
         this.initPause = initPause;
     }
+
+    public PauseTrip(Long time, Time init, Time end) {
+        this.timePause=time;
+        this.initPause=init;
+        this.endPause=end;
+    }
 }

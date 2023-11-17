@@ -62,6 +62,11 @@ public class TripController {
         this.tripService.deleteTrip(id);
     }
 
+    @DeleteMapping("/license-scooter/{licenseScooter}")
+    public void deleteTrip(@PathVariable String licenseScooter) {
+        this.tripService.deleteAllTripByLicenseScooter(licenseScooter);
+    }
+
     @PutMapping("/{id}/stops")
     public void initPause(@PathVariable Long id) {
         this.tripService.initPause(id);
