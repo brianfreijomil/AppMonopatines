@@ -3,6 +3,7 @@ package com.appscooter.tripmicroservice.controllers;
 import com.appscooter.tripmicroservice.services.TripService;
 import com.appscooter.tripmicroservice.services.dtos.generalprice.request.GeneralPriceRequestDTO;
 import com.appscooter.tripmicroservice.services.dtos.generalprice.response.GeneralPriceResponseDTO;
+import com.appscooter.tripmicroservice.services.dtos.tariff.request.TotalProfitsRequestDTO;
 import com.appscooter.tripmicroservice.services.dtos.tariff.response.ReportProfitsDTO;
 import com.appscooter.tripmicroservice.services.dtos.trip.requests.FinishTripRequestDTO;
 import com.appscooter.tripmicroservice.services.dtos.trip.requests.TripRequestDTO;
@@ -72,9 +73,9 @@ public class TripController {
         this.tripService.endPause(id);
     }
 
-    @GetMapping("/profits/{year}")
-    public List<ReportProfitsDTO> findProfitsByMonthsInYear(@PathVariable Long year) {
-        return this.tripService.findProfitsByMonthsInYear(year);
+    @GetMapping("/profits/")
+    public List<ReportProfitsDTO> findProfitsByMonthsInYear(@RequestBody @Valid TotalProfitsRequestDTO request) {
+        return this.tripService.findProfitsBetweenMonthsInYear(request);
     }
 
     @PostMapping("/prices")
