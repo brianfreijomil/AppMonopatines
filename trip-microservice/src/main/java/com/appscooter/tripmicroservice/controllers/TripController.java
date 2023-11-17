@@ -58,7 +58,7 @@ public class TripController {
     }
 
     @DeleteMapping("/license-scooter/{licenseScooter}")
-    public void deleteTrip(@PathVariable String licenseScooter) {
+    public void deleteTripByLicenseScooter(@PathVariable String licenseScooter) {
         this.tripService.deleteAllTripByLicenseScooter(licenseScooter);
     }
 

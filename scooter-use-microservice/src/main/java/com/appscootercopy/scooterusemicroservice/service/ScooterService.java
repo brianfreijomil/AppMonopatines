@@ -10,10 +10,7 @@ import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.respons
 import com.appscootercopy.scooterusemicroservice.service.dto.trip.ScooterByTripsYearResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.request.UbicationRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.response.UbicationResponseDTO;
-import com.appscootercopy.scooterusemicroservice.service.exception.BadRequestException;
-import com.appscootercopy.scooterusemicroservice.service.exception.ConflictExistException;
-import com.appscootercopy.scooterusemicroservice.service.exception.NotFoundException;
-import com.appscootercopy.scooterusemicroservice.service.exception.UniqueException;
+import com.appscootercopy.scooterusemicroservice.service.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -313,13 +310,15 @@ public class ScooterService {
     public ResponseEntity checkScooterInStop(String licensePlate) {
         Scooter s = this.scooterRepository.findByLicensePLate(licensePlate);
         if(s != null) {
+            System.out.println("entro al scooter");
             ScooterStop ss = this.scooterStopRepository.existsByUbicationXAndUbicationY(s.getUbication().getX(), s.getUbication().getY());
+            System.out.println(ss);
             if(ss != null) {
+                System.out.println("es nulo no tiene q entrar");
                 return new ResponseEntity(licensePlate, HttpStatus.ACCEPTED);
             }
-            else {
-                return new ResponseEntity(licensePlate, HttpStatus.NOT_FOUND);
-            }
+            System.out.println("Es nulo invalidScooterException");
+            throw new InvalidScooterStopException("ScooterStop", "licensePlate", licensePlate);
         }
         throw new NotFoundException("scooter", "licensePlate", licensePlate);
     }

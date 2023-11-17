@@ -1,7 +1,10 @@
 package com.appscooter.tripmicroservice.services.exception;
 
+import lombok.Getter;
+
 import java.sql.Timestamp;
 
+@Getter
 public class ConflictExistException extends RuntimeException {
 
     private String message;

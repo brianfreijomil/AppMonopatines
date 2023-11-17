@@ -1,5 +1,8 @@
 package com.appscooter.tripmicroservice.services.exception;
 
+import lombok.Getter;
+
+@Getter
 public class PauseActiveException extends RuntimeException {
 
     private String message;

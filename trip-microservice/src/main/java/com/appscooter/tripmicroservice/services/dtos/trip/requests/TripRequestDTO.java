@@ -22,7 +22,7 @@ public class TripRequestDTO {
     @NotNull(message = "endend cannot be null")
     @NotEmpty(message = "the licenseScooter cannot be empty")
     private String licenseScooter;
-    @NotNull(message = "userId cannot be null")
-    @NotEmpty(message = "the userId cannot be empty")
+    @NotNull(message = "userEmail cannot be null")
+    @NotEmpty(message = "the userEmail cannot be empty")
     private String userEmail;
 }
