@@ -56,16 +56,21 @@ public class CsvReader {
             Boolean ended = Boolean.valueOf(row.get("ended"));
             String scooter = String.valueOf(row.get("licenseScooter"));
             Long user = Long.valueOf(row.get("user"));
-            /*pauses
-            Long time = Long.valueOf(row.get("time_pause"));
-            Time initPause = Time.valueOf(row.get("init_pause"));
-            Time endPause = Time.valueOf(row.get("end_pause"));
-            PauseTrip pause = new PauseTrip(time, initPause, endPause);
 
-             */
+            String time = String.valueOf(row.get("time_pause"));
+            String initPause = String.valueOf(row.get("init_pause"));
+            String endPause = String.valueOf(row.get("end_pause"));
 
-            Trip trip = new Trip(id, initTime, endTime, kms, ended, 198.5, scooter, user);
-            tripRepository.save(trip);
+            if(time.isEmpty() && initPause.isEmpty() && endPause.isEmpty()) {
+                Trip trip = new Trip(id, initTime, endTime, kms, ended, 198.5, scooter, user, null);
+                tripRepository.save(trip);
+            }
+            else {
+                Long timeP = Long.valueOf(time);
+                PauseTrip pause = new PauseTrip(timeP, Time.valueOf(initPause), Time.valueOf(endPause));
+                Trip trip = new Trip(id, initTime, endTime, kms, ended, 198.5, scooter, user, pause);
+                tripRepository.save(trip);
+            }
         }
     }
 
