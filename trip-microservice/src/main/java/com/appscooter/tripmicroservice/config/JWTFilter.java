@@ -28,6 +28,12 @@ public class JWTFilter extends OncePerRequestFilter {
     }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        System.out.println(request.getRequestURI());
+        if(request.getRequestURI().startsWith("/trip-microservice/api/trips/fakeRoute")){
+            System.out.println("entro");
+            filterChain.doFilter(request, response);
+            return;
+        }
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         String token = header.split(" ")[1].trim();

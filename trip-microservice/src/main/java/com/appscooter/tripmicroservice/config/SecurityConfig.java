@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> {
                     authorize
+                            .requestMatchers("api/trips/fakeRoute").permitAll()
                             .requestMatchers( HttpMethod.GET, "api/trips/scooter/{licensePlate}").hasAnyRole(Constants.ADMIN, Constants.MANAGER)
                             .requestMatchers( HttpMethod.DELETE, "api/trips/{id}", "api/trips/license-scooter/{licenseScooter}").hasAnyRole(Constants.ADMIN, Constants.MANAGER)
                             .requestMatchers( HttpMethod.GET, "api/trips/profits/{year}", "api/trips/prices/", "api/trips/scooters/trips&year").hasRole(Constants.ADMIN)
