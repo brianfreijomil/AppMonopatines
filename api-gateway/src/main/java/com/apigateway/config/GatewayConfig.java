@@ -17,7 +17,7 @@ public class GatewayConfig {
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("user-microservice", r -> r.path("/api/users/**", "/api/accounts/**")
+                .route("user-microservice", r -> r.path("/api/users/**", "/api/accounts/**", "/swagger-ui.html")
                         .filters(f -> f.filter(filter))
                         .uri("lb://USER-MICROSERVICE"))
 
