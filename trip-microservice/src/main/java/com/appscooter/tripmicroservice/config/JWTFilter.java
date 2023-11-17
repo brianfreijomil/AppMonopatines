@@ -29,18 +29,7 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //falsifico un usuario para que admita el post a crear usuario
-        if(request.getRequestURI().equals("/api/users/") && request.getMethod().equals("POST")){
-            List<String> fakeRole = new ArrayList<String>();
-            fakeRole.add("user");
-            this.userSecurityService.setRoles(fakeRole);
-            User user = (User) userSecurityService.loadUserByUsername("fakeEmail");
-            UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(
-                    user.getUsername(), user.getPassword(), user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            filterChain.doFilter(request, response);
-            return;
-        }
+        System.out.println("llego");
 
         System.out.println("ANTES DE RECUPERAR EL TOKEN");
 

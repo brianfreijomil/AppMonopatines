@@ -34,24 +34,24 @@ public class Trip {
     @Column(nullable = false)
     private String licenseScooter;
     @Column
-    private Long userId;
+    private String userEmail;
 
     public Trip(TripRequestDTO requestDTO, Double priceService) {
         this.id = requestDTO.getId();
         this.initTime = requestDTO.getInitTime();
-        this.endTime = requestDTO.getEndTime();
+        this.endTime = null;
         this.kms = requestDTO.getKms();
-        this.ended = requestDTO.getEnded();
+        this.ended = false;
         this.tariff = new Tariff(priceService, 1L);
         this.pause = null;
         this.timer = null;
         this.tariffExtra = null;
         this.licenseScooter = requestDTO.getLicenseScooter();
-        this.userId = requestDTO.getUserId();
+        this.userEmail = requestDTO.getUserEmail();
     }
 
     public Trip(Long id, Timestamp initTime, Timestamp endTime,
-                Double kms, Boolean ended, Double priceService, String scooter, Long userId) {
+                Double kms, Boolean ended, Double priceService, String scooter, String userEmail) {
         this.id = id;
         this.initTime = initTime;
         this.endTime = endTime;
@@ -63,7 +63,7 @@ public class Trip {
         this.timer = null;
         this.tariffExtra = null;
         this.licenseScooter = scooter;
-        this.userId = userId;
+        this.userEmail = userEmail;
     }
 
 }

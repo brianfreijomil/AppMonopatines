@@ -16,16 +16,13 @@ public class TripRequestDTO {
     private Long id;
     @NotNull(message = "initTime cannot be null")
     private Timestamp initTime;
-    @NotNull(message = "endTime cannot be null")
-    private Timestamp endTime;
     @Min(value = 0, message ="kms should not be less than 0")
     @NotNull(message = "kms cannot be null")
     private Double kms;
     @NotNull(message = "endend cannot be null")
-    private Boolean ended;
-    @NotNull(message = "endend cannot be null")
-    @NotEmpty(message = "te licenseScooter cannot be empty")
+    @NotEmpty(message = "the licenseScooter cannot be empty")
     private String licenseScooter;
     @NotNull(message = "userId cannot be null")
-    private Long userId;
+    @NotEmpty(message = "the userId cannot be empty")
+    private String userEmail;
 }

@@ -31,6 +31,14 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> {
                     authorize
+                            .requestMatchers( HttpMethod.GET, "api/trips/scooter/{licensePlate}").hasAnyRole(Constants.ADMIN, Constants.MANAGER)
+                            .requestMatchers( HttpMethod.DELETE, "api/trips/{id}", "api/trips/license-scooter/{licenseScooter}").hasAnyRole(Constants.ADMIN, Constants.MANAGER)
+                            .requestMatchers( HttpMethod.GET, "api/trips/profits/{year}", "api/trips/prices/", "api/trips/scooters/trips&year").hasRole(Constants.ADMIN)
+                            .requestMatchers( HttpMethod.POST, "api/trips/prices").hasRole(Constants.ADMIN)
+                            .requestMatchers( HttpMethod.GET,
+                                    "api/trips/report/kms",
+                                    "api/trips/report/pauses",
+                                    "api/trips/report/non&pauses" ).hasRole(Constants.MANAGER)
                             .anyRequest()
                             .authenticated();
                 } )

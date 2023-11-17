@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/trips")
+@RequestMapping("api/trips")
 public class TripController {
 
     private TripService tripService;
@@ -45,11 +45,6 @@ public class TripController {
     @PostMapping("")
     public ResponseEntity save(@RequestBody @Valid TripRequestDTO request) {
         return tripService.saveTrip(request);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity updateTrip(@RequestBody @Valid TripRequestDTO request, @PathVariable Long id) {
-        return this.tripService.updateTrip(request, id);
     }
 
     @PatchMapping("/{id}")
@@ -109,14 +104,7 @@ public class TripController {
 
     @GetMapping("/scooters/trips&year")
     public List<ScooterByTripsYearResponseDTO> getAllScooterByTripsAndYear(@RequestBody @Valid TripsAndYearRequestDTO request){
-        System.out.println(request);
         List<ScooterByTripsYearResponseDTO> list = this.tripService.findAllScooterByTripsAndYear(request);
-        //List<ScooterByTripsYearResponseDTO> list = new ArrayList<>();
-        //ScooterByTripsYearResponseDTO a1 = new ScooterByTripsYearResponseDTO("aa", 1L, 2024L);
-        //ScooterByTripsYearResponseDTO a2 = new ScooterByTripsYearResponseDTO("aa", 1L, 2024L);
-        //list.add(a1);
-        //list.add(a2);
-        System.out.println(list);
         return list;
     }
 

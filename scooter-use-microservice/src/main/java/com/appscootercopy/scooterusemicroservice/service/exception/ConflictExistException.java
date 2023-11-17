@@ -15,6 +15,10 @@ public class ConflictExistException extends RuntimeException {
         this.message = String.format("There is already a %s entity with %s %s.", entity, attribute, licensePLate);
     }
 
+    public ConflictExistException(String entity, String attribute, Long id) {
+        this.message = String.format("There is already a %s entity with %s %s.", entity, attribute, id);
+    }
+
     public String getMessage() {
         return message;
     }

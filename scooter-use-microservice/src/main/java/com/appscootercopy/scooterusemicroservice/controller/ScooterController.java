@@ -57,7 +57,6 @@ public class ScooterController {
     @DeleteMapping("/{id}")
     public void deleteScooter(@PathVariable Long id){
         this.scooterService.deleteScooter(id);
-        //admin
     }
 
     @PutMapping("/{id}")

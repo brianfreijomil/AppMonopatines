@@ -1,5 +1,6 @@
 package com.appscooter.tripmicroservice.services;
 
+import com.appscooter.tripmicroservice.config.utils.JWTUtill;
 import com.appscooter.tripmicroservice.domain.GeneralPrice;
 import com.appscooter.tripmicroservice.domain.PauseTrip;
 import com.appscooter.tripmicroservice.domain.Trip;
@@ -47,13 +48,16 @@ public class TripService {
     private TariffRepository tariffRepository;
     private GeneralPriceRepository priceRepository;
 
+    private JWTUtill jwtUtill;
+
     private WebClient.Builder webClient;
 
     @Autowired
     HttpServletRequest request;
 
     public TripService(TripRepository t, TariffRepository tariffRepository,
-                       GeneralPriceRepository pr) {
+                       GeneralPriceRepository pr, JWTUtill jwtUtill) {
+        this.jwtUtill = jwtUtill;
         this.tripRepository=t;
         this.tariffRepository=tariffRepository;
         this.priceRepository=pr;
@@ -98,8 +102,12 @@ public class TripService {
                 if(currentPrices != null) {
                     GeneralPrice lastPrices = this.priceRepository.findByLastDateValidity(currentPrices.getDateValidity());
                     if(lastPrices == null || currentDate.compareTo(lastPrices.getDateValidity()) < 0) {
-                        this.tripRepository.save(new Trip(request, currentPrices.getPriceService()));
-                        return new ResponseEntity(request.getId(), HttpStatus.CREATED);
+                        if(this.jwtUtill.getUserName(token).equals(request.getUserEmail())) {
+                            this.tripRepository.save(new Trip(request, currentPrices.getPriceService()));
+                            return new ResponseEntity(request.getId(), HttpStatus.CREATED);
+                        } else {
+                            throw new NotFoundException("User", "email", request.getUserEmail());
+                        }
                     }
                     else {
                         lastPrices.setCurrent(true);
@@ -117,26 +125,6 @@ public class TripService {
         throw new ConflictExistException("Trip", "ID", request.getId());
     }
 
-    @Transactional
-    public ResponseEntity updateTrip(TripRequestDTO request, Long id) {
-        Optional<Trip> tripExisting = this.tripRepository.findById(id);
-        if(!tripExisting.isEmpty()){
-            if(this.tripRepository.existsById(request.getId())) {
-                if(request.getId() == id) {
-                    tripExisting.get().setKms(request.getKms());
-                    tripExisting.get().setInitTime(request.getInitTime());
-                    tripExisting.get().setEndTime(request.getEndTime());
-                    tripExisting.get().setEnded(request.getEnded());
-                    return new ResponseEntity(id, HttpStatus.ACCEPTED);
-                }
-                else {
-                    throw new ConflictExistException("Trip", "Id", request.getId());
-                }
-            }
-            throw new NotFoundException("Trip", "Id", request.getId());
-        }
-        throw new NotFoundException("Trip", "Id", id);
-    }
 
     @Transactional
     public ResponseEntity finishTrip(FinishTripRequestDTO request, Long id) {
@@ -182,9 +170,8 @@ public class TripService {
 
     @Transactional
     public ResponseEntity deleteAllTripByLicenseScooter(String licenseScooter) {
-        //queres chequeos?
             this.tripRepository.deleteAllByLicenseScooter(licenseScooter);
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity(HttpStatus.OK);
     }
 
     @Transactional
