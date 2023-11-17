@@ -6,10 +6,7 @@ import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.DTOs.User.response.UserResponseDTO;
 import com.ScootersApp.Service.DTOs.userAccount.request.UserAccountRequestDTO;
 import com.ScootersApp.Service.DTOs.userAccount.response.UserAccountResponseDTO;
-import com.ScootersApp.Service.exception.ConflictExistException;
-import com.ScootersApp.Service.exception.ConflictWithStatusException;
-import com.ScootersApp.Service.exception.NotFoundException;
-import com.ScootersApp.Service.exception.ReferencedRowException;
+import com.ScootersApp.Service.exception.*;
 import com.ScootersApp.domain.*;
 import com.ScootersApp.repository.AccountRepository;
 import com.ScootersApp.repository.RoleRepository;
@@ -54,21 +51,26 @@ public class UserService {
     @Transactional
     public ResponseEntity save(UserRequest user){
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
-        if(!this.repository.existsByMail(user.getMail())){
-            User newUser= new User(user);
-            List<Role> roles = new ArrayList<>();
-            for(String s: user.getRoles()){
-                Role r = this.roleRepository.findById(s).get();
-                if(r != null){
-                    roles.add(r);
+        if(user.getMail().contains("@")){
+            if(!this.repository.existsByMail(user.getMail())){
+                User newUser= new User(user);
+                List<Role> roles = new ArrayList<>();
+                for(String s: user.getRoles()){
+                    Role r = this.roleRepository.findById(s).get();
+                    if(r != null){
+                        roles.add(r);
+                    }
                 }
+                newUser.setRoles(roles);
+                this.repository.save(newUser);
+                return new ResponseEntity(newUser.getID(), HttpStatus.CREATED);
             }
-            newUser.setRoles(roles);
-            this.repository.save(newUser);
-            return new ResponseEntity(newUser.getID(), HttpStatus.CREATED);
+            else {
+                throw new ConflictExistException("User", "mail", user.getMail());
+            }
         }
         else {
-            throw new ConflictExistException("User", "mail", user.getMail());
+            throw new ConflictInvalidMail(user.getMail());
         }
     }
 

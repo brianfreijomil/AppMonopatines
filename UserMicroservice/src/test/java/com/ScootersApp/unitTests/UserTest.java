@@ -20,7 +20,7 @@ public class UserTest {
 
     @Test
     public void testGetAllUsers(){
-        List<com.ScootersApp.Service.DTOs.User.response.UserResponseDTO> users = controller.getAllUsers();
+        List<UserResponseDTO> users = controller.getAllUsers();
         // Aseguramos que la lista no sea nula y tiene al menos un usuario
         Assert.assertNotNull(users);
         Assert.assertNotEquals(0, users.size());
@@ -28,17 +28,17 @@ public class UserTest {
 
     @Test
     public void checkSyntaxMails(){
-        List<com.ScootersApp.Service.DTOs.User.response.UserResponseDTO> users = controller.getAllUsers();
+        List<UserResponseDTO> users = controller.getAllUsers();
         for (UserResponseDTO u: users) {
             String currentMail = u.getMail();
             // Aseguramos que los mails de los usuarios contengan todos "@"
-            org.junit.Assert.assertTrue(currentMail.contains("@"));
+            Assert.assertTrue(currentMail.contains("@"));
         }
     }
 
     @Test
     public void checkPhoneNumbersDoesntContainsWrongCharacters(){
-        List<com.ScootersApp.Service.DTOs.User.response.UserResponseDTO> users = controller.getAllUsers();
+        List<UserResponseDTO> users = controller.getAllUsers();
         ArrayList<String> wrongCharacters = new ArrayList<>();
         wrongCharacters.add("#");
         wrongCharacters.add("!");
@@ -50,7 +50,7 @@ public class UserTest {
             for (String character: wrongCharacters) {
                 // Aseguramos que los numeros de telefono de los usuarios no contengan
                 // caracteres invalidos
-                org.junit.Assert.assertTrue(!currentNumber.contains(character));
+                Assert.assertTrue(!currentNumber.contains(character));
             }
         }
     }
