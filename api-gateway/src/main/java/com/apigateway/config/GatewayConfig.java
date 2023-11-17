@@ -17,6 +17,7 @@ public class GatewayConfig {
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder.routes()
+
                 .route("trip-microservice", r -> r.path("/api/trips/**")
                         .filters(f -> f.filter(filter))
                         .uri("lb://TRIP-MICROSERVICE"))
