@@ -17,18 +17,19 @@ public class GatewayConfig {
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("user-microservice", r -> r.path("/api/users/**", "/api/accounts/**", "/swagger-ui.html")
+
+                .route("trip-microservice", r -> r.path("/api/trips/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("lb://TRIP-MICROSERVICE"))
+                .route("user-microservice", r -> r.path("/api/users/**", "/api/accounts/**")
                         .filters(f -> f.filter(filter))
                         .uri("lb://USER-MICROSERVICE"))
-
                 .route("scooter-use-microservice", r -> r.path("/api/scooters/**")
                         .filters(f -> f.filter(filter))
                         .uri("lb://SCOOTER-USE-MICROSERVICE"))
-
                 .route("api/auth", r -> r.path("/**")
                         .filters(f -> f.filter(filter))
                         .uri("lb://AUTH"))
-
                 .build();
     }
 

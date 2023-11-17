@@ -10,10 +10,7 @@ import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.respons
 import com.appscootercopy.scooterusemicroservice.service.dto.trip.ScooterByTripsYearResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.request.UbicationRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.response.UbicationResponseDTO;
-import com.appscootercopy.scooterusemicroservice.service.exception.BadRequestException;
-import com.appscootercopy.scooterusemicroservice.service.exception.ConflictExistException;
-import com.appscootercopy.scooterusemicroservice.service.exception.NotFoundException;
-import com.appscootercopy.scooterusemicroservice.service.exception.UniqueException;
+import com.appscootercopy.scooterusemicroservice.service.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -111,15 +108,16 @@ public class ScooterService {
     @Transactional
     public ResponseEntity saveScooter(ScooterRequestDTO request) {
         if(!this.scooterRepository.existsByLicensePLate(request.getLicensePlate())) {
-            Long idUbication= request.getUbication().getId();
-            System.out.println(idUbication);
-            System.out.println("id ubicartion");
-            if(idUbication != null && this.ubicationRepository.existsById(idUbication)) {
-                System.out.println("entontro un id de ubtication");
+            if(request.getUbication().getId() != null && !this.ubicationRepository.existsById(request.getUbication().getId())){
+                if(request.getUbication().getX() == null || request.getUbication().getY() == null) throw  new BadRequestException(("Complete X and Y of Ubication"));
+                this.scooterRepository.save(new Scooter(request, request.getUbication().getX(), request.getUbication().getY()));
+            }else if (request.getUbication().getId() == null){
                 this.scooterRepository.save(new Scooter(request));
-                return new ResponseEntity(request.getLicensePlate(), HttpStatus.CREATED);
+            }else{
+                throw new ConflictExistException("Ubication", "ID", request.getUbication().getId());
             }
-            throw new NotFoundException("Ubication", "ID", idUbication);
+
+            return new ResponseEntity(request.getLicensePlate(), HttpStatus.CREATED);
         }
 
         throw new ConflictExistException("Scooter", "licensePlate", request.getLicensePlate());
@@ -127,19 +125,21 @@ public class ScooterService {
 
     @Transactional
     public ResponseEntity deleteScooter(Long id){
-        if(this.scooterRepository.existsById(id)) {
+        Optional<Scooter> scooter = this.scooterRepository.findById(id);
+        if(scooter.isPresent()) {
+            String licensePlate = scooter.get().getLicensePLate();
             String token = this.request.getHeader(HttpHeaders.AUTHORIZATION);
             this.webClient.build()
                     .delete()
-                    .uri("http://trip-microservice/api/trips/licence-scooter/{license}", id)
+                    .uri("http://trip-microservice/api/trips/license-scooter/{licenseScooter}", licensePlate)
                     .headers(httpHeaders -> {httpHeaders.set("Authorization", token);})
                     .accept(MediaType.APPLICATION_JSON)
-                    .retrieve()
-                    .bodyToMono(Void.class)
-                    .block();
+                            .retrieve()
+                                    .bodyToMono(Void.class)
+                                            .block();
 
             this.scooterRepository.deleteById(id);
-            return new ResponseEntity(id, HttpStatus.NO_CONTENT);
+            return new ResponseEntity(id, HttpStatus.OK);
         }
         else {
             throw new NotFoundException("Scooter", "Id", id);
@@ -150,11 +150,15 @@ public class ScooterService {
     public ResponseEntity updateScooter(ScooterRequestDTO request, Long idScooter) {
         Optional<Scooter> scooterExisting = this.scooterRepository.findById(idScooter);
         if(!scooterExisting.isEmpty()){
-            if(scooterExisting.get().getLicensePLate().equals(request.getLicensePlate())) {
-                scooterExisting.get().setAvailable(request.getAvailable());
-                //se deberia validar la ubicacion
-                scooterExisting.get().getUbication().setX(request.getUbication().getX());
-                scooterExisting.get().getUbication().setY(request.getUbication().getY());
+            Scooter scooter = scooterExisting.get();
+            if(scooter.getLicensePLate().equals(request.getLicensePlate())) {
+                scooter.setAvailable(request.getAvailable());
+                Double x = request.getUbication().getX();
+                Double y = request.getUbication().getY();
+                if(x == null || y == null) throw new BadRequestException("Complete X and Y of Ubication");
+                    scooter.getUbication().setX(request.getUbication().getX());
+                    scooter.getUbication().setY(request.getUbication().getY());
+
                 return new ResponseEntity(idScooter, HttpStatus.ACCEPTED);
             }
             else {
@@ -253,7 +257,7 @@ public class ScooterService {
     public ResponseEntity saveScooterStop(ScooterStopRequestDTO request) {
         Double x = request.getUbication().getX();
         Double y = request.getUbication().getY();
-        if(x == null && y == null) throw new BadRequestException("Error set X and Y in Ubication"); //PARChe
+        if(x == null || y == null) throw new BadRequestException("Error set X and Y in Ubication");
         if(this.scooterStopRepository.existsByUbicationXAndUbicationY(x,y) == null) {
             this.scooterStopRepository.save(new ScooterStop(request));
             return new ResponseEntity("ubication: "+x+", "+y, HttpStatus.CREATED);
@@ -276,7 +280,7 @@ public class ScooterService {
         if(!scooterStopExisting.isEmpty()){
             Double x = request.getUbication().getX();
             Double y = request.getUbication().getY();
-            if(x == null && y == null) throw new BadRequestException("Error set X and Y in Ubication"); //PARChe
+            if(x == null || y == null) throw new BadRequestException("Error set X and Y in Ubication");
             if(this.scooterStopRepository.existsByUbicationXAndUbicationY(x,y) == null) {
                 scooterStopExisting.get().getUbication().setX(x);
                 scooterStopExisting.get().getUbication().setY(y);
@@ -310,11 +314,8 @@ public class ScooterService {
             if(ss != null) {
                 return new ResponseEntity(licensePlate, HttpStatus.ACCEPTED);
             }
-            else {
-                return new ResponseEntity(licensePlate, HttpStatus.NOT_FOUND);
-            }
+            throw new InvalidScooterStopException("ScooterStop", "licensePlate", licensePlate);
         }
         throw new NotFoundException("scooter", "licensePlate", licensePlate);
     }
-
 }

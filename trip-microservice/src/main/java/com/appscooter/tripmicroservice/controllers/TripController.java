@@ -3,6 +3,7 @@ package com.appscooter.tripmicroservice.controllers;
 import com.appscooter.tripmicroservice.services.TripService;
 import com.appscooter.tripmicroservice.services.dtos.generalprice.request.GeneralPriceRequestDTO;
 import com.appscooter.tripmicroservice.services.dtos.generalprice.response.GeneralPriceResponseDTO;
+import com.appscooter.tripmicroservice.services.dtos.tariff.request.TotalProfitsRequestDTO;
 import com.appscooter.tripmicroservice.services.dtos.tariff.response.ReportProfitsDTO;
 import com.appscooter.tripmicroservice.services.dtos.trip.requests.FinishTripRequestDTO;
 import com.appscooter.tripmicroservice.services.dtos.trip.requests.TripRequestDTO;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/trips")
+@RequestMapping("api/trips")
 public class TripController {
 
     private TripService tripService;
@@ -47,11 +48,6 @@ public class TripController {
         return tripService.saveTrip(request);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity updateTrip(@RequestBody @Valid TripRequestDTO request, @PathVariable Long id) {
-        return this.tripService.updateTrip(request, id);
-    }
-
     @PatchMapping("/{id}")
     public ResponseEntity finishTrip(@RequestBody @Valid FinishTripRequestDTO request, @PathVariable Long id) {
         return this.tripService.finishTrip(request, id);
@@ -63,7 +59,7 @@ public class TripController {
     }
 
     @DeleteMapping("/license-scooter/{licenseScooter}")
-    public void deleteTrip(@PathVariable String licenseScooter) {
+    public void deleteTripByLicenseScooter(@PathVariable String licenseScooter) {
         this.tripService.deleteAllTripByLicenseScooter(licenseScooter);
     }
 
@@ -77,9 +73,9 @@ public class TripController {
         this.tripService.endPause(id);
     }
 
-    @GetMapping("/profits/{year}")
-    public List<ReportProfitsDTO> findProfitsByMonthsInYear(@PathVariable Long year) {
-        return this.tripService.findProfitsByMonthsInYear(year);
+    @GetMapping("/profits")
+    public List<ReportProfitsDTO> findProfitsByMonthsInYear(@Valid TotalProfitsRequestDTO request) {
+        return this.tripService.findProfitsBetweenMonthsInYear(request);
     }
 
     @PostMapping("/prices")
@@ -109,14 +105,7 @@ public class TripController {
 
     @GetMapping("/scooters/trips&year")
     public List<ScooterByTripsYearResponseDTO> getAllScooterByTripsAndYear(@RequestBody @Valid TripsAndYearRequestDTO request){
-        System.out.println(request);
         List<ScooterByTripsYearResponseDTO> list = this.tripService.findAllScooterByTripsAndYear(request);
-        //List<ScooterByTripsYearResponseDTO> list = new ArrayList<>();
-        //ScooterByTripsYearResponseDTO a1 = new ScooterByTripsYearResponseDTO("aa", 1L, 2024L);
-        //ScooterByTripsYearResponseDTO a2 = new ScooterByTripsYearResponseDTO("aa", 1L, 2024L);
-        //list.add(a1);
-        //list.add(a2);
-        System.out.println(list);
         return list;
     }
 

@@ -1,5 +1,7 @@
 package com.appscooter.tripmicroservice.services;
 
+import com.appscooter.tripmicroservice.WebClientStatusCodeHandler;
+import com.appscooter.tripmicroservice.config.utils.JWTUtill;
 import com.appscooter.tripmicroservice.domain.GeneralPrice;
 import com.appscooter.tripmicroservice.domain.PauseTrip;
 import com.appscooter.tripmicroservice.domain.Trip;
@@ -10,6 +12,7 @@ import com.appscooter.tripmicroservice.repositories.interfaces.ScootersByTripsAn
 import com.appscooter.tripmicroservice.services.dtos.generalprice.request.GeneralPriceRequestDTO;
 import com.appscooter.tripmicroservice.services.dtos.generalprice.response.GeneralPriceResponseDTO;
 import com.appscooter.tripmicroservice.services.dtos.scooter.ScooterResponseDTO;
+import com.appscooter.tripmicroservice.services.dtos.tariff.request.TotalProfitsRequestDTO;
 import com.appscooter.tripmicroservice.services.dtos.tariff.response.ReportProfitsDTO;
 import com.appscooter.tripmicroservice.services.dtos.trip.requests.FinishTripRequestDTO;
 import com.appscooter.tripmicroservice.services.dtos.trip.requests.TripRequestDTO;
@@ -30,12 +33,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,13 +54,17 @@ public class TripService {
     private TariffRepository tariffRepository;
     private GeneralPriceRepository priceRepository;
 
+    private JWTUtill jwtUtill;
+
     private WebClient.Builder webClient;
 
     @Autowired
     HttpServletRequest request;
 
     public TripService(TripRepository t, TariffRepository tariffRepository,
-                       GeneralPriceRepository pr) {
+                       GeneralPriceRepository pr, JWTUtill jwtUtill, WebClient.Builder webClient) {
+        this.webClient = webClient;
+        this.jwtUtill = jwtUtill;
         this.tripRepository=t;
         this.tariffRepository=tariffRepository;
         this.priceRepository=pr;
@@ -79,86 +90,71 @@ public class TripService {
                     .collect(Collectors.toList());
     }
 
+
     @Transactional
     public ResponseEntity saveTrip(TripRequestDTO request) {
+        ExchangeFilterFunction errorResponseFilter = ExchangeFilterFunction
+                .ofResponseProcessor(WebClientStatusCodeHandler::exchangeFilterResponseProcessor);
         if(!this.tripRepository.existsById(request.getId())){
             String licensePlate = request.getLicenseScooter();
             String token = this.request.getHeader(HttpHeaders.AUTHORIZATION);
-            ScooterResponseDTO scooter = this.webClient.build()
+            ScooterResponseDTO scooter = this.webClient.filter(errorResponseFilter)
+                    .build()
                     .get()
-                    .uri("http://scooter-use-microservice/api/scooter/{licensePlate}", licensePlate)
+                    .uri("http://scooter-use-microservice/api/scooters/{licensePlate}", licensePlate)
                     .headers(httpHeaders -> {httpHeaders.set("Authorization", token);})
                     .accept(MediaType.APPLICATION_JSON)
                     .retrieve()
                     .bodyToMono(ScooterResponseDTO.class)
                     .block();
-            if(scooter!=null) {
-                Timestamp currentDate = Timestamp.valueOf(LocalDateTime.now());
-                GeneralPrice currentPrices = this.priceRepository.findByCurrent(true);
-                if(currentPrices != null) {
-                    GeneralPrice lastPrices = this.priceRepository.findByLastDateValidity(currentPrices.getDateValidity());
-                    if(lastPrices == null || currentDate.compareTo(lastPrices.getDateValidity()) < 0) {
+
+            Timestamp currentDate = Timestamp.valueOf(LocalDateTime.now());
+            GeneralPrice currentPrices = this.priceRepository.findByCurrent(true);
+            if(currentPrices != null) {
+                GeneralPrice lastPrices = this.priceRepository.findByLastDateValidity(currentPrices.getDateValidity());
+                if(lastPrices == null || currentDate.compareTo(lastPrices.getDateValidity()) < 0) {
+
+                    //separo el token ya que me viene como: Bearer 'token'
+                    String tokenDecoded = token.split(" ")[1].trim();
+
+                    if(this.jwtUtill.getUserName(tokenDecoded).equals(request.getUserEmail())) {
                         this.tripRepository.save(new Trip(request, currentPrices.getPriceService()));
                         return new ResponseEntity(request.getId(), HttpStatus.CREATED);
-                    }
-                    else {
-                        lastPrices.setCurrent(true);
-                        currentPrices.setCurrent(false);
-                        this.tripRepository.save(new Trip(request, lastPrices.getPriceService()));
-                        return new ResponseEntity(request.getId(), HttpStatus.CREATED);
+                    } else {
+                        throw new NotFoundException("User", "email", request.getUserEmail());
                     }
                 }
-                throw new NotFoundException("GeneralPrices", "current", "true");
+                else {
+                    lastPrices.setCurrent(true);
+                    currentPrices.setCurrent(false);
+                    this.tripRepository.save(new Trip(request, lastPrices.getPriceService()));
+                    return new ResponseEntity(request.getId(), HttpStatus.CREATED);
+                }
             }
-            System.out.println("lanza esta exception");
-            throw new NotFoundException("Scooter", "licensePlate", licensePlate);
+            throw new NotFoundException("GeneralPrices", "current", "true");
         }
-
         throw new ConflictExistException("Trip", "ID", request.getId());
     }
 
-    @Transactional
-    public ResponseEntity updateTrip(TripRequestDTO request, Long id) {
-        Optional<Trip> tripExisting = this.tripRepository.findById(id);
-        if(!tripExisting.isEmpty()){
-            if(this.tripRepository.existsById(request.getId())) {
-                if(request.getId() == id) {
-                    tripExisting.get().setKms(request.getKms());
-                    tripExisting.get().setInitTime(request.getInitTime());
-                    tripExisting.get().setEndTime(request.getEndTime());
-                    tripExisting.get().setEnded(request.getEnded());
-                    return new ResponseEntity(id, HttpStatus.ACCEPTED);
-                }
-                else {
-                    throw new ConflictExistException("Trip", "Id", request.getId());
-                }
-            }
-            throw new NotFoundException("Trip", "Id", request.getId());
-        }
-        throw new NotFoundException("Trip", "Id", id);
-    }
 
     @Transactional
     public ResponseEntity finishTrip(FinishTripRequestDTO request, Long id) {
+        ExchangeFilterFunction errorResponseFilter = ExchangeFilterFunction
+                .ofResponseProcessor(WebClientStatusCodeHandler::exchangeFilterResponseProcessor);
         Optional<Trip> tripExisting = this.tripRepository.findById(id);
         if(!tripExisting.isEmpty()){
+            if(tripExisting.get().getEnded()) return new ResponseEntity("The trip has already ended", HttpStatus.BAD_REQUEST);
             String licensePlate = tripExisting.get().getLicenseScooter();
-            /*antes de finalizar el viaje debo chequear que mi scooter asociada
-             * esta en una parada valida
-             * solicitar a scooter-use-microservice (/api/scooters/{licensePlate}/in-stop
-             *  )
-
             String token = this.request.getHeader(HttpHeaders.AUTHORIZATION);
-            ScooterResponseDTO scooter = this.webClient.build()
+            this.webClient.filter(errorResponseFilter)
+                    .build()
                     .get()
                     .uri("http://scooter-use-microservice/api/scooters/{licensePlate}/in-stop", licensePlate)
                     .headers(httpHeaders -> {httpHeaders.set("Authorization", token);})
                     .accept(MediaType.APPLICATION_JSON)
                     .retrieve()
-                    .bodyToMono(ScooterResponseDTO.class)
+                    .bodyToMono(Void.class)
                     .block();
-
-             */
 
             tripExisting.get().setEndTime(Timestamp.valueOf(LocalDateTime.now()));
             tripExisting.get().setKms(request.getKms());
@@ -182,9 +178,8 @@ public class TripService {
 
     @Transactional
     public ResponseEntity deleteAllTripByLicenseScooter(String licenseScooter) {
-        //queres chequeos?
             this.tripRepository.deleteAllByLicenseScooter(licenseScooter);
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity(HttpStatus.OK);
     }
 
     @Transactional
@@ -236,9 +231,14 @@ public class TripService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReportProfitsDTO> findProfitsByMonthsInYear(Long year) {
-        return this.tariffRepository.findProfitsByMonthsInYear(year)
-                .stream().map(p->new ReportProfitsDTO(p.getXmonth(), p.getXyear(), p.getTotalProfits()))
+    public List<ReportProfitsDTO> findProfitsBetweenMonthsInYear(TotalProfitsRequestDTO request) {
+        if(request.getFirstMonth() > request.getLastMonth()){
+            Long copy = request.getFirstMonth();
+            request.setFirstMonth(request.getLastMonth());
+            request.setLastMonth(copy);
+        }
+        return this.tariffRepository.findProfitsByMonthsInYear(request.getFirstMonth(), request.getLastMonth(), request.getYear())
+                .stream().map(p->new ReportProfitsDTO(request.getFirstMonth(), request.getLastMonth(), p.getXyear(), p.getTotalProfits()))
                 .collect(Collectors.toList());
     }
 
@@ -267,7 +267,6 @@ public class TripService {
 
     @Transactional(readOnly = true)
     public List<ReportScootersDTO> findUseScootersByKms() {
-        System.out.println("entro al report kms");
         return this.tripRepository.findAllByKms()
                 .stream()
                 .map(r-> new ReportScootersDTO(r.getLicenseScooter(),r.getCountTrips(),r.getKms())).collect(Collectors.toList());

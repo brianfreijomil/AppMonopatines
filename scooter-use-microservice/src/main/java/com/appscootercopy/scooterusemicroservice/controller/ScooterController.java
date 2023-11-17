@@ -49,20 +49,16 @@ public class ScooterController {
 
     @PostMapping("")
     public ResponseEntity saveScooter(@RequestBody @Valid ScooterRequestDTO request){
-        System.out.println("llego al save");
-        System.out.println(request);
         return scooterService.saveScooter(request);
     }
 
     @DeleteMapping("/{id}")
     public void deleteScooter(@PathVariable Long id){
         this.scooterService.deleteScooter(id);
-        //admin
     }
 
     @PutMapping("/{id}")
     public ResponseEntity updateScooter(@RequestBody @Valid ScooterRequestDTO request, @PathVariable Long id){
-        //admin
         return this.scooterService.updateScooter(request, id);
     }
 
@@ -83,7 +79,6 @@ public class ScooterController {
 
     @GetMapping("/report/non&pauses")
     public List<ReportScootersDTO> getReportUseScootersByTimeOutPauses() {
-        //manager
         return this.scooterService.findUseScootersByTimeOutPauses();
     }
 
@@ -94,7 +89,6 @@ public class ScooterController {
 
     @GetMapping("/trips&year")
     public List<ScooterByTripsYearResponseDTO> getAllScooterByTripsAndYear(@RequestBody @Valid TripsAndYearRequestDTO request){
-        //admin
         return scooterService.findAllScooterByTripsAndYear(request);
     }
 

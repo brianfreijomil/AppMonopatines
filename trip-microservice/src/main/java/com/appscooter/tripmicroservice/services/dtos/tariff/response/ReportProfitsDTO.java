@@ -7,7 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class ReportProfitsDTO {
 
-    private String month;
+    private Long firstMonth;
+    private Long lastMonth;
     private String year;
     private Double totalProfits;
 }
