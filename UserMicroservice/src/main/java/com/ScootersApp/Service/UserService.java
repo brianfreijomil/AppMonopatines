@@ -95,20 +95,26 @@ public class UserService {
     public ResponseEntity<Long> updateUser(UserRequest userRequest, Long id) {
         userRequest.setPassword(this.passwordEncoder.encode(userRequest.getPassword()));
         if(this.repository.existsById(id)){
-            User user = this.repository.findById(id).get();
-            user.setName(userRequest.getName());
-            user.setSurname(userRequest.getSurname());
-            user.setMail(userRequest.getMail());
-            user.setPassword(userRequest.getPassword());
-            List<Role> roles = new ArrayList<>();
-            for(String s: userRequest.getRoles()){
-                Role r = this.roleRepository.findById(s).get();
-                if(r != null){
-                    roles.add(r);
+            if(!this.repository.existsByMail(userRequest.getMail())){
+                User user = this.repository.findById(id).get();
+                user.setName(userRequest.getName());
+                user.setSurname(userRequest.getSurname());
+
+                user.setMail(userRequest.getMail());
+                user.setPassword(userRequest.getPassword());
+                List<Role> roles = new ArrayList<>();
+                for(String s: userRequest.getRoles()){
+                    Role r = this.roleRepository.findById(s).get();
+                    if(r != null){
+                        roles.add(r);
+                    }
                 }
+                user.setRoles(roles);
+                return new ResponseEntity(user.getID(), HttpStatus.ACCEPTED);
             }
-            user.setRoles(roles);
-            return new ResponseEntity(user.getID(), HttpStatus.ACCEPTED);
+            else {
+                throw new ConflictExistException("User", "mail", userRequest.getMail());
+            }
         }
         else{
             throw new NotFoundException("User","Id",id);
