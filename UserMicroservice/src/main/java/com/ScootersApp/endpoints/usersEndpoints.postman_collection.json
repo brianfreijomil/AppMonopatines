@@ -15,7 +15,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDE3MzI3MCwiZXhwIjoxNzAwMTc2ODcwfQ.j-8mjTh9EOsaiEOe7jNJH3JVS9vRwyDHJzRQ__-yWpE",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDI2NTk1MywiZXhwIjoxNzAwMjY5NTUzfQ.HJidDalDEhmexy7EVnrzzG3Br6Mq6Cf6inXDKRHr0lk",
 							"type": "string"
 						}
 					]
@@ -24,7 +24,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "    {\r\n        \"name\": \"Lucas\",\r\n        \"surname\": \"Amendola\",\r\n        \"mail\": \"Amendola@gmail.com\",\r\n        \"password\": \"bokitaaaaaa\",\r\n        \"phoneNumber\": \"249-4-245153\",\r\n        \"roles\": [\r\n            \"admin\",\r\n            \"user\"\r\n        ]\r\n    }",
+					"raw": "    {\r\n        \"name\": \"Lucas\",\r\n        \"surname\": \"Amendola\",\r\n        \"mail\": \"Amendola17@gmail.com\",\r\n        \"password\": \"bokitaaaaaa\",\r\n        \"phoneNumber\": \"249-4-245153\",\r\n        \"roles\": [\r\n            \"admin\",\r\n            \"user\"\r\n        ]\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -32,13 +32,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/users/",
+					"raw": "http://localhost:8080/user-microservice/api/users/",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"user-microservice",
 						"api",
 						"users",
 						""
@@ -58,7 +59,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDE3MzI3MCwiZXhwIjoxNzAwMTc2ODcwfQ.j-8mjTh9EOsaiEOe7jNJH3JVS9vRwyDHJzRQ__-yWpE",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDI2NTk1MywiZXhwIjoxNzAwMjY5NTUzfQ.HJidDalDEhmexy7EVnrzzG3Br6Mq6Cf6inXDKRHr0lk",
 							"type": "string"
 						}
 					]
@@ -67,7 +68,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "",
+					"raw": "{\"mail\": \"bbutterwick0@craigslist.org\", \"password\": \"BocaSeptima4N\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -75,13 +76,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/users/",
+					"raw": "http://localhost:8080/user-microservice/api/users/",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"user-microservice",
 						"api",
 						"users",
 						""
@@ -101,7 +103,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDE3MzI3MCwiZXhwIjoxNzAwMTc2ODcwfQ.j-8mjTh9EOsaiEOe7jNJH3JVS9vRwyDHJzRQ__-yWpE",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDI2NTk1MywiZXhwIjoxNzAwMjY5NTUzfQ.HJidDalDEhmexy7EVnrzzG3Br6Mq6Cf6inXDKRHr0lk",
 							"type": "string"
 						}
 					]
@@ -110,16 +112,22 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\"mail\": \"bbutterwick0@craigslist.org\", \"password\": \"BocaSeptima4N\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/users/bmaccroary8@ebay.com",
+					"raw": "http://localhost:8080/user-microservice/api/users/bmaccroary8@ebay.com",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"user-microservice",
 						"api",
 						"users",
 						"bmaccroary8@ebay.com"
@@ -136,7 +144,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDE3MzI3MCwiZXhwIjoxNzAwMTc2ODcwfQ.j-8mjTh9EOsaiEOe7jNJH3JVS9vRwyDHJzRQ__-yWpE",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDI2NTk1MywiZXhwIjoxNzAwMjY5NTUzfQ.HJidDalDEhmexy7EVnrzzG3Br6Mq6Cf6inXDKRHr0lk",
 							"type": "string"
 						}
 					]
@@ -153,16 +161,17 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/users/31",
+					"raw": "http://localhost:8080/user-microservice/api/users/5",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"user-microservice",
 						"api",
 						"users",
-						"31"
+						"5"
 					]
 				}
 			},
@@ -193,13 +202,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/users/2",
+					"raw": "http://localhost:8080/user-microservice/api/users/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"user-microservice",
 						"api",
 						"users",
 						"2"
@@ -233,13 +243,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/users/Amendola@gmail.com/disable",
+					"raw": "http://localhost:8080/user-microservice/api/users/Amendola@gmail.com/disable",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"user-microservice",
 						"api",
 						"users",
 						"Amendola@gmail.com",
@@ -274,13 +285,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/users/Amendola@gmail.com/enable",
+					"raw": "http://localhost:8080/user-microservice/api/users/Amendola@gmail.com/enable",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"user-microservice",
 						"api",
 						"users",
 						"Amendola@gmail.com",
