@@ -35,7 +35,7 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        if((request.getRequestURI().equals("/api/users/") && request.getMethod().equals("POST"))){
+        if((request.getRequestURI().startsWith("/user-microservice/api/users/") && request.getMethod().equals("POST"))){
             filterChain.doFilter(request, response);
             return;
         }
