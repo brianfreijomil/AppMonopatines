@@ -34,11 +34,6 @@ public class TripController {
         return tripService.findTripById(id);
     }
 
-    @GetMapping("/fakeRoute")
-    public ResponseEntity findTripById() {
-        return new ResponseEntity("fakeRoute", HttpStatus.OK);
-    }
-
     @GetMapping("/")
     public List<TripResponseDTO> findAllTrip() {
         return tripService.findAllTrip();
