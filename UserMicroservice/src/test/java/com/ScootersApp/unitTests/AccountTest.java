@@ -28,7 +28,7 @@ public class AccountTest {
         Assert.assertNotEquals(0, accounts.size());
     }
 
-    
+
 
     @Test
     public void checkCorrectWalletAmount(){

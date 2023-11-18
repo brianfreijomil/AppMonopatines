@@ -32,13 +32,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/accounts/",
+					"raw": "http://localhost:8080/user-microservice/api/accounts/",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"user-microservice",
 						"api",
 						"accounts",
 						""
@@ -55,7 +56,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDE3MzI3MCwiZXhwIjoxNzAwMTc2ODcwfQ.j-8mjTh9EOsaiEOe7jNJH3JVS9vRwyDHJzRQ__-yWpE",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDI2NTk1MywiZXhwIjoxNzAwMjY5NTUzfQ.HJidDalDEhmexy7EVnrzzG3Br6Mq6Cf6inXDKRHr0lk",
 							"type": "string"
 						}
 					]
@@ -63,13 +64,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/accounts/",
+					"raw": "http://localhost:8080/user-microservice/api/accounts/",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"user-microservice",
 						"api",
 						"accounts",
 						""
@@ -86,7 +88,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDE3MzI3MCwiZXhwIjoxNzAwMTc2ODcwfQ.j-8mjTh9EOsaiEOe7jNJH3JVS9vRwyDHJzRQ__-yWpE",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDI2NTk1MywiZXhwIjoxNzAwMjY5NTUzfQ.HJidDalDEhmexy7EVnrzzG3Br6Mq6Cf6inXDKRHr0lk",
 							"type": "string"
 						}
 					]
@@ -94,13 +96,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/accounts/1",
+					"raw": "http://localhost:8080/user-microservice/api/accounts/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"user-microservice",
 						"api",
 						"accounts",
 						"1"
@@ -112,19 +115,30 @@
 		{
 			"name": "deleteAccount",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTcwMDI2NTk1MywiZXhwIjoxNzAwMjY5NTUzfQ.HJidDalDEhmexy7EVnrzzG3Br6Mq6Cf6inXDKRHr0lk",
+							"type": "string"
+						}
+					]
+				},
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/accounts/20",
+					"raw": "http://localhost:8080/user-microservice/api/accounts/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"user-microservice",
 						"api",
 						"accounts",
-						"20"
+						"1"
 					]
 				}
 			},
