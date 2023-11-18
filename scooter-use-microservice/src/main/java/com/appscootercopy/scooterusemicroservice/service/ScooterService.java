@@ -86,7 +86,7 @@ public class ScooterService {
 
         List<ScooterByTripsYearResponseDTO> list = (List<ScooterByTripsYearResponseDTO>) this.webClient.build()
                 .method(HttpMethod.GET)
-                .uri("http://trip-microservice/api/trips/scooters/trips&year")
+                .uri("http://trip-microservice/trip-microservice/api/trips/scooters/trips&year")
                 .bodyValue(request)
                 .headers(httpHeaders -> {httpHeaders.set("Authorization", token);})
                 .accept(MediaType.APPLICATION_JSON)
@@ -131,7 +131,7 @@ public class ScooterService {
             String token = this.request.getHeader(HttpHeaders.AUTHORIZATION);
             this.webClient.build()
                     .delete()
-                    .uri("http://trip-microservice/api/trips/license-scooter/{licenseScooter}", licensePlate)
+                    .uri("http://trip-microservice/trip-microservice/api/trips/license-scooter/{licenseScooter}", licensePlate)
                     .headers(httpHeaders -> {httpHeaders.set("Authorization", token);})
                     .accept(MediaType.APPLICATION_JSON)
                             .retrieve()
@@ -185,7 +185,7 @@ public class ScooterService {
 
         List<ReportScootersDTO> list = (List<ReportScootersDTO>) this.webClient.build()
                 .get()
-                .uri("http://trip-microservice/api/trips/report/kms")
+                .uri("http://trip-microservice/trip-microservice/api/trips/report/kms")
                 .headers(httpHeaders -> {httpHeaders.set("Authorization", token);})
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
@@ -203,7 +203,7 @@ public class ScooterService {
 
         List<ReportScootersDTO> list = (List<ReportScootersDTO>) this.webClient.build()
                 .get()
-                .uri("http://trip-microservice/api/trips/report/pauses")
+                .uri("http://trip-microservice/trip-microservice/api/trips/report/pauses")
                 .headers(httpHeaders -> {httpHeaders.set("Authorization", token);})
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
@@ -220,7 +220,7 @@ public class ScooterService {
 
         List<ReportScootersDTO> list = (List<ReportScootersDTO>) this.webClient.build()
                 .get()
-                .uri("http://trip-microservice/api/trips/report/non&pauses")
+                .uri("http://trip-microservice/trip-microservice/api/trips/report/non&pauses")
                 .headers(httpHeaders -> {httpHeaders.set("Authorization", token);})
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
