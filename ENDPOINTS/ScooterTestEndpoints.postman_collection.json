@@ -7,26 +7,20 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/api/auth/login",
+			"name": "login",
 			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": {
-						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJ1c2VyIiwiYWRtaW4iXSwiaXNzIjoiQXBwX01vbm9wYXRpbiIsImlhdCI6MTY5OTcyMjYxMSwiZXhwIjoxNjk5NzI2MjExfQ.HaNC9Fktl16Kaq0MjwI0OGvFfpo1Qn5yOxFcNBvWowQ"
-					}
-				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"mail\": \"ebenko2@github.com\", \"password\": \"BocaSeptima4N\"}",
+					"raw": "{\"mail\": \"bbutterwick0@craigslist.org\", \"password\": \"BocaSeptima4N\"}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "http://localhost:8080/api/auth/login"
+				"url": "http://localhost:8080/auth-microservice/api/auth/login"
 			},
 			"response": []
 		},
@@ -41,7 +35,7 @@
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/913L57"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/913L57"
 			},
 			"response": []
 		},
@@ -51,12 +45,12 @@
 				"auth": {
 					"type": "bearer",
 					"bearer": {
-						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAxNzE5MjUsImV4cCI6MTcwMDE3NTUyNX0.kK02xXV_zUkG_kHVUwXIsK_6g0TDi-PLLEowQVHL6j0"
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyNzQ0MDYsImV4cCI6MTcwMDI3ODAwNn0.xBkEudl8mHOBxIrQiffkx6G8dDoj9ql_wJcx8e5QMn4"
 					}
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/"
 			},
 			"response": []
 		},
@@ -71,7 +65,7 @@
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/availability"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/availability"
 			},
 			"response": []
 		},
@@ -99,13 +93,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/scooters/close?x=26&y=15",
+					"raw": "http://localhost:8080/scooter-microservice/api/scooters/close?x=26&y=15",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"scooter-microservice",
 						"api",
 						"scooters",
 						"close"
@@ -144,7 +139,7 @@
 						}
 					}
 				},
-				"url": "http://localhost:8080/api/scooters"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters"
 			},
 			"response": []
 		},
@@ -159,7 +154,7 @@
 				},
 				"method": "DELETE",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/3A46"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/3A46"
 			},
 			"response": []
 		},
@@ -183,7 +178,7 @@
 						}
 					}
 				},
-				"url": "http://localhost:8080/api/scooters/3"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/3"
 			},
 			"response": []
 		},
@@ -207,7 +202,7 @@
 						}
 					}
 				},
-				"url": "http://localhost:8080/api/scooters/1"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/1"
 			},
 			"response": []
 		},
@@ -217,12 +212,12 @@
 				"auth": {
 					"type": "bearer",
 					"bearer": {
-						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyMjQwNDQsImV4cCI6MTcwMDIyNzY0NH0.Q7gJzjpTZawqEKakNE4Mn2r-9xyk-aRepDI-3_e8CbI"
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyNzQ0MDYsImV4cCI6MTcwMDI3ODAwNn0.xBkEudl8mHOBxIrQiffkx6G8dDoj9ql_wJcx8e5QMn4"
 					}
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/report/kms"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/report/kms"
 			},
 			"response": []
 		},
@@ -237,7 +232,7 @@
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/report/pauses"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/report/pauses"
 			},
 			"response": []
 		},
@@ -252,7 +247,7 @@
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/report/non&pauses"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/report/non&pauses"
 			},
 			"response": []
 		},
@@ -267,7 +262,7 @@
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/stops/25"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/stops/25"
 			},
 			"response": []
 		},
@@ -294,7 +289,7 @@
 						}
 					}
 				},
-				"url": "http://localhost:8080/api/scooters/trips&year"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/trips&year"
 			},
 			"response": []
 		},
@@ -309,7 +304,7 @@
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/stops/"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/stops/"
 			},
 			"response": []
 		},
@@ -333,7 +328,7 @@
 						}
 					}
 				},
-				"url": "http://localhost:8080/api/scooters/stops"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/stops"
 			},
 			"response": []
 		},
@@ -348,7 +343,7 @@
 				},
 				"method": "DELETE",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/stops/5"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/stops/5"
 			},
 			"response": []
 		},
@@ -357,7 +352,7 @@
 			"request": {
 				"method": "PUT",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/stops/2"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/stops/2"
 			},
 			"response": []
 		},
@@ -372,7 +367,7 @@
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/ubications/3"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/ubications/3"
 			},
 			"response": []
 		},
@@ -382,12 +377,12 @@
 				"auth": {
 					"type": "bearer",
 					"bearer": {
-						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyNDM0NDMsImV4cCI6MTcwMDI0NzA0M30.w4Z8wsZIMPs6ylt9D595jiDyyUrtuVwe8UxdWaEWJn0"
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyNzQ0MDYsImV4cCI6MTcwMDI3ODAwNn0.xBkEudl8mHOBxIrQiffkx6G8dDoj9ql_wJcx8e5QMn4"
 					}
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/ubications/"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/ubications/"
 			},
 			"response": []
 		},
@@ -402,7 +397,7 @@
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/scooters/3A46/in-stop"
+				"url": "http://localhost:8080/scooter-microservice/api/scooters/3A46/in-stop"
 			},
 			"response": []
 		}

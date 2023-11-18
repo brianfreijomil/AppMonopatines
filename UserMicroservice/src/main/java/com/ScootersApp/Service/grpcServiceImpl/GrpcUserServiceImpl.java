@@ -1,5 +1,4 @@
 package com.ScootersApp.Service.grpcServiceImpl;
-
 import com.ScootersApp.Service.DTOs.User.response.UserLoginResponseDTO;
 import com.ScootersApp.Service.UserService;
 import com.userServiceGRPC.Role;
@@ -11,7 +10,6 @@ import net.devh.boot.grpc.server.service.GrpcService;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 @GrpcService
 public class GrpcUserServiceImpl extends userServiceGrpc.userServiceImplBase {

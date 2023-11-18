@@ -12,6 +12,7 @@ import com.appscooter.tripmicroservice.services.dtos.trip.responses.ReportScoote
 import com.appscooter.tripmicroservice.services.dtos.trip.responses.ScooterByTripsYearResponseDTO;
 import com.appscooter.tripmicroservice.services.dtos.trip.responses.TripResponseDTO;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,11 @@ public class TripController {
     @GetMapping("/{id}")
     public TripResponseDTO findTripById(@PathVariable Long id) {
         return tripService.findTripById(id);
+    }
+
+    @GetMapping("/fakeRoute")
+    public ResponseEntity findTripById() {
+        return new ResponseEntity("fakeRoute", HttpStatus.OK);
     }
 
     @GetMapping("/")

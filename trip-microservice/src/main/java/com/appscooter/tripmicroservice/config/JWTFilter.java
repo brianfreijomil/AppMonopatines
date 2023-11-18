@@ -28,6 +28,11 @@ public class JWTFilter extends OncePerRequestFilter {
     }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        if(request.getRequestURI().startsWith("/trip-microservice/swagger-ui/") || request.getRequestURI().startsWith("/trip-microservice/api-docs")){
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         String token = header.split(" ")[1].trim();

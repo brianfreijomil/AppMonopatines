@@ -6,6 +6,7 @@ import com.scooter.apiGateway.grpcClient.GrpcUserClient;
 import com.scooter.apiGateway.utils.JWTUtill;
 
 import jakarta.validation.Valid;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,6 +28,8 @@ public class AuthController {
         this.jwtUtill = jwtUtill;
         this.passwordEncoder = new BCryptPasswordEncoder(16);
     }
+
+
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid UserRequestDTO user){

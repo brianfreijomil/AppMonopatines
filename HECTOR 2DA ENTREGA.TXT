@@ -1,0 +1,15 @@
+Hola hector para que funcione todo 
+1ro - lanzar el discovery-service, este va a levantar el servidor de eureka
+2do - Lanzar api-gateway
+3ro - Lanzar auth
+4to - lanzar UserMicroservice
+5to - lanzar scooter-use-microservice
+6to - lanzar trip-microservice
+
+En la carpeta endpoints estan las collections de postman
+
+Para los microservicios auth y user, desde maven(a la derecha del intellij), hacer el generated sources, ya que
+grpc necesita compilar sus archivos, si no se compila grpc no va a dejar hacer el run de los microservicios.
+
+Para acceder a la ui usar la url ej http://localhost:8080/trip-microservice/swagger-ui/index.html,
+reemplazar trip-microservice por el microsevicio que se quiera ver la documentacion

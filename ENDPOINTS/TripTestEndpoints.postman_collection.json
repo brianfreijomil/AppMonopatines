@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/api/auth/login Copy",
+			"name": "login",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -26,7 +26,7 @@
 						}
 					}
 				},
-				"url": "http://localhost:8080/api/auth/login"
+				"url": "http://localhost:8080/auth-microservice/api/auth/login"
 			},
 			"response": []
 		},
@@ -41,7 +41,7 @@
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/trips/2"
+				"url": "http://localhost:8080/trip-microservice/api/trips/2"
 			},
 			"response": []
 		},
@@ -51,12 +51,12 @@
 				"auth": {
 					"type": "bearer",
 					"bearer": {
-						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyMzk4MjYsImV4cCI6MTcwMDI0MzQyNn0.ps1frNc_19XBp-R_0TNl2XNI7aCasgR-pleEa2jtlXg"
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyNzQ0MDYsImV4cCI6MTcwMDI3ODAwNn0.xBkEudl8mHOBxIrQiffkx6G8dDoj9ql_wJcx8e5QMn4"
 					}
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/trips/"
+				"url": "http://localhost:8080/trip-microservice/api/trips/"
 			},
 			"response": []
 		},
@@ -71,7 +71,7 @@
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/trips/scooter/3A46"
+				"url": "http://localhost:8080/trip-microservice/api/trips/scooter/3A46"
 			},
 			"response": []
 		},
@@ -95,7 +95,7 @@
 						}
 					}
 				},
-				"url": "http://localhost:8080/api/trips"
+				"url": "http://localhost:8080/trip-microservice/api/trips"
 			},
 			"response": []
 		},
@@ -105,7 +105,7 @@
 				"auth": {
 					"type": "bearer",
 					"bearer": {
-						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyNDcxNjEsImV4cCI6MTcwMDI1MDc2MX0.SR08hjY7AQ-7utOz2IykDay2aXYysG45aYs2WWSFazg"
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYnV0dGVyd2ljazBAY3JhaWdzbGlzdC5vcmciLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiLCJtYW5hZ2VyIl0sImlzcyI6IkFwcF9Nb25vcGF0aW4iLCJpYXQiOjE3MDAyNzQ0MDYsImV4cCI6MTcwMDI3ODAwNn0.xBkEudl8mHOBxIrQiffkx6G8dDoj9ql_wJcx8e5QMn4"
 					}
 				},
 				"method": "PATCH",
@@ -119,7 +119,7 @@
 						}
 					}
 				},
-				"url": "http://localhost:8080/api/trips/10"
+				"url": "http://localhost:8080/trip-microservice/api/trips/12"
 			},
 			"response": []
 		},
@@ -134,7 +134,7 @@
 				},
 				"method": "DELETE",
 				"header": [],
-				"url": "http://localhost:8080/api/trips/10"
+				"url": "http://localhost:8080/trip-microservice/api/trips/10"
 			},
 			"response": []
 		},
@@ -143,7 +143,7 @@
 			"request": {
 				"method": "PUT",
 				"header": [],
-				"url": "http://localhost:8080/api/trips/1/stops"
+				"url": "http://localhost:8080/trip-microservice/api/trips/1/stops"
 			},
 			"response": []
 		},
@@ -152,7 +152,7 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"url": "http://localhost:8080/api/trips/5/stops"
+				"url": "http://localhost:8080/trip-microservice/api/trips/5/stops"
 			},
 			"response": []
 		},
@@ -168,13 +168,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/trips/profits?firstMonth=12&lastMonth=1&year=2022",
+					"raw": "http://localhost:8080/trip-microservice/api/trips/profits?firstMonth=12&lastMonth=1&year=2022",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"trip-microservice",
 						"api",
 						"trips",
 						"profits"
@@ -217,7 +218,7 @@
 						}
 					}
 				},
-				"url": "http://localhost:8080/api/trips/prices"
+				"url": "http://localhost:8080/trip-microservice/api/trips/prices"
 			},
 			"response": []
 		},
@@ -232,7 +233,7 @@
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/api/trips/prices/"
+				"url": "http://localhost:8080/trip-microservice/api/trips/prices/"
 			},
 			"response": []
 		}
