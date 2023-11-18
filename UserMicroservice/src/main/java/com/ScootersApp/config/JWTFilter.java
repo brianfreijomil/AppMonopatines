@@ -36,10 +36,16 @@ public class JWTFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //falsifico un usuario para que admita el post a crear usuario
         if((request.getRequestURI().equals("/api/users/") && request.getMethod().equals("POST"))){
-            UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(
-                    "fake", this.hashFakePassword, null);
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            //UsernamePasswordAuthenticationToken authenticationToken =
+            //        new UsernamePasswordAuthenticationToken(
+            //        "fake", this.hashFakePassword, null);
+            //SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        if(request.getRequestURI().startsWith("/user-microservice/swagger-ui.html")){
+            System.out.println("entro");
             filterChain.doFilter(request, response);
             return;
         }

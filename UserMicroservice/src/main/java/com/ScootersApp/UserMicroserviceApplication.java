@@ -5,12 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.io.IOException;
 import java.sql.SQLException;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableSwagger2
 public class UserMicroserviceApplication {
     @Autowired
     private CSVReader loadDb;
@@ -21,4 +22,5 @@ public class UserMicroserviceApplication {
     public void init() throws SQLException, IOException {
         //this.loadDb.load();
     }
+
 }
