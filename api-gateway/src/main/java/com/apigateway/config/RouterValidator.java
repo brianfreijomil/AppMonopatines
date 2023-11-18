@@ -12,7 +12,7 @@ public class RouterValidator {
 
     public static final List<String> openApiEndpoints = List.of(
             "/auth-microservice/api/auth/login",
-            "/api/users/"
+            "/user-microservice/api/users/"
     );
 
     public Predicate<ServerHttpRequest> isSecured =

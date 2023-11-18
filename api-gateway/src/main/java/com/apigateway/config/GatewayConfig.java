@@ -20,7 +20,7 @@ public class GatewayConfig {
                 .route("trip-microservice", r -> r.path("/trip-microservice/**")
                         .filters(f -> f.filter(filter))
                         .uri("lb://TRIP-MICROSERVICE"))
-                .route("user-microservice", r -> r.path("/api/users/**", "/api/accounts/**")
+                .route("user-microservice", r -> r.path("/user-microservice/**")
                         .filters(f -> f.filter(filter))
                         .uri("lb://USER-MICROSERVICE"))
                 .route("scooter-use-microservice", r -> r.path("/api/scooters/**")
