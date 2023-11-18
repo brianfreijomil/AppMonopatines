@@ -27,7 +27,6 @@ public class UserController {
 
     @GetMapping("/")
     public List<UserResponseDTO> getAllUsers(){
-        System.out.println("llego");
         return this.service.findAll();
     }
 
