@@ -17,10 +17,11 @@ public class GatewayConfig {
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder.routes()
+
                 .route("trip-microservice", r -> r.path("/api/trips/**")
                         .filters(f -> f.filter(filter))
                         .uri("lb://TRIP-MICROSERVICE"))
-                .route("user-microservice", r -> r.path("/api/users/**", "/api/accounts/**")
+                .route("user-microservice", r -> r.path("/user-microservice/api/users/**", "/user-microservice/api/accounts/**", "/user-microservice/**")
                         .filters(f -> f.filter(filter))
                         .uri("lb://USER-MICROSERVICE"))
                 .route("scooter-use-microservice", r -> r.path("/api/scooters/**")

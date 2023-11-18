@@ -19,10 +19,10 @@ public class TripRequestDTO {
     @Min(value = 0, message ="kms should not be less than 0")
     @NotNull(message = "kms cannot be null")
     private Double kms;
-    @NotNull(message = "endend cannot be null")
+    @NotNull(message = "licenseScooter cannot be null")
     @NotEmpty(message = "the licenseScooter cannot be empty")
     private String licenseScooter;
-    @NotNull(message = "userId cannot be null")
-    @NotEmpty(message = "the userId cannot be empty")
+    @NotNull(message = "userEmail cannot be null")
+    @NotEmpty(message = "the userEmail cannot be empty")
     private String userEmail;
 }

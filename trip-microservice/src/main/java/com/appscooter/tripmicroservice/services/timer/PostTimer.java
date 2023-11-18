@@ -42,14 +42,8 @@ public class PostTimer extends TimerTask {
                 Tariff tariffExtra = new Tariff(generalPrice.getPriceInterest(), 2L);
                 trip.get().setTariffExtra(tariffExtra);
                 this.tripRepository.save(trip.get());
-
             }
-            else {
-                System.out.println("La pausa ya ha sido cancelada antes");
-            }
-        }
-        else {
-            System.out.println("no trajo el trip");
         }
     }
 }
+
