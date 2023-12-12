@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class GrpcUserClient {
 
     public UserResponseLoginDTO getUserByEmail(String emailUser) {
-        ManagedChannel channel = NettyChannelBuilder.forTarget("dns:///localhost:9090").usePlaintext().build();
+        ManagedChannel channel = NettyChannelBuilder.forTarget("dns:///user:9090").usePlaintext().build();
         userServiceGrpc.userServiceBlockingStub blockingStub = userServiceGrpc.newBlockingStub(channel);
         UserResponseDTO user = blockingStub.getUser(email.newBuilder().setEmail(emailUser).build());
         channel.shutdown();

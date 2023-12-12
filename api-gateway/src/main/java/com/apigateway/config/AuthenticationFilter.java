@@ -50,7 +50,6 @@ public class AuthenticationFilter implements GatewayFilter {
                 return this.onError(exchange, HttpStatus.UNAUTHORIZED);
             }
 
-            System.out.println("llego desp del trip");
             //logica para los roles
             this.updateRequest(exchange, token);
         }

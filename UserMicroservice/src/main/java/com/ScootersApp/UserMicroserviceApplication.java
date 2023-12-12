@@ -7,18 +7,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import java.io.IOException;
 import java.sql.SQLException;
+import com.ScootersApp.repository.RoleRepository;
+import com.ScootersApp.domain.*;
+
 
 @SpringBootApplication
 @EnableDiscoveryClient
 public class UserMicroserviceApplication {
+
     @Autowired
-    private CSVReader loadDb;
+    private RoleRepository roleRepository;
     public static void main(String[] args) {
         SpringApplication.run(UserMicroserviceApplication.class, args);
     }
     @PostConstruct
     public void init() throws SQLException, IOException {
-        //this.loadDb.load();
+        Role role = new Role("admin");
+        this.roleRepository.save(role);
     }
 
 }

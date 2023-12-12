@@ -1,0 +1,135 @@
+version: '3.9'
+
+services:
+  discovery:
+    container_name: discovery-container
+    image: appmonopatines-discovery
+    build: discovery-service/
+    ports:
+      - "8761:8761"
+    networks:
+      - monopatines-net
+
+  apigateway:
+    container_name: apigateway-container
+    image: appmonopatines-apigateway
+    build: api-gateway/
+    ports:
+      - "8080:8080"
+    environment:
+      - eureka.client.service-url.defaultZone=http://discovery:8761/eureka
+    depends_on:
+      - discovery
+    networks:
+      - monopatines-net
+
+  scooter:
+    container_name: scooter-container
+    image: appmonopatines-scooter
+    build: scooter-use-microservice/
+    environment:
+      - eureka.client.service-url.defaultZone=http://discovery:8761/eureka
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-scooter:5432/ScooterUse
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING.JPA.PROPERTIES.HIBERNATE.DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    networks:
+      - monopatines-net
+    depends_on:
+      - apigateway
+      - db-scooter
+
+  trip:
+    container_name: trip-container
+    image: appmonopatines-trip
+    build: trip-microservice/
+    environment:
+      - eureka.client.service-url.defaultZone=http://discovery:8761/eureka
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-trip:5432/TripManagement
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING.JPA.PROPERTIES.HIBERNATE.DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    networks:
+      - monopatines-net
+    depends_on:
+      - apigateway
+      - db-trip
+
+  user:
+    container_name: user-container
+    image: appmonopatines-user
+    build: UserMicroservice/
+    environment:
+      - eureka.client.service-url.defaultZone=http://discovery:8761/eureka
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-user:3306/microuser
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING.JPA.PROPERTIES.HIBERNATE.DIALECT=org.hibernate.dialect.MySQLDialect
+
+    networks:
+      - monopatines-net
+    depends_on:
+      - apigateway
+      - db-user
+
+  auth:
+    container_name: auth-container
+    image: appmonopatines-auth
+    build: auth/
+    environment:
+      - eureka.client.service-url.defaultZone=http://discovery:8761/eureka
+    networks:
+      - monopatines-net
+    depends_on:
+      - apigateway
+      - user
+
+  db-scooter:
+    image: postgres
+    restart: always
+    container_name: db-scooter
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ScooterUse
+    ports:
+      - "5432:5432"
+    volumes:
+      - C:\Users\Cacha\Desktop\volumenes\db-scooter:/var/lib/postgresql/data
+    networks:
+      - monopatines-net
+
+  db-trip:
+    image: postgres
+    restart: always
+    container_name: db-trip
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=TripManagement
+    ports:
+      - "5433:5432"
+    volumes:
+      - C:\Users\Cacha\Desktop\volumenes\db-trip:/var/lib/postgresql/data
+    networks:
+      - monopatines-net
+
+  db-user:
+    image: mysql
+    restart: always
+    container_name: db-user
+    environment:
+      - MYSQL_DATABASE=microuser
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - '3306:3306'
+    volumes:
+      - C:\Users\Cacha\Desktop\volumenes\db-user:/var/lib/mysql
+    networks:
+      - monopatines-net
+
+networks:
+  monopatines-net:
+    driver: bridge
