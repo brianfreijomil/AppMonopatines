@@ -1,0 +1,5 @@
+com\apigateway\config\GatewayConfig.class
+com\apigateway\config\RouterValidator.class
+com\apigateway\config\JwtUtill.class
+com\apigateway\ApiGatewayApplication.class
+com\apigateway\config\AuthenticationFilter.class

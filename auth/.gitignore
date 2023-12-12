@@ -1,5 +1,4 @@
 HELP.md
-target/
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
@@ -23,7 +22,6 @@ target/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
 
 
 ### VS Code ###
