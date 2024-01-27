@@ -7,6 +7,14 @@ services:
     build: discovery-service/
     ports:
       - "8761:8761"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+        reservations:
+          cpus: '0.1'
+          memory: 1G
     networks:
       - monopatines-net
 
@@ -18,27 +26,18 @@ services:
       - "8080:8080"
     environment:
       - eureka.client.service-url.defaultZone=http://discovery:8761/eureka
-    depends_on:
-      - discovery
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+        reservations:
+          cpus: '0.1'
+          memory: 1G
     networks:
       - monopatines-net
 
-  scooter:
-    container_name: scooter-container
-    image: appmonopatines-scooter
-    build: scooter-use-microservice/
-    environment:
-      - eureka.client.service-url.defaultZone=http://discovery:8761/eureka
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-scooter:5432/ScooterUse
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
-      - SPRING.JPA.PROPERTIES.HIBERNATE.DIALECT=org.hibernate.dialect.PostgreSQLDialect
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    networks:
-      - monopatines-net
-    depends_on:
-      - apigateway
-      - db-scooter
+  
 
   trip:
     container_name: trip-container
@@ -53,9 +52,6 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     networks:
       - monopatines-net
-    depends_on:
-      - apigateway
-      - db-trip
 
   user:
     container_name: user-container
@@ -67,12 +63,16 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING.JPA.PROPERTIES.HIBERNATE.DIALECT=org.hibernate.dialect.MySQLDialect
-
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+        reservations:
+          cpus: '0.1'
+          memory: 1G
     networks:
       - monopatines-net
-    depends_on:
-      - apigateway
-      - db-user
 
   auth:
     container_name: auth-container
@@ -80,11 +80,16 @@ services:
     build: auth/
     environment:
       - eureka.client.service-url.defaultZone=http://discovery:8761/eureka
+    deploy:
+      resources:
+        limits:
+          cpus: '3'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 3G
     networks:
       - monopatines-net
-    depends_on:
-      - apigateway
-      - user
 
   db-scooter:
     image: postgres
@@ -96,6 +101,14 @@ services:
       - POSTGRES_DB=ScooterUse
     ports:
       - "5432:5432"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+        reservations:
+          cpus: '0.1'
+          memory: 1G
     volumes:
       - C:\Users\Cacha\Desktop\volumenes\db-scooter:/var/lib/postgresql/data
     networks:
@@ -127,6 +140,36 @@ services:
       - '3306:3306'
     volumes:
       - C:\Users\Cacha\Desktop\volumenes\db-user:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+        reservations:
+          cpus: '0.1'
+          memory: 1G
+    networks:
+      - monopatines-net
+
+  scooter:
+    container_name: scooter-container
+    image: appmonopatines-scooter
+    build: scooter-use-microservice/
+    environment:
+      - eureka.client.service-url.defaultZone=http://discovery:8761/eureka
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-scooter:5432/ScooterUse
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING.JPA.PROPERTIES.HIBERNATE.DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+        reservations:
+          cpus: '0.1'
+          memory: 1G
     networks:
       - monopatines-net
 

@@ -30,11 +30,13 @@ public class CsvReader {
     }
 
     public void load() throws SQLException, IOException {
-        this.loadScooterStop();
         this.loadScooter();
+        this.loadScooterStop();
+
     }
 
     private void loadScooterStop() throws IOException, SQLException {
+        System.out.println(userDir);
         CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new
                 FileReader(userDir + "scooter_stop.csv"));
         for (CSVRecord row : parser) {

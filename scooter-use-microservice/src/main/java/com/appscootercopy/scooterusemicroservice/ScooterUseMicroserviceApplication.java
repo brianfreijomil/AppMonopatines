@@ -24,10 +24,10 @@ public class ScooterUseMicroserviceApplication {
 		SpringApplication.run(ScooterUseMicroserviceApplication.class, args);
 	}
 
-	@PostConstruct
+	/*@PostConstruct
 	public void init() throws SQLException, IOException {
-		//this.loadDb.load();
-	}
+		this.loadDb.load();
+	}*/
 
 	@LoadBalanced
 	@Bean

@@ -10,11 +10,15 @@ import com.appscootercopy.scooterusemicroservice.service.dto.scooterStop.respons
 import com.appscootercopy.scooterusemicroservice.service.dto.trip.ScooterByTripsYearResponseDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.request.UbicationRequestDTO;
 import com.appscootercopy.scooterusemicroservice.service.dto.ubication.response.UbicationResponseDTO;
+import com.appscootercopy.scooterusemicroservice.service.loadData.CsvReader;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -22,14 +26,20 @@ import java.util.List;
 public class ScooterController {
 
     private ScooterService scooterService;
+    private CsvReader csv;
 
-    public ScooterController(ScooterService scooterService) {
+    public ScooterController(ScooterService scooterService, CsvReader csv) {
         this.scooterService = scooterService;
-    }
+        this.csv =csv;}
 
     @GetMapping("/{licensePlate}")
     public ScooterResponseDTO getScooterByLicensePlate(@PathVariable String licensePlate){
         return scooterService.findScooterByLicensePlate(licensePlate);
+    }
+
+    @GetMapping("/holamundo")
+    public ResponseEntity getHolaMundo(){
+        return ResponseEntity.ok("Upload jdkaaa");
     }
 
     @GetMapping("/")
